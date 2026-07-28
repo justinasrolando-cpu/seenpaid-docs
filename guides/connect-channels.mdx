@@ -1,0 +1,56 @@
+---
+title: "Connect your channels"
+description: "Link the social accounts seenpaid will publish to and attribute."
+---
+
+A **channel** is a social account seenpaid can publish to. Connect one to start; connect several to cross-post and compare which network actually drives revenue.
+
+## Connect an account
+
+<Steps>
+  <Step title="Open Connections">
+    In the dashboard, go to **Connections**.
+  </Step>
+  <Step title="Pick a platform">
+    Choose the network you want to link and click **Connect**. You'll be sent to that platform to authorize seenpaid, then returned to the dashboard.
+  </Step>
+  <Step title="Confirm it's active">
+    The account appears in your channel list with an **active** status. It's now available in Compose and to your AI agent.
+  </Step>
+</Steps>
+
+## Available platforms
+
+Connect these directly today:
+
+<CardGroup cols={3}>
+  <Card title="X" icon="x-twitter" />
+  <Card title="Instagram" icon="instagram" />
+  <Card title="TikTok" icon="tiktok" />
+  <Card title="LinkedIn" icon="linkedin" />
+  <Card title="Facebook" icon="facebook" />
+  <Card title="Bluesky" icon="bluesky" />
+</CardGroup>
+
+<Note>
+  More networks (Mastodon, Threads, Reddit, Pinterest, Tumblr and others) are wired in the composer. Some require you to register your own developer app on that platform before connecting — the dashboard tells you when that's needed.
+</Note>
+
+## Bring your own API keys (BYOK)
+
+Some platforms — notably X — require their own API access on paid tiers. Where a platform needs your own credentials, seenpaid supports **bring-your-own-keys**: paste your app keys once in Connections and seenpaid publishes on your behalf.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="My account shows as disconnected">
+    Access tokens can expire or be revoked by the platform. Open **Connections**, find the account, and click **Reconnect** to re-authorize.
+  </Accordion>
+  <Accordion title="A platform isn't letting me connect">
+    A few networks require you to register a developer app on their side first. If the dashboard prompts for API keys, follow the linked steps for that platform, then return and connect.
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Next: connect Stripe" icon="stripe" href="/guides/connect-stripe">
+  Channels handle publishing. Stripe is what turns clicks into attributed revenue.
+</Card>

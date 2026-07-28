@@ -1,47 +1,49 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "From zero to your first attributed sale in about five minutes."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+By the end of this guide you'll have a post published through seenpaid, a tracked link live, and Stripe wired up so the next sale shows up against the right post.
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
-
-    ```bash
-    npm install your-package
-    ```
+  <Step title="Create your account" icon="user-plus">
+    Sign up at [seenpaid.com](https://seenpaid.com/signup). You start on a free trial — no card required to look around.
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+  <Step title="Connect a channel" icon="share-nodes">
+    Go to **Connections** and link at least one social account (X, TikTok, Instagram, LinkedIn, Bluesky, or Facebook). This is the account seenpaid will publish to.
 
-    ```bash
-    your-cli init
-    ```
+    See [Connect your channels](/guides/connect-channels) for the per-platform details.
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+  <Step title="Connect Stripe" icon="stripe">
+    In **Connections → Stripe**, click **Connect Stripe** and authorize. This is what lets seenpaid see sales and match them to posts.
 
-    ```bash
-    your-cli start
-    ```
+    <Warning>
+      Without Stripe connected, seenpaid still publishes and tracks clicks — but it can't attribute revenue. Connecting Stripe is what turns clicks into dollars.
+    </Warning>
+  </Step>
+  <Step title="Publish a tracked post" icon="paper-plane">
+    Open **Compose**, write your post, include your product link, pick your channel(s), and publish. seenpaid automatically swaps in a tracked short link (`go.seenpaid.com/r/...`) so every click is attributed.
+  </Step>
+  <Step title="Watch the money loop close" icon="chart-line">
+    When someone clicks your post and buys, the sale appears in **Revenue** — matched to that exact post. Your top earners rise to the top on their own.
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## What you just set up
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+<CardGroup cols={3}>
+  <Card title="A connected channel" icon="share-nodes" href="/guides/connect-channels" />
+  <Card title="Stripe attribution" icon="stripe" href="/guides/connect-stripe" />
+  <Card title="A tracked post" icon="link" href="/how-attribution-works" />
+</CardGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Let an AI agent do it" icon="robot" href="/agents/overview">
+    Connect seenpaid over MCP so Claude or ChatGPT can publish and read revenue for you.
+  </Card>
+  <Card title="Recycle your winners" icon="repeat" href="/guides/recycle">
+    Turn your top earners into a schedule that keeps re-posting what pays.
+  </Card>
+</CardGroup>

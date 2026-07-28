@@ -1,0 +1,50 @@
+---
+title: "Connect Stripe"
+description: "Wire up Stripe so seenpaid can match sales to the posts that drove them."
+---
+
+Connecting Stripe is the step that turns seenpaid from a scheduler into an attribution engine. It's a standard Stripe Connect authorization — read-only where it matters, and revocable anytime.
+
+## Connect your account
+
+<Steps>
+  <Step title="Open Connections → Stripe">
+    In the dashboard, go to **Connections** and find the **Stripe** card.
+  </Step>
+  <Step title="Click Connect Stripe">
+    You'll be sent to Stripe to authorize seenpaid via Stripe Connect. Approve, and you're returned to the dashboard.
+  </Step>
+  <Step title="Confirm it's live">
+    Stripe shows as connected. From now on, completed payments are checked against your tracked clicks and attributed to the source post.
+  </Step>
+</Steps>
+
+<Check>
+  seenpaid reads payment events to attribute revenue. It does not move money, create charges, or change your Stripe settings.
+</Check>
+
+## What gets attributed
+
+Once connected, seenpaid listens for the Stripe events that represent real revenue:
+
+- Completed Checkout Sessions and Payment Links
+- Direct charges and payments created via the Stripe API
+- Recurring subscription invoices
+- Refunds and chargebacks — reversed back out of a post's earnings
+
+See [How attribution works](/how-attribution-works) for the full matching chain.
+
+## Multiple Stripe accounts
+
+Running more than one business? seenpaid supports connecting multiple Stripe accounts and keeps each one's revenue scoped to its own workspace, so numbers never bleed across brands.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Sales aren't showing up against posts">
+    Two things must be true: Stripe is connected, and the buyer clicked a **seenpaid tracked link** on a published post. A sale from a visitor who never touched a tracked link can't be attributed to a post.
+  </Accordion>
+  <Accordion title="I want to disconnect">
+    You can revoke seenpaid's access from your Stripe dashboard under **Settings → Connected apps** at any time, or from Connections in seenpaid.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,71 @@
+---
+title: "Tools reference"
+description: "Every MCP tool your agent can call, with inputs and outputs."
+---
+
+The seenpaid MCP server (`seenpaid` v1.0.0) exposes five tools. All are scoped to the organization behind your API key.
+
+## `list_accounts`
+
+List the connected social accounts. Use the returned `id` or `platform` values when scheduling a post.
+
+**Input:** none
+
+**Returns:** an array of `{ id, platform, name, status }`.
+
+## `list_posts`
+
+List recent posts with their status, schedule time, and target platforms.
+
+<ParamField path="limit" type="number">
+  Max posts to return, 1–50. Defaults to 20.
+</ParamField>
+
+**Returns:** an array of `{ id, caption, status, scheduledFor, publishedAt, platforms }`.
+
+## `schedule_post`
+
+Schedule or immediately publish a post to one or more connected platforms.
+
+<ParamField path="caption" type="string" required>
+  The post text (1–3000 characters).
+</ParamField>
+<ParamField path="platforms" type="string[]">
+  Which platforms to post to, e.g. `["x", "linkedin"]`.
+</ParamField>
+<ParamField path="account_ids" type="string[]">
+  Specific connected-account ids (from `list_accounts`). Overrides `platforms`.
+</ParamField>
+<ParamField path="schedule_for" type="string">
+  ISO-8601 time to publish. Must be in the future. Omit to publish immediately.
+</ParamField>
+
+<Note>
+  Provide `caption` plus either `account_ids` or `platforms`. Omit both to post to **every active account**.
+</Note>
+
+**Returns:** `{ ok, postId, status, scheduledFor, postedTo }`.
+
+## `get_analytics`
+
+Get revenue-attribution analytics — clicks, sales, and revenue, with per-platform, per-country, and per-device breakdowns — over a window.
+
+<ParamField path="days" type="number">
+  Window in days: `7`, `30`, or `90`. Defaults to `30`.
+</ParamField>
+
+**Returns:** `{ window_days, currency, totals, by_platform, top_countries, by_device }`.
+
+## `get_top_posts`
+
+Get your posts ranked by revenue earned. This answers "which post made the most money."
+
+**Input:** none
+
+**Returns:** up to 10 posts as `{ caption, status, clicks, sales, revenueCents, currency }`.
+
+---
+
+<Tip>
+  Revenue is returned in **cents** (`revenueCents`) alongside a `currency` code — divide by 100 to display dollars. Attribution requires a connected Stripe account and at least one published tracked post.
+</Tip>

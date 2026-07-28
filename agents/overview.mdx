@@ -1,0 +1,48 @@
+---
+title: "seenpaid for AI agents"
+description: "Your agent posts. seenpaid proves what paid."
+---
+
+seenpaid is **agent-native**. Any AI agent that speaks [MCP](https://modelcontextprotocol.io) — Claude, ChatGPT, Cursor, or your own — can publish posts and read revenue directly, using the same org-scoped services as the dashboard.
+
+<Note>
+  The pitch in one line: **your AI agent posts, seenpaid tells you which posts made the money.**
+</Note>
+
+## What an agent can do
+
+With seenpaid connected over MCP, an agent can:
+
+<CardGroup cols={2}>
+  <Card title="Publish & schedule posts" icon="paper-plane">
+    Post to any connected channel, now or on a schedule — tracked links included automatically.
+  </Card>
+  <Card title="Read revenue attribution" icon="chart-line">
+    Pull per-post analytics and your top earners, in real dollars.
+  </Card>
+  <Card title="List accounts & posts" icon="list">
+    See connected channels and recent posts to decide what to do next.
+  </Card>
+  <Card title="Close the loop" icon="repeat">
+    Post, measure what paid, and double down — without a human opening a dashboard.
+  </Card>
+</CardGroup>
+
+## How it's scoped
+
+Every agent request authenticates with a **seenpaid API key**, which maps to exactly one organization. An agent can only ever see and act on its own account's data — the MCP server is built fresh per request and bound to that org. No cross-account access, ever.
+
+## Get connected in two steps
+
+<Steps>
+  <Step title="Create an API key" icon="key">
+    Generate a key in the dashboard. See [API keys](/agents/api-keys).
+  </Step>
+  <Step title="Add the MCP server" icon="plug">
+    Point your agent at the seenpaid MCP endpoint with your key as a Bearer token. See [MCP server](/agents/mcp).
+  </Step>
+</Steps>
+
+<Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
+  The full list of MCP tools your agent can call, with inputs and outputs.
+</Card>

@@ -1,0 +1,52 @@
+---
+title: "How attribution works"
+description: "How seenpaid matches a Stripe sale back to the exact post that drove it."
+---
+
+Attribution is the whole point of seenpaid, so it's worth understanding what happens under the hood. It's four steps, and it's all automatic once you're set up.
+
+## The chain
+
+<Steps>
+  <Step title="A tracked link is minted">
+    When you publish, seenpaid replaces your product URL with a short tracked link on `go.seenpaid.com`. Each link is unique to that post, so a click can always be traced back to its source.
+  </Step>
+  <Step title="A click is recorded">
+    Someone taps the link. seenpaid logs the click against the post and drops a first-party identifier so the visitor can be recognized through to checkout — no third-party cookies.
+  </Step>
+  <Step title="A Stripe sale fires">
+    The visitor buys. Stripe sends seenpaid a webhook for the completed payment (checkout, payment link, direct charge, or subscription).
+  </Step>
+  <Step title="The sale is matched to the post">
+    seenpaid matches the sale to the click, and the click to the post. The revenue now belongs to that specific post — visible in your dashboard in real dollars.
+  </Step>
+</Steps>
+
+## What counts as revenue
+
+seenpaid attributes real Stripe events, including:
+
+<CardGroup cols={2}>
+  <Card title="Checkout & Payment Links" icon="cart-shopping" />
+  <Card title="Direct charges & the API" icon="bolt" />
+  <Card title="Subscriptions (recurring)" icon="repeat" />
+  <Card title="Refunds & chargebacks (reversed)" icon="rotate-left" />
+</CardGroup>
+
+Refunds and chargebacks are subtracted back out, so your numbers stay honest over time — a post's earnings reflect money you actually kept.
+
+## What you see
+
+Once sales start matching, your dashboard surfaces:
+
+- **Earnings per post** — the dollar figure attributed to each post.
+- **Top earners** — your best-performing posts, ranked by revenue.
+- **Revenue by platform** — which network actually drives sales, not just engagement.
+
+<Note>
+  Attribution needs two things live: at least one **published tracked post**, and a **connected Stripe account**. Until a post has been published, there are no tracked links to attribute against.
+</Note>
+
+## Honest by design
+
+seenpaid never invents numbers. A post shows revenue only when a real Stripe sale matches a real click on its tracked link. If a sale can't be traced to a post, it isn't attributed to one — no fabricated credit, no inflated dashboards.

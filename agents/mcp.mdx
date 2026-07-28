@@ -1,0 +1,69 @@
+---
+title: "MCP server"
+description: "Connect Claude, ChatGPT, Cursor or any MCP client to seenpaid."
+---
+
+seenpaid exposes a **streamable-HTTP MCP server**. Point any MCP client at the endpoint, authenticate with your API key as a Bearer token, and your agent can publish and read revenue.
+
+## Endpoint
+
+```
+POST https://crosspost-production-ad41.up.railway.app/mcp
+Authorization: Bearer <YOUR_API_KEY>
+```
+
+<Info>
+  The MCP endpoint is stateless — each request authenticates on its own, spins up an org-scoped server, and tears it down when the response closes. Use the exact endpoint URL shown in your dashboard when you create a key.
+</Info>
+
+<Warning>
+  You need a seenpaid **API key** first. Create one in [API keys](/agents/api-keys). Requests without a valid key return `401 Unauthorized`.
+</Warning>
+
+## Add it to your client
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```bash
+    claude mcp add --transport http seenpaid https://crosspost-production-ad41.up.railway.app/mcp \
+      --header "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Tab>
+  <Tab title="Claude Desktop / Cursor (JSON)">
+    Add seenpaid to your MCP config:
+
+    ```json
+    {
+      "mcpServers": {
+        "seenpaid": {
+          "type": "http",
+          "url": "https://crosspost-production-ad41.up.railway.app/mcp",
+          "headers": {
+            "Authorization": "Bearer YOUR_API_KEY"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Raw JSON-RPC">
+    ```bash
+    curl -X POST https://crosspost-production-ad41.up.railway.app/mcp \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    ```
+  </Tab>
+</Tabs>
+
+## Try it
+
+Once connected, ask your agent something like:
+
+> "Post 'Launch is live — get 20% off today: mystore.com' to X and LinkedIn, then tell me which of my posts made the most money this month."
+
+The agent will call `schedule_post` to publish, then `get_top_posts` to read your top earners — no dashboard required.
+
+<Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
+  Every tool your agent can call, with inputs and outputs.
+</Card>

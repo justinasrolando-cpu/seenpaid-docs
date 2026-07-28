@@ -1,0 +1,40 @@
+---
+title: "API keys"
+description: "Create and manage the keys that authenticate your agent."
+---
+
+An API key authenticates MCP requests and maps them to your organization. Treat it like a password — anyone with the key can publish and read revenue for your account.
+
+## Create a key
+
+<Steps>
+  <Step title="Open the dashboard">
+    Go to **API** (or **Settings → API**) in seenpaid.
+  </Step>
+  <Step title="Generate a key">
+    Click **Create API key** and give it a name (e.g. `claude-agent`). The full key is shown **once** — copy it now and store it somewhere safe.
+  </Step>
+  <Step title="Use it as a Bearer token">
+    Pass it on every MCP request:
+
+    ```
+    Authorization: Bearer <YOUR_API_KEY>
+    ```
+  </Step>
+</Steps>
+
+<Warning>
+  The full key is only revealed at creation time. If you lose it, revoke it and create a new one — seenpaid can't show it to you again.
+</Warning>
+
+## What a key can do
+
+Each key is scoped to a single organization. Through it, an agent can call every seenpaid MCP tool — list accounts and posts, publish, and read analytics and top earners — but only for that org's data.
+
+## Revoke a key
+
+Revoke a key anytime from the dashboard. Revoked keys stop working immediately; any request using one returns `401 Unauthorized`.
+
+<Tip>
+  Use a separate key per agent or integration. That way you can revoke one without breaking the others, and you can tell which integration is doing what.
+</Tip>
