@@ -65,6 +65,11 @@
           "anchor": "Website",
           "href": "https://seenpaid.com",
           "icon": "globe"
+        },
+        {
+          "anchor": "Follow on X",
+          "href": "https://x.com/seenpaid",
+          "icon": "x-twitter"
         }
       ]
     }
