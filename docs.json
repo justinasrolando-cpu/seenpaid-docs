@@ -26,7 +26,8 @@
             "group": "Set up",
             "pages": [
               "guides/connect-channels",
-              "guides/connect-stripe"
+              "guides/connect-stripe",
+              "guides/track-your-sales"
             ]
           },
           {

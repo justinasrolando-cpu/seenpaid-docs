@@ -1,0 +1,65 @@
+---
+title: "Track your sales"
+description: "Install the seenpaid pixel so Stripe sales get matched to the post that drove them."
+---
+
+seenpaid matches a sale back to a post when the sale carries the post's **tracking id**. The pixel does that for you — paste one tag and it attaches the id to your Stripe checkout automatically.
+
+<Note>
+  You only need this if you sell on **your own site** (a landing page, a store). Selling straight from a Stripe Payment Link in your bio? The tracked link already carries the id — you're done.
+</Note>
+
+## Install the pixel
+
+<Steps>
+  <Step title="Copy your tag">
+    In the dashboard, go to **Settings → Install tracking on your store** and copy the tag. It looks like this:
+
+    ```html
+    <script src="https://api.seenpaid.com/pixel.js"></script>
+    ```
+  </Step>
+  <Step title="Paste it in your site's <head>">
+    Add it to every page where someone can buy — ideally site-wide, in your `<head>`. If you use a site builder (Framer, Webflow, Carrd, Shopify), paste it into the "custom head code" / "embed" field.
+  </Step>
+  <Step title="That's it">
+    The pixel automatically attaches the tracking id to **Stripe Payment Links, Buy Buttons, and Checkout links**. Nothing else to wire.
+  </Step>
+</Steps>
+
+## Two special cases
+
+<AccordionGroup>
+  <Accordion title="My checkout is on a custom domain">
+    If your Payment Link runs on your own domain (not `buy.stripe.com`), the pixel can't recognize it by URL. Tag the button or link with `data-seenpaid` and it'll be handled:
+
+    ```html
+    <a href="https://pay.yourbrand.com/abc" data-seenpaid>Buy now</a>
+    ```
+  </Accordion>
+  <Accordion title="I build my own Checkout Session server-side">
+    Read the id on the client and pass it through as one field when you create the session:
+
+    ```js
+    // client: send window.seenpaidTrackingId to your backend
+    const session = await stripe.checkout.sessions.create({
+      // ...your existing params
+      client_reference_id: trackingIdFromTheClient,
+    })
+    ```
+
+    `client_reference_id` is the only field seenpaid needs — everything else is automatic.
+  </Accordion>
+</AccordionGroup>
+
+## Check it's working
+
+Once Stripe is connected and a real sale comes through a tracked link, open **Revenue → Attribution health**. It shows what share of your sales were traced to a post.
+
+<Warning>
+  Seeing sales but a **low match rate**? That almost always means the pixel isn't on your checkout page yet — double-check the tag is in the `<head>` of the page where people actually pay.
+</Warning>
+
+<Card title="How attribution works" icon="link" href="/how-attribution-works">
+  The full click → sale → post matching chain, under the hood.
+</Card>
