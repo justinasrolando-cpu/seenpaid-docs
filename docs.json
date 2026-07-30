@@ -19,7 +19,8 @@
             "pages": [
               "index",
               "quickstart",
-              "how-attribution-works"
+              "how-attribution-works",
+              "guides/attribute-stripe-sales-to-social-posts"
             ]
           },
           {
