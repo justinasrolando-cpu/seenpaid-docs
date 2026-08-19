@@ -1,0 +1,54 @@
+---
+title: "Bio page"
+description: "A hosted link-in-bio page that keeps Instagram and TikTok attributable — one link, tracked per post."
+---
+
+Instagram and TikTok don't make caption links clickable, so a tracked URL in the caption there would just be dead text. The **bio page** solves that: a simple hosted page you put in your profile's "link in bio" field, where each link is a tracked seenpaid short link — so clicks and sales from Instagram and TikTok get attributed just like everywhere else.
+
+## When to use it
+
+- You publish to **Instagram or TikTok** and want those channels to earn attributable revenue.
+- You want a single, stable link in your profile that always points people to your latest offer.
+
+If you only post to platforms that allow in-post links (LinkedIn, Bluesky, X, and most others), you may never need this — those links are tracked automatically.
+
+## How it works
+
+<Steps>
+  <Step title="Set up your page">
+    In **Settings → Bio page**, pick a **handle** (this becomes your public URL, e.g. `seenpaid.com/you`), a **title**, and optionally an avatar.
+  </Step>
+  <Step title="Copy the URL into your profile">
+    Paste your bio-page URL into the "link in bio" field on Instagram and TikTok.
+  </Step>
+  <Step title="Links get tracked per post">
+    Each link on your page is a `go.seenpaid.com/r/<id>` tracked short link. A tap is logged against the right post, and any Stripe sale that follows is attributed to it.
+  </Step>
+</Steps>
+
+<Check>
+  "Done" is your bio-page URL live in your Instagram/TikTok profile, with at least one tracked link on the page.
+</Check>
+
+## What a visitor sees
+
+The public page is clean and fast: your title and avatar, and your tracked links, each with a label you choose. It's unauthenticated — anyone can open it — and it renders a friendly "no such page" state for an unknown handle rather than an error.
+
+<Info>
+  Your agent can add a tracked link programmatically with [`create_tracked_link`](/agents/tools-reference#create_tracked_link), which mints the `go.seenpaid.com/r/...` URL and attributes it to a specific post and platform.
+</Info>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="My handle is taken or invalid">
+    Handles are limited to 30 characters. Pick a short, unique one — it becomes your public URL, so simpler is better.
+  </Accordion>
+  <Accordion title="Clicks from Instagram/TikTok aren't attributed">
+    Make sure the link people tap is the one on your **bio page** (a `go.seenpaid.com/r/...` link), not a raw product URL pasted into the caption — caption links on those platforms aren't clickable and aren't tracked.
+  </Accordion>
+</AccordionGroup>
+
+<Card title="How attribution works" icon="link" href="/how-attribution-works">
+  The full click → sale → post chain, including the bio-link path.
+</Card>

@@ -1,30 +1,65 @@
 ---
 title: "Revenue & top earners"
-description: "Read your dashboard: earnings per post, top earners, and revenue by platform."
+description: "Read your dashboard: earnings per post, top earners, dead posts, revenue by platform, and the attribution health that tells you whether to trust it."
 ---
 
-Once posts are published and Stripe is connected, the **Revenue** area is where the payoff shows up — your content, ranked by the money it actually made.
+Once posts are published and Stripe is connected, **Revenue** is where the payoff shows up — your content, ranked by the money it actually made. This is the number no other scheduler shows you.
 
 ## Earnings per post
 
-Every published post carries its attributed revenue: how many tracked clicks it drove, how many turned into sales, and the total dollars matched to it. This is the number no other scheduler shows you.
+Every published post carries its attributed revenue: how many tracked clicks it drove, how many turned into sales, and the total dollars matched to it. Click into a post to see its full attribution.
 
 ## Top earners
 
-seenpaid ranks your posts by revenue so your best-performing content rises to the top on its own. Use it to answer the only question that matters: **what should I post more of?**
+seenpaid ranks your posts by revenue so your best-performing content rises to the top on its own. Use it to answer the only question that matters: **what should I post more of?** When you find a winner, don't let it die in the feed — [Recycle](/guides/recycle) it so it keeps earning.
 
-<Tip>
-  Found a top earner? Don't let it die in the feed — [Recycle](/guides/recycle) re-queues your proven winners so they keep earning.
-</Tip>
+## Dead posts
 
-## Revenue by platform
+The counterpart to top earners, and often the more useful list: posts that **got clicks but earned nothing**. This is content that looked like it worked — it pulled reach and taps — but produced no tracked sales. It tells you what to *stop* making. You can filter by a minimum click count so you're only looking at posts that got a real audience.
 
-See which network drives sales, not just engagement. A post can rack up likes on one platform and revenue on another — this view makes the difference obvious, so you can spend your time where the money is.
+<Info>
+  Dead posts are the fastest way to cut wasted effort. A post with lots of clicks and zero revenue is a signal about the offer or the landing page, not just the caption — worth investigating before you make more like it.
+</Info>
+
+## Revenue by platform, and channel ROI
+
+See which network drives **sales**, not just engagement. A post can rack up likes on one platform and revenue on another — this view makes the difference obvious. Channel ROI goes further and ranks platforms by **revenue per post** and **revenue per click**, the honest measures of whether a channel is worth your time, instead of follower counts.
+
+## Attribution health — trust the number first
+
+Before reading a low revenue figure as bad news, check **Attribution health**. It shows what share of your real Stripe revenue seenpaid could trace back to a post. A low match rate means your tracking install has a gap — usually the [pixel](/guides/track-your-sales) isn't on your checkout page — **not** that your posts failed. Fix the gap and revenue you'd already earned starts showing against the right posts.
 
 ## Before you have data
 
-Attribution needs a published tracked post and a connected Stripe account. Until your first post goes out, the revenue views show sample/preview states so you can see what's coming. As soon as real sales match, they populate with your own numbers.
+Attribution needs a published tracked post and a connected Stripe account. Until your first sale matches, the revenue views show clearly-marked **sample/preview states** so you can see what's coming. As soon as real sales match, they populate with your own numbers.
 
 <Note>
-  seenpaid only ever shows real, matched revenue. Preview states are clearly marked as samples and are never mixed into your actual totals.
+  seenpaid only ever shows real, matched revenue. Preview states are labelled as samples and are never mixed into your actual totals — no fabricated credit, no inflated dashboard.
 </Note>
+
+## A weekly loop
+
+<Steps>
+  <Step title="Read top earners and dead posts">
+    Double down on what earned; stop making what didn't.
+  </Step>
+  <Step title="Check channel ROI">
+    Spend your effort on the platform with the best revenue per post.
+  </Step>
+  <Step title="Recycle a winner, test a new hook">
+    Keep a proven post in rotation while you [experiment](/guides/experiments) on the next idea.
+  </Step>
+</Steps>
+
+<Tip>
+  An agent can read this whole picture in one call with [`summarize_performance`](/agents/tools-reference#summarize_performance) — *"Give me a briefing on the last 7 days and tell me what to do next."*
+</Tip>
+
+<CardGroup cols={2}>
+  <Card title="Where the traffic came from" icon="chart-simple" href="/guides/analytics">
+    Break revenue down by country, device, referrer and UTM.
+  </Card>
+  <Card title="Keep winners earning" icon="repeat" href="/guides/recycle">
+    Recycle your top earners on a schedule.
+  </Card>
+</CardGroup>

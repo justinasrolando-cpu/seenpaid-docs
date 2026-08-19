@@ -1,0 +1,74 @@
+---
+title: "Autopilot"
+description: "Let seenpaid draft posts on a cadence you set — so you're never staring at a blank composer. Nothing publishes without your say-so."
+---
+
+**Autopilot** keeps your pipeline full by generating fresh post drafts on a schedule. You set the topic, the cadence, and the platforms; seenpaid writes the drafts; you approve the ones you like and schedule them. It never publishes on its own — approval is always a deliberate step.
+
+## When to use it
+
+- You want to post consistently but keep running out of ideas.
+- You have a clear topic (your product, your niche) and want a steady stream of drafts to react to rather than write from scratch.
+- You'd rather edit and approve than face a blank page.
+
+## Set it up
+
+<Steps>
+  <Step title="Open Autopilot and configure it">
+    In the dashboard, set:
+    - **Cadence** — generate a new batch every N days (1–30).
+    - **Batch size** — how many drafts per batch (1–10).
+    - **Platforms** — which channels to write for.
+    - **Topic** — what to write about, e.g. "indie SaaS growth lessons".
+  </Step>
+  <Step title="Let a batch generate">
+    Each batch lands as drafts waiting for a decision. You can also generate a batch immediately instead of waiting for the next scheduled run.
+  </Step>
+  <Step title="Review the suggestions">
+    Approve the drafts you like; dismiss the rest so they leave the queue.
+  </Step>
+  <Step title="Schedule the keepers">
+    Approving a draft hands you its caption and intended platform. You then schedule it like any other post — with a tracked link attached automatically.
+  </Step>
+</Steps>
+
+<Warning>
+  Autopilot **never publishes by itself.** It only ever produces drafts; approving one does not send it — you (or an agent acting on your instruction) still put it on the calendar. Nothing goes public without that step.
+</Warning>
+
+## The flow at a glance
+
+```
+configure → batch of drafts → approve / dismiss → schedule → publish
+```
+
+## Driving it from an agent
+
+Every part of autopilot is available over MCP, so an agent can set a policy and then manage it:
+
+- [`configure_autopilot`](/agents/tools-reference#configure_autopilot) — turn it on and set cadence, batch size, platforms, topic.
+- [`get_autopilot_status`](/agents/tools-reference#get_autopilot_status) — is it on, and how many drafts are waiting.
+- [`generate_suggestions`](/agents/tools-reference#generate_suggestions) — run a batch now.
+- [`list_suggestions`](/agents/tools-reference#list_suggestions) / [`approve_suggestion`](/agents/tools-reference#approve_suggestion) / [`dismiss_suggestion`](/agents/tools-reference#dismiss_suggestion) — work the queue.
+
+> *"Turn on autopilot: 3 drafts every 4 days about my product, for X and LinkedIn. Then show me the queue and schedule the best one for Tuesday 9am."*
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="I asked to generate now and nothing happened">
+    Autopilot has to be configured and switched on first. If it's off, turn it on (set `enabled`) and try again — an agent will get a clear message telling it exactly that.
+  </Accordion>
+  <Accordion title="Approving a draft didn't post it">
+    That's by design. Approval returns the caption for you to schedule; it never publishes on its own. Schedule the approved draft to send it.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Test what works" icon="flask" href="/guides/experiments">
+    A/B your captions and let revenue pick the winner.
+  </Card>
+  <Card title="Recycle winners" icon="repeat" href="/guides/recycle">
+    Keep proven earners in rotation.
+  </Card>
+</CardGroup>

@@ -1,0 +1,65 @@
+---
+title: "Experiments"
+description: "A/B test your captions and let real revenue — not likes — pick the winner. Each variant is a real post with its own tracked link."
+---
+
+Most "A/B testing" on social measures likes or clicks. **Experiments** in seenpaid measure **money**. You give one idea; seenpaid writes a few caption variants; each goes out as a real post with its own tracked link; and the winner is the one that *earned the most* — not the one that got the most engagement.
+
+## When to use it
+
+- You have a launch or a big post and want to find the hook that actually converts.
+- You keep debating caption wording — settle it with revenue instead of opinion.
+- You want to build a library of proven hooks to reuse and scale.
+
+## How it works
+
+<Steps>
+  <Step title="Create the test">
+    Give an **idea** (what the post is about), a **platform**, and how many **variants** you want (2–4, default 3). seenpaid drafts the variants. Nothing is live yet.
+  </Step>
+  <Step title="Launch it">
+    Publish every variant. Each goes out as a real post carrying its **own distinct tracked link**, so clicks and sales land on the right variant independently.
+  </Step>
+  <Step title="Watch revenue decide">
+    As sales come in, seenpaid ranks the variants by attributed revenue. The dashboard shows each variant with its clicks, sales, and dollars.
+  </Step>
+  <Step title="Reuse the winner">
+    Take the winning caption and reuse or scale it — repost it, recycle it, or use it as the template for the next batch.
+  </Step>
+</Steps>
+
+<Info>
+  Because each variant has its own tracked link, attribution is clean: a sale can only belong to the variant whose link the buyer clicked. That's what makes "winner by revenue" trustworthy rather than a guess.
+</Info>
+
+## Why revenue, not likes
+
+A caption can rack up likes and drive nothing, or look plain and quietly convert. Optimizing for engagement optimizes for the wrong thing. Experiments rank on the number that actually matters — dollars earned — so scaling the winner scales revenue, not vanity.
+
+## Pair it with the rest
+
+<CardGroup cols={2}>
+  <Card title="Recycle the winner" icon="repeat" href="/guides/recycle">
+    Once a variant wins, keep it earning on a schedule.
+  </Card>
+  <Card title="Forecast before you test" icon="chart-line" href="/guides/revenue-forecast">
+    Sanity-check drafts against your history first.
+  </Card>
+</CardGroup>
+
+## Driving it from an agent
+
+- [`create_experiment`](/agents/tools-reference#create_experiment) — idea + platform + variant count.
+- [`launch_experiment`](/agents/tools-reference#launch_experiment) — publish every variant with its own tracked link.
+- [`list_experiments`](/agents/tools-reference#list_experiments) / [`get_experiment`](/agents/tools-reference#get_experiment) — see status and per-variant revenue.
+- [`get_experiment_winner`](/agents/tools-reference#get_experiment_winner) — the winning caption, ready to reuse.
+
+> *"A/B test three hooks for my launch post on X, launch them, and tell me which one wins on revenue."*
+
+<Note>
+  Creating variants needs an AI provider configured on the deployment. On seenpaid.com that's already set up; if you self-host, wire a provider first.
+</Note>
+
+<Card title="Automate your drafts" icon="robot" href="/guides/autopilot">
+  Autopilot keeps the pipeline full between experiments.
+</Card>

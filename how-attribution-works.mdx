@@ -1,30 +1,60 @@
 ---
 title: "How attribution works"
-description: "How seenpaid matches a Stripe sale back to the exact post that drove it."
+description: "In plain English: how seenpaid follows a single id from a post click all the way to a Stripe sale — and why some rows say Direct or Unknown."
 ---
 
-Attribution is the whole point of seenpaid, so it's worth understanding what happens under the hood. It's four steps, and it's all automatic once you're set up.
+Attribution is the whole point of seenpaid, so it's worth understanding what actually happens. The short version: **one identifier rides along from the click to the sale**, and matching that id at both ends is what ties a dollar back to a post. You don't wire any of it by hand — but knowing the chain makes the dashboard make sense, especially when a number looks off.
 
-## The chain
+## The one-identifier idea
+
+Every social platform shows you likes, reach, and clicks. None of them can tell you which post produced a paying customer, because the **post** lives on one surface (X, LinkedIn, TikTok…) and the **sale** happens on another (Stripe). The two never talk to each other, so the link between "this post" and "this dollar" is normally lost.
+
+seenpaid recovers it by making one id survive the whole journey:
+
+```
+post → tracked link → click → your site → Stripe checkout → payment
+         (cp_tid)                     (client_reference_id)
+```
+
+That id is called **`cp_tid`** (the seenpaid tracking id). Here's each hop.
+
+## The chain, step by step
 
 <Steps>
   <Step title="A tracked link is minted">
-    When you publish, seenpaid replaces your product URL with a short tracked link on `go.seenpaid.com`. Each link is unique to that post, so a click can always be traced back to its source.
+    When you publish, seenpaid replaces your product URL with a short link on `go.seenpaid.com/r/<id>`. The `<id>` is unique to that post, so any future click can be traced back to its source. On Instagram and TikTok — where caption links aren't clickable — the tracked link goes on your [bio page](/guides/bio-page) instead.
   </Step>
-  <Step title="A click is recorded">
-    Someone taps the link. seenpaid logs the click against the post and drops a first-party identifier so the visitor can be recognized through to checkout — no third-party cookies.
+  <Step title="A click is recorded, and cp_tid is planted">
+    Someone taps the link. The `go.seenpaid.com/r/<id>` redirect logs the click against the post, then forwards the visitor to your real destination — appending the tracking id as a `cp_tid` parameter and dropping a first-party cookie of the same name. No third-party cookies are involved.
+  </Step>
+  <Step title="The id carries into checkout">
+    On your site, the [pixel](/guides/track-your-sales) reads `cp_tid` (from the URL or the cookie) and attaches it to your Stripe checkout as **`client_reference_id`** — the one field seenpaid's matching engine reads. For a bio-page Payment Link, the id is carried through directly, no pixel needed.
   </Step>
   <Step title="A Stripe sale fires">
-    The visitor buys. Stripe sends seenpaid a webhook for the completed payment (checkout, payment link, direct charge, or subscription).
+    The visitor buys. Stripe sends seenpaid a webhook for the completed payment — Checkout Session, Payment Link, direct charge, or subscription invoice.
   </Step>
   <Step title="The sale is matched to the post">
-    seenpaid matches the sale to the click, and the click to the post. The revenue now belongs to that specific post — visible in your dashboard in real dollars.
+    seenpaid reads `client_reference_id`, finds the tracked link it belongs to, finds that link's most recent click, and finds the post behind it. The revenue now belongs to that specific post, in real dollars.
   </Step>
 </Steps>
 
+## The reporting window
+
+The revenue views summarize a rolling window — **7, 30, or 90 days** (30 is the default). A totals or breakdown figure counts only matched payments and clicks that fall inside the window you're looking at, and the "vs previous period" change compares it against the equal-length window just before it. Switching windows never changes history; it just changes the lens.
+
+## Why some rows say "Direct" or "Unknown"
+
+When seenpaid breaks your traffic down by source, not every click carries every detail. Rather than drop those clicks, it labels them honestly:
+
+- **Direct** — a click with no referrer. The visitor typed the URL, came from an app that hides the referrer, or their browser stripped it. It's still a real, attributed click; seenpaid just doesn't know the page it came from.
+- **Unknown** — a click seenpaid couldn't resolve for that dimension: no geolocation for the IP, or an unrecognized device, browser, or OS.
+- **None** — used for UTM breakdowns when the link carried no UTM tag for that field (`utm_source`, `utm_medium`, or `utm_campaign`).
+
+These labels are grouping buckets, not errors. A large "Direct" share is normal for social traffic.
+
 ## What counts as revenue
 
-seenpaid attributes real Stripe events, including:
+seenpaid attributes real Stripe events:
 
 <CardGroup cols={2}>
   <Card title="Checkout & Payment Links" icon="cart-shopping" />
@@ -33,20 +63,23 @@ seenpaid attributes real Stripe events, including:
   <Card title="Refunds & chargebacks (reversed)" icon="rotate-left" />
 </CardGroup>
 
-Refunds and chargebacks are subtracted back out, so your numbers stay honest over time — a post's earnings reflect money you actually kept.
-
-## What you see
-
-Once sales start matching, your dashboard surfaces:
-
-- **Earnings per post** — the dollar figure attributed to each post.
-- **Top earners** — your best-performing posts, ranked by revenue.
-- **Revenue by platform** — which network actually drives sales, not just engagement.
-
-<Note>
-  Attribution needs two things live: at least one **published tracked post**, and a **connected Stripe account**. Until a post has been published, there are no tracked links to attribute against.
-</Note>
+Refunds and chargebacks are subtracted back out, so a post's earnings always reflect money you actually kept.
 
 ## Honest by design
 
-seenpaid never invents numbers. A post shows revenue only when a real Stripe sale matches a real click on its tracked link. If a sale can't be traced to a post, it isn't attributed to one — no fabricated credit, no inflated dashboards.
+seenpaid never invents a match. If a payment arrives with **no tracking id**, or one that doesn't resolve to a click, it is recorded as revenue but left **unattributed** — it is not credited to a random post. That's a deliberate choice: a fabricated match is worse than an honest "we don't know." The [attribution health](/guides/revenue-and-top-earners) figure shows exactly what share of your Stripe revenue was traceable to a post, so gaps are always visible rather than hidden.
+
+## Privacy
+
+- **First-party only.** The `cp_tid` cookie is set on your own destination as a first-party cookie; seenpaid uses **no third-party cookies** and no cross-site tracking network.
+- **The pixel touches nothing on a direct visit.** If a visitor didn't arrive from a tracked link, there's no id to read and the pixel leaves the page completely alone.
+- **The matching field is just an id.** `client_reference_id` is an opaque tracking id, not personal data. seenpaid matches on that id — it does not guess a buyer from their email.
+
+<CardGroup cols={2}>
+  <Card title="Install the pixel" icon="code" href="/guides/track-your-sales">
+    The one tag that carries cp_tid into Stripe.
+  </Card>
+  <Card title="Connect Stripe" icon="link" href="/guides/connect-stripe">
+    Let seenpaid see the sales to match.
+  </Card>
+</CardGroup>

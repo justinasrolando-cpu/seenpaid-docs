@@ -1,28 +1,62 @@
 ---
 title: "Recycle top earners"
-description: "Turn your proven money-makers into a schedule that keeps re-posting them."
+description: "Turn your proven money-makers into a schedule that keeps re-posting them — with fresh tracking each time."
 ---
 
-Your best post already proved it converts. **Recycle** puts that proof to work — automatically re-queuing your top-earning posts so your winning content keeps earning instead of scrolling out of the feed forever.
+Your best post already proved it converts. **Recycle** puts that proof to work — automatically re-queuing your top-earning posts so your winning content keeps earning instead of scrolling out of the feed forever. Each re-post gets a fresh tracked link, so the new round of clicks and sales is attributed just like the first.
 
-## How it works
+## When to use it
+
+- You have a handful of posts that clearly earned, and re-writing them from scratch is wasted effort.
+- You want a baseline of proven content going out on a cadence, so slow weeks still produce revenue.
+- You've found an [experiment](/guides/experiments) winner and want it to keep working.
+
+Recycle is most powerful once you have a few weeks of attributed data — the more seenpaid knows about what pays, the better its picks.
+
+## Two ways to recycle
+
+### One-off: repost a specific winner
+
+Find a top earner and run it again as a brand-new post with fresh tracking. The original is left untouched. This is the manual, "do it now" version — great right after you spot a winner in [Revenue](/guides/revenue-and-top-earners).
+
+### Standing rule: auto-recycle
+
+Set a rule and let it run. seenpaid re-posts anything that earned at least a threshold you choose, no more often than a cadence you choose.
 
 <Steps>
-  <Step title="seenpaid ranks your earners">
-    Using real attributed revenue, seenpaid knows which posts made the most money over the last 30 days.
+  <Step title="Set the threshold">
+    Choose the **minimum revenue** a post must have earned to qualify (e.g. $100). Only real winners get recycled.
   </Step>
-  <Step title="Turn on Auto-recycle">
-    In **Recycle**, enable auto-recycle. seenpaid schedules your top earners to go out again at sensible times.
+  <Step title="Set the cadence">
+    Choose the **minimum days** between re-posts of the same content, so a winner doesn't spam the same audience.
   </Step>
-  <Step title="They earn again">
-    Re-posted winners get fresh tracked links, so the new round of clicks and sales is attributed just like the first — you can see the compounding effect in Revenue.
+  <Step title="Turn it on">
+    seenpaid schedules qualifying posts to go out again, each with a fresh tracked link. You watch the compounding effect in Revenue.
   </Step>
 </Steps>
 
-<Tip>
-  Recycling is most powerful once you have a few weeks of attributed data — the more seenpaid knows about what pays, the better its picks.
-</Tip>
+<Info>
+  Every recycled post is a **new** post with its own tracked link — so its clicks and sales are attributed cleanly, and you can see a winner's second and third runs earn on their own.
+</Info>
 
-<Card title="See what's earning" icon="trophy" href="/guides/revenue-and-top-earners">
-  Top earners is where you find the posts worth recycling.
-</Card>
+## Reading the results
+
+Because each run is tracked separately, Revenue shows you whether a recycled winner keeps converting or fades — so you can retire a post that's run its course and promote a fresher one. Recycling isn't "post the same thing forever"; it's "keep proven content in rotation while it still pays."
+
+## Driving it from an agent
+
+- [`get_recycle_status`](/agents/tools-reference#get_recycle_status) — the current rule and which posts qualify.
+- [`configure_recycle`](/agents/tools-reference#configure_recycle) — set the threshold and cadence.
+- [`repost`](/agents/tools-reference#repost) — re-run a specific post now, optionally on new platforms or with a new caption.
+
+> *"Repost my top earner for next Tuesday."*
+> *"Auto-recycle any post that earned over $100, at most once every 14 days."*
+
+<CardGroup cols={2}>
+  <Card title="Find what's worth recycling" icon="trophy" href="/guides/revenue-and-top-earners">
+    Top earners is where the winners live.
+  </Card>
+  <Card title="Test new hooks too" icon="flask" href="/guides/experiments">
+    Recycle winners while experimenting on the next idea.
+  </Card>
+</CardGroup>

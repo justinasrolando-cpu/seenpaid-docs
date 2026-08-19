@@ -1,26 +1,45 @@
 ---
 title: "Publish & schedule"
-description: "Compose a post, tailor it per platform, and publish now or on a schedule."
+description: "Compose a post, tailor it per platform, validate before sending, schedule on the calendar, and let seenpaid suggest the best slot."
 ---
 
-Composing in seenpaid works like any good scheduler — with one difference: every post you send carries a tracked link, so it's attributable from the moment it goes live.
+Composing in seenpaid works like any good scheduler — with one difference: every post you send carries a tracked link, so it's attributable from the moment it goes live. This guide covers the composer in depth: media, per-platform captions, validation, the calendar, and smart scheduling.
 
 ## Compose a post
 
 <Steps>
-  <Step title="Open Compose">
-    Write your caption. Add media if you want — images and video are supported.
+  <Step title="Open the composer">
+    From **Posts**, click **New post**. Write your caption.
+  </Step>
+  <Step title="Add media">
+    Attach an image or video. You can upload a file, pull one in from a public URL, or generate an image from a text prompt. Some platforms require media — Instagram, TikTok and Pinterest reject text-only posts.
   </Step>
   <Step title="Add your link">
-    Drop in your product or landing-page URL. seenpaid automatically swaps it for a tracked short link at publish time, so you don't have to think about it.
+    Paste your product or landing-page URL in the caption. seenpaid swaps it for a tracked short link at publish time, so you don't think about it. (On Instagram and TikTok the tracked link goes on your [bio page](/guides/bio-page) instead, since caption links there aren't clickable.)
   </Step>
   <Step title="Pick your channels">
-    Select one or more connected accounts. You can tailor the caption per platform where it matters.
+    Select one or more connected accounts.
   </Step>
   <Step title="Publish or schedule">
-    Send it now, or pick a date and time to queue it. Scheduled posts publish automatically.
+    Send now, or pick a future time to queue it.
   </Step>
 </Steps>
+
+## Tailor the caption per platform
+
+One idea rarely fits every platform the same way. Where it matters, edit the caption per channel — for example a punchy 280-character version for X and the full write-up for LinkedIn. You send one post; each platform gets its own native wording.
+
+<Tip>
+  X's 280 characters is almost always the binding limit when cross-posting. Write the full version for the roomy platforms and a trimmed one for X.
+</Tip>
+
+## Validate before you send
+
+Before publishing one caption to several platforms, you can **dry-run** it — check whether it would publish everywhere *without* actually sending. seenpaid reports, per platform, whether it would go out and exactly why not: too long by N characters, media required and none attached, or an account that needs reconnecting. Fix the problems, or drop the failing platforms, before you spend a real publish attempt.
+
+<Info>
+  This matters most on Instagram, where a failed publish quietly costs a post slot and is invisible until someone checks. Validating first turns "why didn't this post" into a clear answer up front.
+</Info>
 
 ## Publish now vs. schedule
 
@@ -29,14 +48,32 @@ Composing in seenpaid works like any good scheduler — with one difference: eve
     Sends immediately to every selected channel.
   </Card>
   <Card title="Schedule" icon="calendar">
-    Queues the post for a future time. Manage everything from the **Calendar** view.
+    Queues the post for a future time. Scheduled posts publish automatically — you don't need to be online.
   </Card>
 </CardGroup>
 
-## Tracked links are automatic
+## The calendar
 
-You never paste a tracked link yourself. When a post publishes, seenpaid rewrites your URL to `go.seenpaid.com/r/...` and starts recording clicks against that post. This is what makes revenue attribution possible — see [How attribution works](/how-attribution-works).
+Manage everything from the **Calendar** view. See what's queued across the week, and **drag a post to a new slot** to reschedule it. Draft and scheduled posts can be edited (caption or time) up until they publish; once a post is out, the platforms already have it and it can't be edited — repost a new version instead.
 
-<Tip>
-  Want an AI agent to do all of this for you? The same publish flow is available over MCP — see [For AI agents](/agents/overview).
-</Tip>
+## Let seenpaid pick the slot
+
+Not sure when to post? seenpaid can suggest the next slot — it picks the soonest open time on the **weekday that has actually earned your account the most money**, skipping slots already taken. Before you have enough revenue history to have an opinion, it simply offers the next open slot a few hours out and says so.
+
+## Schedule a whole calendar at once
+
+Planning a week of promos or a thread split across days? You can schedule many posts in one go. Each is scheduled independently — if one fails (say, a caption too long for a platform), the rest still go through and the failure is reported for just that item, so a single mistake never discards the whole plan.
+
+## Driving it from an agent
+
+- [`schedule_post`](/agents/tools-reference#schedule_post) — publish or schedule, with per-platform captions and media.
+- [`validate_post`](/agents/tools-reference#validate_post) — dry-run before sending.
+- [`bulk_schedule`](/agents/tools-reference#bulk_schedule) — a whole calendar in one call.
+- [`get_next_slot`](/agents/tools-reference#get_next_slot) — the best time to post next, by revenue.
+- [`update_post`](/agents/tools-reference#update_post) / [`cancel_post`](/agents/tools-reference#cancel_post) — edit or pull a scheduled post.
+
+> *"Plan me a week of posts about my launch and schedule them all at my best-earning times."*
+
+<Card title="See what earned" icon="trophy" href="/guides/revenue-and-top-earners">
+  Every post you publish is tracked — here's where the revenue shows up.
+</Card>

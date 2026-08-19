@@ -1,0 +1,68 @@
+---
+title: "Revenue Forecast"
+description: "Predict what a draft would earn — a low–high range and the factors driving it — before you schedule it."
+---
+
+**Revenue Forecast** predicts what a draft post would earn *before* you publish it, based on your account's own history. It returns a dollar range and the specific factors pushing the estimate up or down — so you can compare two versions of a caption and pick the one likely to pay.
+
+## When to use it
+
+- You have two captions and can't decide which to send.
+- You're wondering whether to add a link or media to a post.
+- You want a gut-check on a draft before committing it to the calendar.
+- You're building an approval flow: forecast a draft, and only schedule it if it beats your average.
+
+## What you get
+
+For a draft caption (plus optional platforms and whether it has media), Forecast returns:
+
+- **A predicted range** — a low and high dollar figure, not a single false-precise number.
+- **A score** — where this prediction lands between $0 and your best-earning post ever, as a rough 5–99 confidence-style number.
+- **The factors** — up to four plain-language reasons the estimate moved, each marked up or down.
+
+Typical factors you'll see:
+
+<CardGroup cols={2}>
+  <Card title="Length is a sweet spot" icon="ruler">
+    The draft's length band is one that over-earns for you.
+  </Card>
+  <Card title="Includes a tracked link" icon="link">
+    …and links pay off for your account (or the reverse — "no link, harder to convert").
+  </Card>
+  <Card title="Has media" icon="image">
+    …and media sells for you (or "no media" as a drag, if that's your pattern).
+  </Card>
+  <Card title="Posting to your top earner" icon="crown">
+    The draft targets the platform that has driven you the most revenue.
+  </Card>
+</CardGroup>
+
+## How to read the range
+
+The range is deliberately wide — the low end is roughly half the central estimate and the high end well above it — because a single post's earnings are genuinely uncertain. Use it for **comparison**, not as a promise: if caption A forecasts higher than caption B on the same account, that ranking is the useful signal.
+
+<Info>
+  Like [Money DNA](/guides/money-dna), Forecast needs at least **3 earning posts** before it will predict a number. Below that it tells you how far along you are (e.g. "2 of 3 so far") rather than faking a figure — a forecast with no baseline would be a guess dressed up as data, and that's against the house rule.
+</Info>
+
+## Using it in practice
+
+<Steps>
+  <Step title="Draft two versions">
+    Write caption A and caption B for the same idea.
+  </Step>
+  <Step title="Forecast each">
+    Run both through Forecast with the same platforms and media setting.
+  </Step>
+  <Step title="Ship the winner">
+    Schedule the higher-forecast version, and read the factors to learn *why* it won — then apply that to the next post.
+  </Step>
+</Steps>
+
+<Tip>
+  This is a natural agent move: *"Forecast this caption, then schedule it if it beats my average."* The agent calls [`forecast_post`](/agents/tools-reference#forecast_post), reads the range, and only then calls `schedule_post`.
+</Tip>
+
+<Card title="Understand the patterns behind it" icon="dna" href="/guides/money-dna">
+  Forecast is Money DNA applied to a post you haven't sent yet.
+</Card>

@@ -1,0 +1,64 @@
+---
+title: "Money Feed & alerts"
+description: "The live, newest-first stream of clicks, sales, and refunds — plus the alerts seenpaid raises when a sale lands or a post fails."
+---
+
+The **Money Feed** is the heartbeat of your account: a live, newest-first stream of what's happening right now. Every click, sale, and refund shows up as it lands, each tagged with the platform and country it came from. It's the view to leave open on launch day.
+
+## When to use it
+
+- **On launch day** — watch a post go out and see clicks, then sales, roll in live.
+- **After a big post** — did it land? The feed answers in seconds, without opening five other views.
+- **To catch problems early** — a publish failure or a refund shows up here before you'd notice it anywhere else.
+
+## What's in the stream
+
+Each entry is one event, newest first:
+
+<CardGroup cols={3}>
+  <Card title="Clicks" icon="hand-pointer">
+    A tap on a tracked link, with the platform and country it came from.
+  </Card>
+  <Card title="Sales" icon="dollar-sign">
+    A matched Stripe payment, with the amount and the post it's attributed to.
+  </Card>
+  <Card title="Refunds" icon="rotate-left">
+    A reversal — subtracted back out of the attributed post's earnings.
+  </Card>
+</CardGroup>
+
+<Info>
+  The feed shows attribution as it happens. A sale appears the moment its Stripe webhook is matched to a click — usually within seconds of the payment completing.
+</Info>
+
+## Alerts
+
+seenpaid also raises **notifications** for the things you'd want to know without going looking:
+
+- **A sale landed** — money came in, and which post earned it.
+- **A post failed to publish** — a channel rejected a post or an account needs reconnecting, so you can fix it fast instead of discovering a silent gap days later.
+- **Milestones** — moments worth noticing as your account grows.
+
+Notifications carry an unread count so nothing important scrolls past unseen.
+
+## Reading it well
+
+<Steps>
+  <Step title="Glance for shape, not detail">
+    A healthy launch looks like a burst of clicks, then a trickle of sales a little later. If clicks arrive but sales never follow, the issue is your landing page or offer — or your pixel isn't on the checkout page.
+  </Step>
+  <Step title="Watch for failures">
+    A publish-failure alert almost always means an account slipped into "needs reconnecting." Fix it under **Channels** and repost.
+  </Step>
+  <Step title="Let refunds settle the numbers">
+    A refund entry means a post's earnings just dropped by that amount. That's the honest number — a post's revenue always reflects money you kept.
+  </Step>
+</Steps>
+
+<Tip>
+  An agent can read the same stream with [`get_money_feed`](/agents/tools-reference#get_money_feed) — *"What just happened on my account — any sales in the last hour?"* — and check unseen alerts with [`list_notifications`](/agents/tools-reference#list_notifications).
+</Tip>
+
+<Card title="Rank the posts behind the feed" icon="trophy" href="/guides/revenue-and-top-earners">
+  The feed shows events; Revenue ranks the posts that produced them.
+</Card>

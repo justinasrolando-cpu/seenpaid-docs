@@ -15,7 +15,7 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Get started",
+            "group": "Start here",
             "pages": [
               "index",
               "quickstart",
@@ -24,21 +24,56 @@
             ]
           },
           {
-            "group": "Set up",
+            "group": "Getting started",
+            "pages": [
+              "start/create-your-account",
+              "start/connect-your-first-channel",
+              "start/write-your-first-post",
+              "start/install-the-pixel",
+              "start/connect-stripe",
+              "start/read-your-money-dashboard"
+            ]
+          },
+          {
+            "group": "Channels & setup",
             "pages": [
               "guides/connect-channels",
               "guides/platforms",
               "guides/connect-stripe",
-              "guides/track-your-sales"
+              "guides/track-your-sales",
+              "guides/bio-page"
             ]
           },
           {
-            "group": "Use seenpaid",
+            "group": "Publishing",
             "pages": [
               "guides/publish-and-schedule",
+              "guides/autopilot",
+              "guides/experiments",
+              "guides/recycle"
+            ]
+          },
+          {
+            "group": "Revenue & analytics",
+            "pages": [
               "guides/revenue-and-top-earners",
-              "guides/recycle",
-              "guides/autopilot-and-experiments"
+              "guides/analytics",
+              "guides/money-feed",
+              "guides/money-dna",
+              "guides/revenue-forecast"
+            ]
+          },
+          {
+            "group": "Grow",
+            "pages": [
+              "guides/referrals"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": [
+              "faq",
+              "troubleshooting"
             ]
           }
         ]
@@ -50,6 +85,7 @@
             "group": "Agent-native",
             "pages": [
               "agents/overview",
+              "agents/quickstart",
               "agents/mcp",
               "agents/api-keys",
               "agents/tools-reference",

@@ -1,0 +1,90 @@
+---
+title: "FAQ"
+description: "Straight answers to the questions people ask most about seenpaid — attribution, platforms, billing, privacy, and agents."
+---
+
+## The basics
+
+<AccordionGroup>
+  <Accordion title="What is seenpaid, in one line?">
+    A social scheduler that tells you which posts actually made money. Dub does it for links, DataFast does it for pages — seenpaid does it for posts.
+  </Accordion>
+  <Accordion title="How is it different from a normal scheduler?">
+    Every scheduler shows likes, reach, and clicks. seenpaid connects your Stripe and matches real sales back to the exact post that drove them, so you rank content by revenue instead of vanity metrics.
+  </Accordion>
+  <Accordion title="Do I have to be technical to use it?">
+    No. The [getting-started journey](/start/create-your-account) is click-by-click. The only "code" is pasting one script tag on your site, and only if you sell on your own site rather than a Stripe Payment Link.
+  </Accordion>
+</AccordionGroup>
+
+## Attribution
+
+<AccordionGroup>
+  <Accordion title="How does seenpaid know which post made a sale?">
+    A tracked link carries a tracking id (`cp_tid`) from the click, through your site, into Stripe as `client_reference_id`. When the payment fires, seenpaid matches that id back to the click and the post. Full walkthrough: [How attribution works](/how-attribution-works).
+  </Accordion>
+  <Accordion title="What if a sale can't be traced to a post?">
+    It's recorded as revenue but left **unattributed** — never credited to a random post. seenpaid would rather show an honest "we don't know" than a fabricated match. The attribution-health figure shows what share of revenue was traceable.
+  </Accordion>
+  <Accordion title="What's the attribution window?">
+    Revenue views summarize a rolling window of 7, 30, or 90 days (30 by default). A figure counts only matched payments and clicks inside the window you're viewing.
+  </Accordion>
+  <Accordion title="Does it handle subscriptions and refunds?">
+    Yes. Recurring subscription invoices are attributed, and refunds and chargebacks are subtracted back out — so a post's earnings always reflect money you actually kept.
+  </Accordion>
+  <Accordion title="Why do some rows say Direct or Unknown?">
+    They're grouping buckets for clicks missing a detail — **Direct** = no referrer, **Unknown** = no geo/device, **None** = no UTM. They're still real, attributed clicks. A large Direct share is normal for social traffic.
+  </Accordion>
+</AccordionGroup>
+
+## Platforms
+
+<AccordionGroup>
+  <Accordion title="Which platforms can I connect?">
+    seenpaid publishes to 25 channels. LinkedIn, Bluesky, Mastodon and Pinterest connect directly today; X connects with your own API keys; Facebook, Instagram and Threads are pending Meta's app review. Full list: [Supported platforms](/guides/platforms).
+  </Accordion>
+  <Accordion title="Why can't I post to X for free?">
+    X charges for API posting on your own developer account — that's their pricing, not seenpaid's. You bring your own X keys, and posting depends on credits on your X account.
+  </Accordion>
+  <Accordion title="Why didn't my TikTok post go out automatically?">
+    TikTok's API forbids direct publishing. seenpaid delivers the post to your TikTok inbox as a draft; you open TikTok and tap Post. It needs a video, 64MB or under.
+  </Accordion>
+  <Accordion title="How do Instagram and TikTok get attributed if links aren't clickable there?">
+    Through your [bio page](/guides/bio-page) — a hosted link-in-bio page where each link is a tracked seenpaid short link.
+  </Accordion>
+</AccordionGroup>
+
+## Billing
+
+<AccordionGroup>
+  <Accordion title="Is there a free trial?">
+    Yes — a 7-day free trial. You pick a plan and save a card to start it, but there's no charge for 7 days, and you can cancel before then without being billed.
+  </Accordion>
+  <Accordion title="Is there a permanent free plan?">
+    No. The trial unlocks the full product for 7 days; after that a plan keeps it running. Connecting accounts and publishing require an active trial or subscription.
+  </Accordion>
+  <Accordion title="What do the plans include?">
+    They differ by scale, not features: Starter (15 social accounts, 1 Stripe account), Growth (50 / 3), Pro and Lifetime (unlimited / unlimited). A Stripe account is a revenue source.
+  </Accordion>
+  <Accordion title="Can I connect more than one Stripe account?">
+    Yes, on Growth and above — each account's revenue is scoped to its own workspace so numbers never bleed across brands.
+  </Accordion>
+</AccordionGroup>
+
+## Privacy & AI agents
+
+<AccordionGroup>
+  <Accordion title="Does seenpaid use third-party cookies or track people across sites?">
+    No. The `cp_tid` cookie is first-party on your own destination; there's no third-party cookie and no cross-site tracking network. The pixel does nothing on a page a visitor reached without a tracked link.
+  </Accordion>
+  <Accordion title="Can an AI agent run my account?">
+    Yes — seenpaid is MCP-native. An agent (Claude, ChatGPT, Cursor, or your own) can publish and read revenue through 47 tools with an API key. Start with [your first agent action in 5 minutes](/agents/quickstart).
+  </Accordion>
+  <Accordion title="Can an agent see other people's data?">
+    Never. Every API key is scoped to one workspace, and the server is built fresh per request bound to that org. There is no cross-account access.
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Still stuck? Try troubleshooting" icon="wrench" href="/troubleshooting">
+  Fixes for connect failures, failed posts, empty analytics, and unattributed sales.
+</Card>

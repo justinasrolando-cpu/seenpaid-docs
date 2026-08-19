@@ -1,0 +1,86 @@
+---
+title: "Analytics"
+description: "Read the breakdowns — clicks, geography, device, referrer, UTM campaigns, and the clicks → leads → sales funnel."
+---
+
+Revenue tells you *what earned*. Analytics tells you *where it came from* — which country, which device, which referrer, which campaign. Used together, they turn "that post did well" into "that post did well with mobile users in the US who came from LinkedIn."
+
+## When to use it
+
+Reach for Analytics when a totals number raises a "why" question:
+
+- A post earned well — **who** actually bought? (country, device)
+- One channel out-earns another — is it the traffic quality or just volume? (referrer, revenue per click)
+- You ran a campaign with UTM tags — **which** campaign paid? (UTM breakdowns)
+- People click but don't buy — **where** do they drop off? (funnel)
+
+## The breakdowns
+
+Every dimension is ranked by clicks, with the attributed revenue for each row alongside — so you can see not just where traffic came from, but where the *money* came from.
+
+<CardGroup cols={2}>
+  <Card title="Country" icon="globe">
+    Where your buyers are. Rows with no geolocation are grouped as **Unknown**.
+  </Card>
+  <Card title="Device" icon="mobile">
+    Mobile vs desktop vs tablet, plus OS and browser.
+  </Card>
+  <Card title="Referrer" icon="arrow-right-from-bracket">
+    The site a click came from. No referrer is grouped as **Direct**.
+  </Card>
+  <Card title="UTM source / medium / campaign" icon="tag">
+    For links you tagged with UTMs. Untagged rows are grouped as **None**.
+  </Card>
+  <Card title="Top pages" icon="file-lines">
+    Which destination URLs your clicks landed on.
+  </Card>
+  <Card title="Revenue per click" icon="coins">
+    The number that actually ranks a source — a few high-value sales beats a flood of clicks that never convert.
+  </Card>
+</CardGroup>
+
+<Info>
+  **Revenue per click** is the honest ranking metric. A referrer with 10 clicks and one $200 sale beats one with 900 clicks and nothing — raw click counts hide that completely. Sort by it when deciding where to spend effort.
+</Info>
+
+## Reading Direct, Unknown, and None
+
+Not every click carries every detail, so seenpaid buckets the gaps rather than dropping the clicks:
+
+| Label | What it means |
+| --- | --- |
+| **Direct** | The click had no referrer — typed URL, in-app browser, or a stripped referrer. Still a real, attributed click. |
+| **Unknown** | seenpaid couldn't resolve that dimension — no geolocation, or an unrecognized device/OS/browser. |
+| **None** | The link carried no UTM tag for that field. |
+
+A large **Direct** share is normal for social traffic — many apps hide the referrer. It's not a problem to fix.
+
+## The funnel
+
+Analytics shows the path from reach to revenue:
+
+```
+clicks → leads → sales
+```
+
+- **Clicks** — taps on your tracked links.
+- **Leads** — mid-funnel conversions (an email capture or signup) that you report from your own site with `window.seenpaidTrackLead(email, kind)` or `window.seenpaidTrackGoal(name)`. Optional, but they make the drop-off between "clicked" and "bought" visible.
+- **Sales** — matched Stripe payments.
+
+Seeing lots of clicks and few sales points at your landing page or offer; seeing clicks but no leads points at the step before checkout.
+
+## Live view
+
+Analytics also shows a lightweight **online now** count — distinct-ish clicks in the last five minutes — and named **goals** (each `kind` you fire via the pixel), with completions per goal in the current window. Handy on launch day to watch traffic arrive in real time.
+
+## The time window
+
+Every breakdown respects the window you pick — **7, 30, or 90 days** — and counts only clicks and matched payments inside it. For day-by-day trends rather than a single window total, use the timeseries view (or ask an agent for [`get_analytics_timeseries`](/agents/tools-reference#get_analytics_timeseries)).
+
+<Tip>
+  An agent can read every one of these with [`get_analytics`](/agents/tools-reference#get_analytics) and slice any single dimension with [`get_analytics_breakdown`](/agents/tools-reference#get_analytics_breakdown) — e.g. *"Which referrer converts best for me?"*
+</Tip>
+
+<Card title="See what earned" icon="trophy" href="/guides/revenue-and-top-earners">
+  Analytics explains the traffic; Revenue ranks the posts.
+</Card>

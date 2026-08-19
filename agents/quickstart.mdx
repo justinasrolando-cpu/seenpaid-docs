@@ -1,0 +1,89 @@
+---
+title: "Your first agent action in 5 minutes"
+description: "Create an API key, connect Claude or Cursor over MCP, and get a real answer to 'which of my posts made money' — end to end."
+---
+
+seenpaid is built to be driven by an AI agent. In five minutes you'll go from nothing to asking your agent a real question about your account and getting a real answer back — no dashboard required. Here's the whole path.
+
+<Info>
+  You'll need a seenpaid account with at least one connected channel (and, for revenue answers, a connected Stripe account). New here? Run the [getting-started journey](/start/create-your-account) first, then come back.
+</Info>
+
+## Step 1 — Create an API key
+
+<Steps>
+  <Step title="Open the API settings">
+    Go to **Settings → AI agents & API** in the dashboard.
+  </Step>
+  <Step title="Create a key">
+    Click **Create API key**, name it (e.g. `claude-agent`), and copy the secret. It starts with `sp_` and is shown **once** — store it safely. If you lose it, revoke it and make a new one.
+  </Step>
+</Steps>
+
+The key is scoped to one workspace. An agent using it can act on that workspace's data and nothing else. Full detail: [API keys](/agents/api-keys).
+
+## Step 2 — Connect your agent over MCP
+
+Point your MCP client at seenpaid's endpoint with the key as a Bearer token.
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```bash
+    claude mcp add --transport http seenpaid https://api.seenpaid.com/mcp \
+      --header "Authorization: Bearer sp_YOUR_KEY"
+    ```
+  </Tab>
+  <Tab title="Claude Desktop / Cursor (JSON)">
+    ```json
+    {
+      "mcpServers": {
+        "seenpaid": {
+          "type": "http",
+          "url": "https://api.seenpaid.com/mcp",
+          "headers": {
+            "Authorization": "Bearer sp_YOUR_KEY"
+          }
+        }
+      }
+    }
+    ```
+    Put this in `claude_desktop_config.json` (Claude Desktop) or `~/.cursor/mcp.json` (Cursor), then restart the app.
+  </Tab>
+</Tabs>
+
+<Check>
+  "Connected" means your client lists seenpaid's tools. In Claude Code, run `/mcp` to confirm. You should see tools like `get_top_posts` and `schedule_post`.
+</Check>
+
+## Step 3 — Ask a real question
+
+Now just talk to your agent in plain language. Try:
+
+> "Which of my posts made the most money this month?"
+
+The agent calls `get_top_posts` on its own and answers with your real top earners — captions, sales, and dollars. No tool names, no dashboard.
+
+Then push it further:
+
+> "Repost my top earner for next Tuesday at 9am, and give me a briefing on the last 7 days."
+
+That's two tools — `repost` and `summarize_performance` — driven from one sentence.
+
+## What just happened
+
+You gave an agent a scoped key, connected it to seenpaid's 47 tools over MCP, and it read your revenue and acted on it — the same org-scoped services the dashboard uses. From here the agent can run the whole loop: publish, measure what paid, and double down.
+
+## Where to go next
+
+<CardGroup cols={2}>
+  <Card title="Prompt library" icon="message-lines" href="/agents/prompts">
+    Ready-to-use prompts for money, publishing, and automation.
+  </Card>
+  <Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
+    All 47 tools, grouped, with inputs and outputs.
+  </Card>
+</CardGroup>
+
+<Note>
+  If a call returns `401 Unauthorized`, the key is missing, mistyped, or revoked — check the `Authorization: Bearer sp_...` header. More cases in [MCP server → Errors](/agents/mcp#errors).
+</Note>

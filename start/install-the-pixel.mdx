@@ -1,0 +1,92 @@
+---
+title: "4. Install the tracking pixel"
+description: "Paste one script tag on your site so a Stripe sale gets matched back to the exact post that drove the visit."
+---
+
+This is the step that connects a click to a sale. When someone taps your tracked link and lands on your site, seenpaid leaves a small tracking id behind. The **pixel** — one line of HTML — reads that id and carries it into your Stripe checkout, so when the payment lands, seenpaid knows which post earned it.
+
+<Note>
+  **Do you even need this?** If you sell straight from a **Stripe Payment Link in your bio or post**, the tracked link already carries the id end-to-end — you can skip ahead to [Connect Stripe](/start/connect-stripe). You need the pixel when the buyer lands on **your own website or landing page** before paying.
+</Note>
+
+## Install it
+
+<Steps>
+  <Step title="Copy your tag">
+    In the dashboard, go to **Settings → Install tracking on your store** and copy the tag. It looks exactly like this:
+
+    ```html
+    <script src="https://api.seenpaid.com/pixel.js"></script>
+    ```
+  </Step>
+  <Step title="Paste it into your site's &lt;head&gt;">
+    Add it to every page where someone can buy — ideally site-wide, inside the `<head>`. On a site builder, paste it into the "custom head code", "embed", or "code injection" field:
+
+    - **Framer:** Site Settings → General → Custom Code → head
+    - **Webflow:** Project Settings → Custom Code → Head Code
+    - **Carrd:** Settings → embed a Code element in the head
+    - **Shopify:** theme.liquid, just before `</head>`
+    - **WordPress:** a header-scripts plugin, or your theme's header
+  </Step>
+  <Step title="Publish your site">
+    Save and publish the change on your site builder. That's it — no other code.
+  </Step>
+</Steps>
+
+<Check>
+  "Done" is the tag live in the `<head>` of the page where people pay. You can confirm it later under **Revenue → Attribution health** once a real sale comes through.
+</Check>
+
+## What the pixel does on its own
+
+Once it's on the page, the pixel automatically attaches the tracking id to the common Stripe surfaces — nothing else to wire:
+
+- **Stripe Payment Links** (`buy.stripe.com/...`)
+- **Stripe Buy Buttons** (`<stripe-buy-button>`)
+- **Stripe Checkout links** (`checkout.stripe.com/...`)
+
+It never modifies a page for a visitor who didn't arrive from a tracked link, so a direct visitor's checkout is untouched.
+
+## Two special cases
+
+<AccordionGroup>
+  <Accordion title="My checkout runs on a custom domain">
+    If your Payment Link is served on your own domain (not `buy.stripe.com`), the pixel can't recognize it by URL. Add the `data-seenpaid` attribute to the button or link and it'll be handled:
+
+    ```html
+    <a href="https://pay.yourbrand.com/abc" data-seenpaid>Buy now</a>
+    ```
+  </Accordion>
+  <Accordion title="I build my own Checkout Session server-side">
+    Read the id on the client and pass it through as one field when you create the session:
+
+    ```js
+    // client: send window.seenpaidTrackingId to your backend
+    const session = await stripe.checkout.sessions.create({
+      // ...your existing params
+      client_reference_id: trackingIdFromTheClient,
+    })
+    ```
+
+    `client_reference_id` is the only field seenpaid needs — everything else is automatic.
+  </Accordion>
+</AccordionGroup>
+
+<Info>
+  Want to track a mid-funnel event too (an email capture or signup), so it shows in your clicks → leads → sales funnel? The pixel exposes `window.seenpaidTrackLead(email, kind)` and `window.seenpaidTrackGoal(name)` — call either from your own button handler. Optional, and safe to ignore for now.
+</Info>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="How do I know it's firing?">
+    Open your site, then your browser's developer console, and type `window.seenpaidTrackingId`. If you arrived via a tracked link, it returns the id. If it's `null` on a normal visit, that's correct — there's no id to carry unless the visitor came from a tracked link.
+  </Accordion>
+  <Accordion title="Sales show up but the match rate is low">
+    That almost always means the pixel isn't on the exact page where people pay. Double-check the tag is in the `<head>` of the checkout page, not only your homepage. See [Track your sales](/guides/track-your-sales) for the deeper version of this.
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Next: connect Stripe" icon="arrow-right" href="/start/connect-stripe">
+  The final wire — let seenpaid see your sales and match them to posts.
+</Card>

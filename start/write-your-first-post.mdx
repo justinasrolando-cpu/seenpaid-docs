@@ -1,0 +1,70 @@
+---
+title: "3. Write your first post"
+description: "Compose a post, add your product link and media, tailor it per platform, and publish now or schedule it."
+---
+
+Now the fun part — putting something out. Composing in seenpaid works like any good scheduler, with one difference that matters: **every post carries a tracked link**, so it's attributable from the moment it goes live. You don't have to do anything special to get that; it happens automatically.
+
+## Compose and publish
+
+<Steps>
+  <Step title="Open the composer">
+    From **Posts**, click **New post** (the composer). Write your caption in plain language — this is the text that goes out.
+  </Step>
+  <Step title="Add your link">
+    Paste your product or landing-page URL directly in the caption, e.g. `Check out the new plan: yourstore.com/pro`. At publish time seenpaid swaps it for a tracked short link (`go.seenpaid.com/r/...`) on the platforms that support in-post links. You never paste a tracked link yourself.
+  </Step>
+  <Step title="Add media (optional, sometimes required)">
+    Attach an image or video if you'd like. Some platforms **require** it — Instagram, TikTok and Pinterest reject text-only posts. You can upload a file, or generate an image from a prompt right in the composer.
+  </Step>
+  <Step title="Pick your channels">
+    Select one or more connected accounts. If a caption is too long for a platform or is missing required media, seenpaid tells you before you publish rather than after.
+  </Step>
+  <Step title="Tailor per platform (optional)">
+    Where it matters, edit the caption per platform — for example a shorter version for X's 280-character limit, and the full text for LinkedIn. One idea, several native versions.
+  </Step>
+  <Step title="Publish now or schedule">
+    Hit **Publish** to send immediately, or pick a date and time to queue it. Scheduled posts go out on their own — no need to be online.
+  </Step>
+</Steps>
+
+<Check>
+  "Done" is a post that shows **published** (or **scheduled**) under Posts, with the channels it went to. If you published now, open the post to see the live URL on each platform.
+</Check>
+
+## Publish now vs. schedule
+
+<CardGroup cols={2}>
+  <Card title="Publish now" icon="paper-plane">
+    Sends immediately to every selected channel. Good for reacting to the moment.
+  </Card>
+  <Card title="Schedule" icon="calendar">
+    Queues the post for a future time. Manage everything from the **Calendar** — drag a post to a new slot to reschedule it.
+  </Card>
+</CardGroup>
+
+## A note on links per platform
+
+On most platforms seenpaid rewrites a URL in your caption to a tracked short link automatically. **Instagram and TikTok are the exception** — they don't make caption links clickable, so a tracked URL there would just be dead text. For those, seenpaid puts your tracked link on your [bio page](/guides/bio-page) instead. You'll set that up if and when you publish to them.
+
+<Tip>
+  Want to know a post's likely earnings *before* you schedule it? Once you have a few earning posts, the [Revenue Forecast](/guides/revenue-forecast) predicts a low–high range for a draft and tells you what's driving it — a good way to pick between two captions.
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="It won't let me publish to a platform">
+    Common reasons: the caption is over that platform's character limit, the platform requires media and none is attached, or the account needs reconnecting. seenpaid names the exact reason. Fix it, or drop that platform from the selection.
+  </Accordion>
+  <Accordion title="TikTok didn't post automatically">
+    TikTok's API doesn't allow direct publishing. seenpaid delivers your post to your TikTok inbox as a **draft** — open TikTok and tap **Post** yourself to finish. It needs a video (not an image), 64MB or under.
+  </Accordion>
+  <Accordion title="My scheduled post didn't go out">
+    Open the post to see the per-platform result and any error. The usual cause is an account that went into "needs reconnecting" between scheduling and publishing — reconnect it under **Channels** and repost. See [Troubleshooting](/troubleshooting) for the full checklist.
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Next: install the tracking pixel" icon="arrow-right" href="/start/install-the-pixel">
+  One script tag so a sale on your own site gets matched to the right post.
+</Card>

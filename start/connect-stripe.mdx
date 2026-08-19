@@ -1,0 +1,76 @@
+---
+title: "5. Connect Stripe"
+description: "Authorize Stripe so seenpaid can see completed payments and match each one to the post that drove it."
+---
+
+This is the step that turns seenpaid from a scheduler into an attribution engine. Connecting Stripe lets seenpaid see your completed payments and match them to the tracked clicks your posts generated. It's a standard Stripe Connect authorization — seenpaid reads payment events, and never moves money or changes your Stripe settings.
+
+## Connect your account
+
+<Steps>
+  <Step title="Open Channels → Stripe">
+    In the dashboard, go to **Channels** and find the **Stripe** card (Stripe is a revenue source, connected alongside your social accounts).
+  </Step>
+  <Step title="Click Connect Stripe">
+    You're sent to Stripe to authorize seenpaid via Stripe Connect. Approve, and you're returned to the dashboard.
+  </Step>
+  <Step title="Confirm it's live">
+    Stripe shows as connected. From now on, completed payments are checked against your tracked clicks and attributed to the source post.
+  </Step>
+</Steps>
+
+<Check>
+  seenpaid reads payment events to attribute revenue. It does **not** move money, create charges, or change your Stripe configuration.
+</Check>
+
+## See your first sale attributed
+
+Here's the moment the whole journey builds to:
+
+<Steps>
+  <Step title="Someone taps your post's tracked link">
+    They land on your site or Stripe checkout. seenpaid has recorded the click against the post.
+  </Step>
+  <Step title="They buy">
+    Stripe processes the payment and sends seenpaid a webhook. The pixel (or the Payment Link) carried the tracking id through as `client_reference_id`.
+  </Step>
+  <Step title="seenpaid matches it">
+    seenpaid reads the id, finds the click it belongs to, and finds the post that click came from. The revenue now belongs to that specific post.
+  </Step>
+  <Step title="It appears in Revenue">
+    Open **Revenue** and the sale is there, attributed to the exact post — in real dollars. Your first attributed dollar.
+  </Step>
+</Steps>
+
+## What gets attributed
+
+Once connected, seenpaid listens for the Stripe events that represent real revenue:
+
+- Completed **Checkout Sessions** and **Payment Links**
+- **Direct charges** and payments created via the Stripe API
+- Recurring **subscription** invoices
+- **Refunds and chargebacks** — reversed back out of a post's earnings, so a post's revenue always reflects money you actually kept
+
+See [How attribution works](/how-attribution-works) for the full matching chain in plain English.
+
+## Multiple Stripe accounts
+
+Running more than one business? seenpaid supports connecting multiple Stripe accounts and keeps each one's revenue scoped to its own workspace, so numbers never bleed across brands. How many you can connect depends on your plan (Starter 1, Growth 3, Pro and Lifetime unlimited).
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Sales aren't showing up against posts">
+    Two things must both be true: Stripe is connected, and the buyer clicked a **seenpaid tracked link** on a published post before paying. A sale from a visitor who never touched a tracked link can't be attributed to a post. If clicks are happening but sales aren't matching, the pixel likely isn't on the checkout page — revisit [Install the pixel](/start/install-the-pixel).
+  </Accordion>
+  <Accordion title="The match rate looks low">
+    Open **Revenue → Attribution health**. A low rate means the tracking install is incomplete, not that your posts failed. The usual fix is getting the pixel onto the exact page where people pay.
+  </Accordion>
+  <Accordion title="I want to disconnect Stripe">
+    Revoke seenpaid's access from your Stripe dashboard under **Settings → Connected apps** at any time, or from Channels in seenpaid.
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Next: read your money dashboard" icon="arrow-right" href="/start/read-your-money-dashboard">
+  Revenue, Money Feed, Money DNA, and your top and dead posts.
+</Card>
