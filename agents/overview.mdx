@@ -15,22 +15,32 @@ seenpaid is **agent-native**. Any AI agent that speaks [MCP](https://modelcontex
 
 ## What an agent can do
 
-With seenpaid connected over MCP, an agent can:
+seenpaid exposes **47 MCP tools** in six groups. An agent can run the whole loop — publish, measure what paid, and double down — without a human opening a dashboard.
 
 <CardGroup cols={2}>
-  <Card title="Publish & schedule posts" icon="paper-plane">
-    Post to any connected channel, now or on a schedule — tracked links included automatically.
+  <Card title="Money & attribution" icon="chart-line">
+    Per-post revenue, top earners, dead posts, channel ROI, and the honest match rate — in real dollars.
   </Card>
-  <Card title="Read revenue attribution" icon="chart-line">
-    Pull per-post analytics and your top earners, in real dollars.
+  <Card title="Insight & timing" icon="lightbulb">
+    The patterns behind earning posts, a per-account forecast, and when to post next.
   </Card>
-  <Card title="List accounts & posts" icon="list">
-    See connected channels and recent posts to decide what to do next.
+  <Card title="Publishing & posts" icon="paper-plane">
+    Draft, validate, schedule, edit, and repost — tracked links included automatically.
   </Card>
-  <Card title="Close the loop" icon="repeat">
-    Post, measure what paid, and double down — without a human opening a dashboard.
+  <Card title="Media" icon="image">
+    Generate an image from a prompt or pull one from a URL, ready to attach.
+  </Card>
+  <Card title="Automation" icon="robot">
+    Autopilot drafts, revenue-decided A/B experiments, and auto-recycle of proven winners.
+  </Card>
+  <Card title="Workspace & channels" icon="gear">
+    Accounts, health, plan limits, notifications, and connect links.
   </Card>
 </CardGroup>
+
+<Note>
+  What no other scheduler's tools can do: every publish tool is paired with a **money** tool. The agent doesn't just post — it can read which post earned, forecast a draft before it schedules it, and stop making the content that gets clicks but no sales.
+</Note>
 
 ## How it's scoped
 
@@ -47,6 +57,11 @@ Every agent request authenticates with a **seenpaid API key**, which maps to exa
   </Step>
 </Steps>
 
-<Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
-  The full list of MCP tools your agent can call, with inputs and outputs.
-</Card>
+<CardGroup cols={2}>
+  <Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
+    All 47 MCP tools, grouped, with inputs and outputs.
+  </Card>
+  <Card title="Prompt library" icon="message-lines" href="/agents/prompts">
+    Ready-to-use prompts for money, publishing, and automation.
+  </Card>
+</CardGroup>

@@ -1,71 +1,648 @@
 ---
 title: "Tools reference"
-description: "Every MCP tool your agent can call, with inputs and outputs."
+description: "Every MCP tool your agent can call, grouped by what it does — with inputs, outputs, and an example prompt."
 ---
 
-The seenpaid MCP server (`seenpaid` v1.0.0) exposes five tools. All are scoped to the organization behind your API key.
+The seenpaid MCP server exposes **47 tools**, every one scoped to the single organization behind your API key. An agent can never see or touch another account's data — the server is built fresh per request and bound to that org.
 
-## `list_accounts`
+The tools fall into six groups:
 
-List the connected social accounts. Use the returned `id` or `platform` values when scheduling a post.
+<CardGroup cols={2}>
+  <Card title="Money & attribution" icon="chart-line" href="#money-and-attribution">
+    Read what earned — clicks, sales, revenue, and the honest match rate behind it.
+  </Card>
+  <Card title="Insight & timing" icon="lightbulb" href="#insight-and-timing">
+    The patterns behind earning posts, a per-account forecast, and when to post next.
+  </Card>
+  <Card title="Publishing & posts" icon="paper-plane" href="#publishing-and-posts">
+    Draft, validate, schedule, edit, repost, and mint tracked links.
+  </Card>
+  <Card title="Media" icon="image" href="#media">
+    Generate images, pull media from a URL, reuse the library.
+  </Card>
+  <Card title="Automation" icon="robot" href="#automation">
+    Autopilot, revenue-decided A/B experiments, and auto-recycle.
+  </Card>
+  <Card title="Workspace & channels" icon="gear" href="#workspace-and-channels">
+    Accounts, health, plan limits, notifications, workspaces, connect links.
+  </Card>
+</CardGroup>
 
-**Input:** none
+<Info>
+  **Money is returned twice.** Every revenue figure comes back both as an integer `revenueCents` (for arithmetic) and as a pre-formatted `revenue` string with the currency symbol — so an agent quoting a number back to a human can't fumble the decimal point. When you display a figure, use the string; when you compare or sum, use the cents.
+</Info>
 
-**Returns:** an array of `{ id, platform, name, status }`.
+---
 
-## `list_posts`
+## Money and attribution
 
-List recent posts with their status, schedule time, and target platforms.
+The half of seenpaid no other scheduler has. Every other tool here answers *what did I post* — these answer *what did it earn*.
 
-<ParamField path="limit" type="number">
-  Max posts to return, 1–50. Defaults to 20.
+### `get_analytics`
+
+The account's revenue attribution over a window — clicks, sales, and revenue — with per-platform, per-country and per-device breakdowns, plus the change versus the previous equal-length period.
+
+<ParamField path="days" type="7 | 30 | 90">
+  Window in days. Defaults to `30`.
+</ParamField>
+<ParamField path="platform" type="string">
+  Restrict every figure to one platform (e.g. `linkedin`).
 </ParamField>
 
-**Returns:** an array of `{ id, caption, status, scheduledFor, publishedAt, platforms }`.
+**Returns** `window_days`, `currency`, `totals` (`clicks`, `payments`, `revenueCents`, `revenue`), `vs_previous_period` (`clicks_pct`, `sales_pct`, `revenue_pct`), `by_platform`, `top_countries`, `by_device`, and the `funnel`.
 
-## `schedule_post`
+> *"How's my revenue this week, and which platform drove the most?"*
 
-Schedule or immediately publish a post to one or more connected platforms.
+### `get_analytics_breakdown`
+
+Slice attribution by a single dimension — where the traffic and money actually came from. Rows include **revenue per click**, the number that actually ranks sources: a referrer with 10 clicks and one $200 sale beats one with 900 clicks and nothing.
+
+<ParamField path="dimension" type="string" required>
+  One of `country`, `device`, `referrer`, `os`, `browser`, `page`, `utm_source`, `utm_medium`, `utm_campaign`.
+</ParamField>
+<ParamField path="days" type="7 | 30 | 90">
+  Window in days. Defaults to `30`.
+</ParamField>
+<ParamField path="limit" type="number">
+  Max rows, 1–50. Defaults to `10`.
+</ParamField>
+
+**Returns** `dimension`, `window_days`, `currency`, and `rows` (each with `clicks`, `payments`, `revenueCents`, `revenue`, `revenuePerClickCents`).
+
+> *"Which referrer converts best for me?"*
+
+### `get_analytics_timeseries`
+
+Day-by-day clicks, sales and revenue across a window, with the change from the previous day already computed for you (asking a model to subtract 90 pairs of numbers is a reliable way to get one wrong). Use for trend questions rather than a single total.
+
+<ParamField path="days" type="7 | 30 | 90">
+  Window in days. Defaults to `30`.
+</ParamField>
+
+**Returns** `window_days`, `currency`, `bestDay`, and a `series` of `{ date, clicks, sales, revenueCents, revenue, clicksChange, revenueChangeCents }`.
+
+> *"Is my revenue trending up, and which day spiked?"*
+
+### `get_top_posts`
+
+Posts ranked by revenue earned. Answers "which post made the most money" and "what should I do more of".
+
+<ParamField path="limit" type="number">
+  Max posts, 1–50. Defaults to `10`.
+</ParamField>
+
+**Returns** `count` and `posts` (each `postId`, `caption`, `publishedAt`, `clicks`, `sales`, `revenueCents`, `revenue`).
+
+> *"Which of my posts made the most money this month?"*
+
+### `get_dead_posts`
+
+Posts that got clicks but earned nothing — the content that looks like it worked and didn't. The single most actionable list in seenpaid: it tells you what to *stop* making.
+
+<ParamField path="min_clicks" type="number">
+  Only count posts with at least this many clicks, 1–10000. Defaults to `1`.
+</ParamField>
+<ParamField path="limit" type="number">
+  Max posts, 1–50. Defaults to `10`.
+</ParamField>
+
+**Returns** `count`, a `note`, and `posts` (each `postId`, `caption`, `publishedAt`, `clicks`).
+
+> *"Which posts got clicks but earned nothing?"*
+
+### `get_post_revenue`
+
+Revenue, clicks and sales for one specific post.
+
+<ParamField path="post_id" type="string (uuid)" required>
+  The post id (from `list_posts` or `get_top_posts`).
+</ParamField>
+
+**Returns** the post's `clicks`, `payments`, `revenueCents`, `revenue`, `currency`.
+
+> *"How much has post &lt;id&gt; earned?"*
+
+### `get_channel_roi`
+
+Rank connected platforms by what they actually return — revenue, revenue per click, and revenue per post. Answers "where should I spend my effort" with money instead of follower counts.
+
+<ParamField path="days" type="7 | 30 | 90">
+  Window in days. Defaults to `30`.
+</ParamField>
+
+**Returns** `window_days`, `currency`, a `note`, and `platforms` sorted by `revenuePerPostCents` (each with `posts`, `clicks`, `sales`, `revenueCents`, `revenue`, `revenuePerPostCents`, `revenuePerClickCents`).
+
+> *"Which channel actually returns the most per post?"*
+
+### `get_money_feed`
+
+The live activity stream — recent clicks, sales and refunds, newest first, each with the platform and country it came from.
+
+<ParamField path="limit" type="number">
+  Max events, 1–50. Defaults to `25`.
+</ParamField>
+
+**Returns** `count` and `events` (each with its type, platform, country, and — for sales/refunds — an `amount` string).
+
+> *"What just happened on my account — any sales in the last hour?"*
+
+### `get_attribution_health`
+
+How much of this account's real Stripe revenue seenpaid can trace back to a post. A low match rate means the tracking setup is incomplete, **not** that the posts failed — check this before trusting a low revenue number.
+
+**Input:** none.
+
+**Returns** the matched share (`matchedPct`) and the totals behind it.
+
+> *"What share of my Stripe sales is being traced to a post?"*
+
+### `summarize_performance`
+
+A single briefing an agent can read aloud: what went out, what earned, what died, what's broken, and what to do next. Use this for "how are we doing" rather than calling five tools and stitching them together.
+
+<ParamField path="days" type="7 | 30 | 90">
+  Window in days. Defaults to `7`.
+</ParamField>
+
+**Returns** `headline`, `totals`, `attribution_match_pct`, `top_earners`, `dead_posts`, `broken_channels`, and a `recommended_actions` list.
+
+> *"Give me a briefing on the last 7 days."*
+
+---
+
+## Insight and timing
+
+Derived from posts that actually earned. These stay quiet until an account has a few earning posts — they report *not enough data yet* rather than guessing.
+
+### `get_money_dna`
+
+The patterns behind this account's earning posts — best platform, best caption length, whether links help, best posting time.
+
+**Input:** none.
+
+**Returns** the derived insights, or `{ enough: false, earningPosts, note }` when there isn't enough earning history yet.
+
+> *"What do my best-earning posts have in common?"*
+
+### `forecast_post`
+
+Predict what a draft would earn, based on this account's own history — returns a low/high range and the factors driving it. Use it **before** scheduling to compare two versions of a caption.
+
+<ParamField path="caption" type="string" required>
+  The draft text (up to 3000 characters).
+</ParamField>
+<ParamField path="platforms" type="string[]">
+  Where it would go.
+</ParamField>
+<ParamField path="has_media" type="boolean">
+  Whether the post would include an image or video.
+</ParamField>
+
+**Returns** `score`, `predicted_range` (a formatted string), `predictedLowCents`, `predictedHighCents`, `currency`, and `factors` — or `{ enough: false, note }`.
+
+> *"Forecast this caption, then schedule it if it beats my average."*
+
+### `get_next_slot`
+
+Suggest when to schedule the next post. Picks the soonest time on the weekday that has actually earned this account the most money, skipping slots already taken. Falls back to "a few hours from now" when there isn't enough revenue history to have an opinion.
+
+<ParamField path="hour_utc" type="number">
+  Preferred hour of day in UTC, 0–23. Defaults to `15`.
+</ParamField>
+
+**Returns** `suggested` (ISO time), a human `reason`, `basedOnRevenue`, and `slotsAlreadyTaken`.
+
+> *"When should I post next for the best shot at a sale?"*
+
+---
+
+## Publishing and posts
+
+<Note>
+  Publishing tools attribute the post to the user who created the API key. If that user was removed and the org has no owner, they return a clear error telling you to create a new key from **Settings → AI agents & API**.
+</Note>
+
+### `list_posts`
+
+List posts with status, schedule time, target platforms and any publish errors.
+
+<ParamField path="status" type="string">
+  Filter to one of `draft`, `scheduled`, `publishing`, `published`, `failed`, `cancelled`.
+</ParamField>
+<ParamField path="limit" type="number">
+  Max posts, 1–100. Defaults to `20`.
+</ParamField>
+
+**Returns** `count`, `totalPosts`, and `posts` (each `id`, `caption`, `status`, `scheduledFor`, `publishedAt`, `platforms`, `mediaCount`, and `errors` when present).
+
+> *"What do I have scheduled this week?"*
+
+### `get_post`
+
+Get one post in full, including per-platform publish results — which platforms succeeded, the live URL of each published copy, and the exact error for any that failed.
+
+<ParamField path="post_id" type="string (uuid)" required>
+  Post id from `list_posts`.
+</ParamField>
+
+**Returns** the post's `caption`, `status`, `scheduledFor`, `publishedAt`, and `targets` (the per-platform results).
+
+> *"Did post &lt;id&gt; publish everywhere, or did one platform fail?"*
+
+### `schedule_post`
+
+Schedule or immediately publish a post. Give a caption plus either `platforms` or `account_ids`; omit both to post to **every active account**. Omit `schedule_for` to publish now.
 
 <ParamField path="caption" type="string" required>
   The post text (1–3000 characters).
 </ParamField>
 <ParamField path="platforms" type="string[]">
-  Which platforms to post to, e.g. `["x", "linkedin"]`.
+  Platforms to post to, e.g. `["x", "linkedin"]`.
 </ParamField>
 <ParamField path="account_ids" type="string[]">
-  Specific connected-account ids (from `list_accounts`). Overrides `platforms`.
+  Specific account ids from `list_accounts`. Overrides `platforms`.
 </ParamField>
-<ParamField path="schedule_for" type="string">
-  ISO-8601 time to publish. Must be in the future. Omit to publish immediately.
+<ParamField path="schedule_for" type="string (ISO-8601)">
+  A future time to publish. Omit to publish immediately.
 </ParamField>
-
-<Note>
-  Provide `caption` plus either `account_ids` or `platforms`. Omit both to post to **every active account**.
-</Note>
-
-**Returns:** `{ ok, postId, status, scheduledFor, postedTo }`.
-
-## `get_analytics`
-
-Get revenue-attribution analytics — clicks, sales, and revenue, with per-platform, per-country, and per-device breakdowns — over a window.
-
-<ParamField path="days" type="number">
-  Window in days: `7`, `30`, or `90`. Defaults to `30`.
+<ParamField path="media_ids" type="string[]">
+  Up to 10 media ids from `generate_image`, `add_media_from_url`, or the dashboard uploader.
+</ParamField>
+<ParamField path="per_account_captions" type="object">
+  Override the caption for specific account ids, e.g. `{ "<account_id>": "shorter text" }` — handy for tailoring the copy to X's 280-character limit.
 </ParamField>
 
-**Returns:** `{ window_days, currency, totals, by_platform, top_countries, by_device }`.
+**Returns** `{ ok, postId, status, scheduledFor, postedTo }`.
 
-## `get_top_posts`
+> *"Post 'New drop is live: mystore.com' to X and LinkedIn tomorrow at 9am."*
 
-Get your posts ranked by revenue earned. This answers "which post made the most money."
+### `bulk_schedule`
 
-**Input:** none
+Schedule many posts in one call — a content calendar, a thread split across days, a week of promos. Each item is scheduled independently; if one fails the rest still go through, and failures are reported per item.
 
-**Returns:** up to 10 posts as `{ caption, status, clicks, sales, revenueCents, currency }`.
+<ParamField path="posts" type="array" required>
+  1–50 items, each `{ caption, schedule_for?, platforms?, media_ids? }`.
+</ParamField>
+
+**Returns** `scheduled`, `failed`, and a per-item `results` array.
+
+> *"Plan me a week of posts and schedule them all."*
+
+### `update_post`
+
+Edit a draft or scheduled post — change its caption, its time, or both. Published posts can't be edited (the platforms already have them). Give at least one of `caption` or `schedule_for`.
+
+<ParamField path="post_id" type="string (uuid)" required />
+<ParamField path="caption" type="string">
+  New caption (1–3000 characters).
+</ParamField>
+<ParamField path="schedule_for" type="string (ISO-8601)">
+  New future time. Re-queues the publish jobs.
+</ParamField>
+
+**Returns** `{ ok, id, caption, status, scheduledFor }`.
+
+> *"Move my Friday post to Saturday 10am and shorten the caption."*
+
+### `cancel_post`
+
+Cancel a scheduled post before it goes out. Stops every pending platform job; platforms it already published to are untouched. The post row survives — use `delete_post` to remove it entirely.
+
+<ParamField path="post_id" type="string (uuid)" required />
+
+**Returns** `{ ok, id, status }`.
+
+> *"Cancel the post scheduled for tonight."*
+
+### `delete_post`
+
+Permanently delete a post and cancel any pending publishes. This cannot be undone — prefer `cancel_post` unless the user explicitly asked to delete.
+
+<ParamField path="post_id" type="string (uuid)" required />
+<ParamField path="confirm" type="true" required>
+  Must be `true`. Deliberate friction so a post is never deleted by an ambiguous instruction.
+</ParamField>
+
+**Returns** `{ ok, deleted }`.
+
+### `repost`
+
+Re-publish a post that already worked, as a brand-new post with fresh tracking. The classic use: call `get_top_posts`, then repost the top earner. The original is left untouched.
+
+<ParamField path="post_id" type="string (uuid)" required>
+  The post to re-run.
+</ParamField>
+<ParamField path="schedule_for" type="string (ISO-8601)">
+  A future time. Omit to publish now.
+</ParamField>
+<ParamField path="caption" type="string">
+  Replace the caption; omit to reuse the original word for word.
+</ParamField>
+<ParamField path="platforms" type="string[]">
+  Send it somewhere different; omit to reuse the original platforms.
+</ParamField>
+
+**Returns** `{ ok, newPostId, recycledFrom, status, scheduledFor, platforms, reusedMedia }`.
+
+> *"Repost my top earner for next Tuesday."*
+
+### `create_tracked_link`
+
+Mint a tracked short link for a post. Clicks on it are attributed to that post, and any Stripe sale that follows is traced back to it. Use this when publishing somewhere seenpaid doesn't post to directly — a newsletter, a video description, a manual post — so the revenue still lands on the right post.
+
+<ParamField path="post_id" type="string (uuid)" required>
+  The post this link belongs to.
+</ParamField>
+<ParamField path="destination_url" type="string (url)" required>
+  Where the link should send people.
+</ParamField>
+<ParamField path="platform" type="string" required>
+  Which platform the link will be shared on — this is how revenue is attributed per channel.
+</ParamField>
+<ParamField path="label" type="string">
+  Optional label shown on the bio page.
+</ParamField>
+
+**Returns** `{ ok, trackedUrl, trackingId, note }`.
+
+> *"Give me a tracked link for post &lt;id&gt; to put in my YouTube description."*
+
+### `validate_post`
+
+Dry-run a caption against the platforms you plan to send it to, **without** publishing. Reports per platform whether it would publish and exactly why not — too long by N characters, media required and none attached, account disconnected. Call this before `schedule_post` whenever one caption goes to several platforms.
+
+<ParamField path="caption" type="string" required>
+  The caption you intend to publish.
+</ParamField>
+<ParamField path="platforms" type="string[]" required>
+  Where you intend to send it.
+</ParamField>
+<ParamField path="has_media" type="boolean">
+  Whether the post will include an image or video.
+</ParamField>
+
+**Returns** `allClear`, a `summary`, and per-platform `results` (`wouldPublish`, `problems`, `charactersUsed`, `characterLimit`, and any `caveat`).
+
+> *"Will this caption post cleanly to X, LinkedIn and Instagram?"*
+
+### `get_platform_requirements`
+
+What each platform will and won't accept: caption character limit, whether media is mandatory, whether links in the post body can be tracked, and any platform-specific catch. Check this before writing captions for several platforms at once.
+
+<ParamField path="platforms" type="string[]">
+  Limit to these platforms; omit for all 25.
+</ParamField>
+<ParamField path="connected_only" type="boolean">
+  Only report on platforms this account has connected.
+</ParamField>
+
+**Returns** a `platforms` array of `{ platform, captionLimit, requiresMedia, supportsTrackedLinksInPost, caveat? }`.
+
+> *"What are the caption limits for the platforms I've connected?"*
+
+---
+
+## Media
+
+### `generate_image`
+
+Generate an image from a text prompt and store it in the account's media library. Returns a media id you can pass straight to `schedule_post` — the fastest way from an idea to a post with visuals.
+
+<ParamField path="prompt" type="string" required>
+  What the image should show, 3–1000 characters.
+</ParamField>
+
+**Returns** `{ ok, mediaId, url, type }`.
+
+> *"Make an image of a laptop and coffee in warm morning light, then attach it."*
+
+### `add_media_from_url`
+
+Pull an image or video from a public URL into the account's media library and get back a media id.
+
+<ParamField path="url" type="string (url)" required>
+  Public URL of the image or video (jpeg, png, webp, mp4 or mov; 100MB max).
+</ParamField>
+
+**Returns** `{ ok, mediaId, url, type, sizeBytes }`.
+
+> *"Add the image at &lt;url&gt; to my library and use it in tomorrow's post."*
+
+### `list_media`
+
+The account's media library, newest first. Returns ids you can pass straight to `schedule_post` instead of regenerating something that already exists.
+
+<ParamField path="limit" type="number">
+  Max items, 1–100. Defaults to `25`.
+</ParamField>
+
+**Returns** `count` and `media` (each `id`, `url`, `type`, `width`, `height`, `createdAt`).
+
+> *"Show me what's already in my media library."*
+
+---
+
+## Automation
+
+The three standing automations. These are what make an external agent genuinely useful rather than just a remote control: it can set a policy and check on it, instead of being present for every post.
+
+### Autopilot
+
+Autopilot drafts posts for you on a schedule. **Nothing publishes without approval** — approving a suggestion returns its caption for you to schedule with `schedule_post`.
+
+#### `get_autopilot_status`
+
+Whether autopilot is on, how often it generates drafts, which platforms it targets, and how many suggestions are waiting for approval. **Input:** none.
+
+#### `configure_autopilot`
+
+Turn autopilot on/off and set its cadence, batch size, target platforms and topic.
+
+<ParamField path="enabled" type="boolean" required />
+<ParamField path="cadence_days" type="number" required>
+  Generate a new batch every N days, 1–30.
+</ParamField>
+<ParamField path="batch_size" type="number" required>
+  How many drafts per batch, 1–10.
+</ParamField>
+<ParamField path="platforms" type="string[]">
+  Which platforms to write for (up to 6).
+</ParamField>
+<ParamField path="topic" type="string">
+  What to write about, e.g. "indie SaaS growth lessons".
+</ParamField>
+
+> *"Turn on autopilot: 3 drafts every 4 days about my product, for X and LinkedIn."*
+
+#### `generate_suggestions`
+
+Run autopilot immediately instead of waiting for the next scheduled batch. **Input:** none. Returns how many drafts were created, or a clear error if autopilot is off or unconfigured.
+
+#### `list_suggestions`
+
+The autopilot-generated drafts waiting for a decision, each with an id for `approve_suggestion` or `dismiss_suggestion`. **Input:** none.
+
+#### `approve_suggestion`
+
+Approve an autopilot draft. Returns its caption and intended platform so you can then schedule it — approving does **not** publish on its own.
+
+<ParamField path="suggestion_id" type="string (uuid)" required />
+
+#### `dismiss_suggestion`
+
+Reject an autopilot draft so it stops appearing in the queue.
+
+<ParamField path="suggestion_id" type="string (uuid)" required />
+
+> *"Review my autopilot drafts, approve the best one, and schedule it for Tuesday 9am."*
+
+### Experiments (A/B by revenue, not by likes)
+
+The winner is decided on **revenue earned**, not engagement. Each variant goes out as a real post with its own tracked link.
+
+#### `list_experiments`
+
+All caption A/B tests with their variants, status, and which variant is winning on revenue. **Input:** none.
+
+#### `get_experiment`
+
+One A/B test in full — every variant with its clicks, sales and revenue.
+
+<ParamField path="experiment_id" type="string (uuid)" required />
+
+#### `create_experiment`
+
+Create a caption A/B test: give one idea and a platform, and seenpaid writes N variants. Nothing goes live until `launch_experiment`.
+
+<ParamField path="idea" type="string" required>
+  What the post should be about, 3–300 characters.
+</ParamField>
+<ParamField path="platform" type="string" required>
+  Which platform to test on.
+</ParamField>
+<ParamField path="count" type="number">
+  How many variants, 2–4. Defaults to `3`.
+</ParamField>
+
+#### `launch_experiment`
+
+Publish every variant of an A/B test. Each goes out as a real post with its own tracked link, so revenue can be attributed per variant.
+
+<ParamField path="experiment_id" type="string (uuid)" required />
+
+#### `get_experiment_winner`
+
+The winning caption of a finished A/B test, ready to reuse or scale up.
+
+<ParamField path="experiment_id" type="string (uuid)" required />
+
+> *"A/B test three hooks for my launch post on X, launch them, and tell me the winner."*
+
+### Recycle
+
+#### `get_recycle_status`
+
+The rule for automatically re-posting content that already earned money, and which posts currently qualify. **Input:** none.
+
+#### `configure_recycle`
+
+Set the auto-recycle rule: re-post anything that earned at least `min_revenue_cents`, no more often than every `cadence_days`. Turns proven winners into a repeating stream instead of one-offs.
+
+<ParamField path="enabled" type="boolean" required />
+<ParamField path="cadence_days" type="number" required>
+  Minimum days between re-posts of the same content, 1–90.
+</ParamField>
+<ParamField path="min_revenue_cents" type="number" required>
+  Only recycle posts that earned at least this much, in cents (0–10,000,000).
+</ParamField>
+
+> *"Auto-recycle any post that earned over $100, at most once every 14 days."*
+
+---
+
+## Workspace and channels
+
+### `list_accounts`
+
+The connected social accounts — platform, handle, id and status. Use these ids or platforms when scheduling. **Input:** none.
+
+**Returns** `count` and `accounts` (each `id`, `platform`, `name`, `status`).
+
+> *"Which social accounts do I have connected?"*
+
+### `get_account_health`
+
+Which connected accounts are healthy and which stopped working. An account that needs reconnecting will silently fail to publish, so check this when a post didn't go out or before scheduling a big batch. **Input:** none.
+
+**Returns** `healthy`, `broken`, and `needsAttention` (each with a `fix` describing exactly what to do).
+
+> *"Is anything broken — did a channel stop publishing?"*
+
+### `get_plan_limits`
+
+This account's plan and its caps — how many social accounts and Stripe accounts it can connect, and how many are already used. **Input:** none.
+
+**Returns** `plan`, `socialAccounts` (`used`, `limit`, `remaining`), and `stripeAccountLimit`.
+
+> *"How many more channels can I connect on my plan?"*
+
+### `list_notifications`
+
+The account's alerts — sales that landed, publish failures, milestones. Use to catch problems the user hasn't seen yet.
+
+<ParamField path="limit" type="number">
+  Max notifications, 1–50. Defaults to `20`.
+</ParamField>
+
+**Returns** `unreadCount` and `notifications`.
+
+> *"Any new alerts I should know about?"*
+
+### `list_workspaces`
+
+The workspaces (brands or clients) this account belongs to. Each has its own posts, channels and revenue — an API key is scoped to exactly one, so this is how an agent knows which set of numbers it's looking at. **Input:** none.
+
+**Returns** `count`, `currentOrgId`, and `workspaces` (each flagged `isCurrent`).
+
+> *"Which workspace is this key pointed at?"*
+
+### `get_connect_url`
+
+Get the URL a human needs to open to connect a new social account. The agent can't complete OAuth itself — hand this link to the user.
+
+<ParamField path="platform" type="string" required>
+  Which platform to connect.
+</ParamField>
+<ParamField path="redirect_uri" type="string (url)" required>
+  Where the platform should send the user back to, e.g. `https://seenpaid.com/accounts/callback`.
+</ParamField>
+
+**Returns** `{ ok, connectUrl, note }`.
+
+> *"Give me a link to connect my LinkedIn."*
+
+### `disconnect_account`
+
+Disconnect a social account. Scheduled posts targeting only that account will stop publishing, so check `list_posts` first.
+
+<ParamField path="account_id" type="string (uuid)" required />
+<ParamField path="confirm" type="true" required>
+  Must be `true` — deliberate friction so an account is never dropped by an ambiguous instruction.
+</ParamField>
+
+**Returns** `{ ok, disconnected }`.
 
 ---
 
 <Tip>
-  Revenue is returned in **cents** (`revenueCents`) alongside a `currency` code — divide by 100 to display dollars. Attribution requires a connected Stripe account and at least one published tracked post.
+  New to the money tools? The natural first call for any account is [`summarize_performance`](#summarize_performance) — it reads out what earned, what died, what's broken and what to do next in a single response.
 </Tip>
+
+<CardGroup cols={2}>
+  <Card title="Connect the server" icon="plug" href="/agents/mcp">
+    Endpoint, client config, and a first request.
+  </Card>
+  <Card title="Prompt library" icon="message-lines" href="/agents/prompts">
+    Ready-to-use prompts, grouped by what they do.
+  </Card>
+</CardGroup>

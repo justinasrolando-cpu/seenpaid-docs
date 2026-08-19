@@ -21,24 +21,27 @@ A **channel** is a social account seenpaid can publish to. Connect one to start;
 
 ## Available platforms
 
-Connect these directly today:
+seenpaid publishes to **25 channels** in total. How you connect one depends on what that platform asks of a scheduler:
 
 <CardGroup cols={3}>
-  <Card title="X" icon="x-twitter" />
-  <Card title="Instagram" icon="instagram" />
-  <Card title="TikTok" icon="tiktok" />
-  <Card title="LinkedIn" icon="linkedin" />
-  <Card title="Facebook" icon="facebook" />
-  <Card title="Bluesky" icon="bluesky" />
+  <Card title="Directly connectable" icon="circle-check">
+    LinkedIn, Bluesky, Mastodon, Pinterest, and the API-based publishing targets — click **Connect** and authorize.
+  </Card>
+  <Card title="Bring your own keys" icon="key">
+    X and other networks that gate API access behind their own developer app. Paste your credentials once.
+  </Card>
+  <Card title="Pending review" icon="clock">
+    Facebook, Instagram, and Threads route through Meta's Graph API and are awaiting app review.
+  </Card>
 </CardGroup>
 
 <Note>
-  More networks (Mastodon, Threads, Reddit, Pinterest, Tumblr and others) are wired in the composer. Some require you to register your own developer app on that platform before connecting — the dashboard tells you when that's needed.
+  For the full list of channels with their caption limits, media rules, and per-platform catches, see [Supported platforms](/guides/platforms). The dashboard tells you which connect path a given platform needs when you open **Connections**.
 </Note>
 
 ## Bring your own API keys (BYOK)
 
-Some platforms — notably X — require their own API access on paid tiers. Where a platform needs your own credentials, seenpaid supports **bring-your-own-keys**: paste your app keys once in Connections and seenpaid publishes on your behalf.
+Some platforms — notably **X** — require their own API access on paid tiers. Where a platform needs your own credentials, seenpaid supports **bring-your-own-keys**: register a developer app on that platform, paste the keys once in Connections, and seenpaid publishes on your behalf.
 
 ## Troubleshooting
 

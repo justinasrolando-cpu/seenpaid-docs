@@ -27,6 +27,7 @@
             "group": "Set up",
             "pages": [
               "guides/connect-channels",
+              "guides/platforms",
               "guides/connect-stripe",
               "guides/track-your-sales"
             ]
@@ -36,7 +37,8 @@
             "pages": [
               "guides/publish-and-schedule",
               "guides/revenue-and-top-earners",
-              "guides/recycle"
+              "guides/recycle",
+              "guides/autopilot-and-experiments"
             ]
           }
         ]
@@ -50,7 +52,8 @@
               "agents/overview",
               "agents/mcp",
               "agents/api-keys",
-              "agents/tools-reference"
+              "agents/tools-reference",
+              "agents/prompts"
             ]
           }
         ]

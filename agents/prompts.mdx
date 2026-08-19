@@ -1,0 +1,109 @@
+---
+title: "Prompt library"
+description: "Ready-to-use prompts for an agent connected to seenpaid, grouped by what they do."
+---
+
+Once seenpaid is connected over [MCP](/agents/mcp), you drive it in plain language — the agent picks the right tool. These are prompts that map cleanly onto the [47 tools](/agents/tools-reference), grouped by intent. Say them to Claude, ChatGPT, Cursor, or any MCP client with your key configured.
+
+<Info>
+  You don't name tools. "Which post made the most money?" is enough — the agent calls `get_top_posts` on its own. The groupings below just show which tools each prompt tends to reach for.
+</Info>
+
+## See what earned
+
+The questions no other scheduler can answer.
+
+- "Which of my posts made the most money this month?"
+- "Which platform made me the most money this month?"
+- "Show me my top 5 posts by revenue."
+- "Which posts got clicks but earned nothing?"
+- "Which channel actually returns the most per post?"
+- "How's my revenue this week compared to last?"
+- "Is my revenue trending up — which day spiked?"
+- "How much has this specific post earned?"
+- "What just happened on my account — any sales in the last hour?"
+
+_Reaches for `get_top_posts`, `get_channel_roi`, `get_dead_posts`, `get_analytics`, `get_analytics_timeseries`, `get_post_revenue`, `get_money_feed`._
+
+## Get a briefing
+
+When you want the whole picture in one answer instead of five.
+
+- "Give me a briefing on the last 7 days."
+- "How are we doing this month?"
+- "What should I do next, based on what's actually earning?"
+- "Anything broken, and anything worth reposting?"
+
+_Reaches for `summarize_performance`, which rolls up earnings, dead posts, broken channels, and recommended actions._
+
+## Publish & schedule
+
+- "Post 'New drop is live: mystore.com' to X and LinkedIn right now."
+- "Schedule that for tomorrow at 9am on X and LinkedIn."
+- "Draft a post about my latest launch and schedule it for tomorrow at 9am."
+- "Plan me a week of posts and schedule them all."
+- "Will this caption post cleanly to X, LinkedIn and Instagram?"
+- "Move my Friday post to Saturday 10am."
+- "Cancel the post scheduled for tonight."
+- "Make an image of a laptop and coffee in warm light, then attach it to a post about my morning routine."
+- "Give me a tracked link for this post to drop in my YouTube description."
+
+_Reaches for `schedule_post`, `bulk_schedule`, `validate_post`, `update_post`, `cancel_post`, `generate_image`, `create_tracked_link`._
+
+## Forecast & time it
+
+- "Forecast this caption, then schedule it if it beats my average."
+- "Which of these two captions is likely to earn more?"
+- "What do my best-earning posts have in common?"
+- "When should I post next for the best shot at a sale?"
+
+_Reaches for `forecast_post`, `get_money_dna`, `get_next_slot`._
+
+## Double down on winners
+
+- "Repost my top earner for next Tuesday."
+- "Find my highest-earning post and run it again with a fresh link."
+- "Auto-recycle any post that earned over $100, at most once every 14 days."
+
+_Reaches for `get_top_posts` → `repost`, and `configure_recycle`._
+
+## Run it on autopilot
+
+- "Turn on autopilot: 3 drafts every 4 days about indie SaaS growth, for X and LinkedIn."
+- "Show me the autopilot drafts waiting for approval."
+- "Approve the best draft and schedule it for Tuesday 9am."
+- "Generate a fresh batch of drafts now."
+
+_Reaches for `configure_autopilot`, `list_suggestions`, `approve_suggestion`, `generate_suggestions`._
+
+## Test what works
+
+- "A/B test three hooks for my launch post on X."
+- "Launch that experiment."
+- "Which variant won, and can you reuse the winning caption?"
+
+_Reaches for `create_experiment`, `launch_experiment`, `get_experiment_winner`._
+
+## Keep the account healthy
+
+- "Which social accounts do I have connected?"
+- "Is anything broken — did a channel stop publishing?"
+- "How many more channels can I connect on my plan?"
+- "Give me a link to connect my LinkedIn."
+- "What share of my Stripe sales is being traced to a post?"
+- "Any new alerts I should know about?"
+
+_Reaches for `list_accounts`, `get_account_health`, `get_plan_limits`, `get_connect_url`, `get_attribution_health`, `list_notifications`._
+
+<Tip>
+  A good opening move for any new account is simply: **"Give me a briefing on the last 7 days and tell me what to do next."** It surfaces top earners, dead posts, broken channels, and your attribution match rate in one shot.
+</Tip>
+
+<CardGroup cols={2}>
+  <Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
+    Exactly what each tool takes and returns.
+  </Card>
+  <Card title="Connect the server" icon="plug" href="/agents/mcp">
+    Endpoint and client config.
+  </Card>
+</CardGroup>

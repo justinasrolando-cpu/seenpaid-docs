@@ -1,19 +1,19 @@
 ---
 title: "MCP server"
-description: "Connect Claude, ChatGPT, Cursor or any MCP client to seenpaid."
+description: "Connect Claude, ChatGPT, Cursor or any MCP client to seenpaid in one step."
 ---
 
-seenpaid exposes a **streamable-HTTP MCP server**. Point any MCP client at the endpoint, authenticate with your API key as a Bearer token, and your agent can publish and read revenue.
+seenpaid exposes a **streamable-HTTP [MCP](https://modelcontextprotocol.io) server**. Point any MCP client at the endpoint, authenticate with your API key as a Bearer token, and your agent can publish posts and read revenue directly — the same 47 tools the dashboard is built on.
 
 ## Endpoint
 
 ```
-POST https://crosspost-production-ad41.up.railway.app/mcp
+POST https://api.seenpaid.com/mcp
 Authorization: Bearer <YOUR_API_KEY>
 ```
 
 <Info>
-  The MCP endpoint is stateless — each request authenticates on its own, spins up an org-scoped server, and tears it down when the response closes. Use the exact endpoint URL shown in your dashboard when you create a key.
+  The endpoint is **stateless**. Each request authenticates on its own, spins up a server scoped to the organization behind your key, handles the JSON-RPC call, and tears everything down when the response closes. There is no session to keep alive and no server-side state between calls. The exact endpoint URL is also shown in your dashboard under **Settings → AI agents & API** when you create a key.
 </Info>
 
 <Warning>
@@ -25,19 +25,19 @@ Authorization: Bearer <YOUR_API_KEY>
 <Tabs>
   <Tab title="Claude Code">
     ```bash
-    claude mcp add --transport http seenpaid https://crosspost-production-ad41.up.railway.app/mcp \
+    claude mcp add --transport http seenpaid https://api.seenpaid.com/mcp \
       --header "Authorization: Bearer YOUR_API_KEY"
     ```
   </Tab>
   <Tab title="Claude Desktop / Cursor (JSON)">
-    Add seenpaid to your MCP config:
+    Add seenpaid to your MCP config (`claude_desktop_config.json`, or `~/.cursor/mcp.json` for Cursor):
 
     ```json
     {
       "mcpServers": {
         "seenpaid": {
           "type": "http",
-          "url": "https://crosspost-production-ad41.up.railway.app/mcp",
+          "url": "https://api.seenpaid.com/mcp",
           "headers": {
             "Authorization": "Bearer YOUR_API_KEY"
           }
@@ -46,24 +46,61 @@ Authorization: Bearer <YOUR_API_KEY>
     }
     ```
   </Tab>
-  <Tab title="Raw JSON-RPC">
+  <Tab title="Raw JSON-RPC (curl)">
+    List every available tool:
+
     ```bash
-    curl -X POST https://crosspost-production-ad41.up.railway.app/mcp \
+    curl -X POST https://api.seenpaid.com/mcp \
       -H "Authorization: Bearer YOUR_API_KEY" \
       -H "Content-Type: application/json" \
+      -H "Accept: application/json, text/event-stream" \
       -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    ```
+
+    Call a tool:
+
+    ```bash
+    curl -X POST https://api.seenpaid.com/mcp \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json, text/event-stream" \
+      -d '{"jsonrpc":"2.0","id":2,"method":"tools/call",
+           "params":{"name":"summarize_performance","arguments":{"days":7}}}'
     ```
   </Tab>
 </Tabs>
+
+<Note>
+  Because the server is stateless streamable-HTTP, only `POST` is meaningful. `GET` (SSE) and `DELETE` (session teardown) return `405 Method not allowed` — clients that expect a stateful session simply don't open one.
+</Note>
 
 ## Try it
 
 Once connected, ask your agent something like:
 
-> "Post 'Launch is live — get 20% off today: mystore.com' to X and LinkedIn, then tell me which of my posts made the most money this month."
+> "Post 'Launch is live — 20% off today: mystore.com' to X and LinkedIn, then tell me which of my posts made the most money this month."
 
-The agent will call `schedule_post` to publish, then `get_top_posts` to read your top earners — no dashboard required.
+The agent calls `schedule_post` to publish, then `get_top_posts` to read your top earners — no dashboard required. See the [prompt library](/agents/prompts) for more, grouped by what they do.
 
-<Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
-  Every tool your agent can call, with inputs and outputs.
-</Card>
+## Errors
+
+<AccordionGroup>
+  <Accordion title="401 Unauthorized">
+    The Bearer token is missing, malformed, or revoked. Confirm the header is `Authorization: Bearer sp_...` and that the key hasn't been revoked in the dashboard.
+  </Accordion>
+  <Accordion title="A tool returns 'No active accounts' or 'No accounts connected'">
+    The org has no connected, active social account to publish to. Call `list_accounts` / `get_account_health`, then use `get_connect_url` to hand the user a link. OAuth needs a human — the agent can't complete it.
+  </Accordion>
+  <Accordion title="A publishing tool says it has 'no user to attribute the post to'">
+    The user who created the key was removed and the org has no owner. Create a fresh key from **Settings → AI agents & API** and use that.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
+    All 47 tools, grouped, with inputs and outputs.
+  </Card>
+  <Card title="Prompt library" icon="message-lines" href="/agents/prompts">
+    Copy-paste prompts for money, publishing, and automation.
+  </Card>
+</CardGroup>

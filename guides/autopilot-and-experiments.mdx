@@ -1,0 +1,65 @@
+---
+title: "Autopilot & experiments"
+description: "Let seenpaid draft posts on a cadence, and A/B test captions where the winner is decided by revenue."
+---
+
+Beyond one-off posting and recycling, seenpaid has two standing automations that keep working between the times you (or your agent) check in: **autopilot** drafts posts on a schedule, and **experiments** A/B test captions and let real revenue pick the winner.
+
+Both are available in the dashboard and over [MCP](/agents/overview), so an agent can set a policy once and then just monitor it.
+
+## Autopilot
+
+Autopilot generates fresh post drafts on a cadence you set — so you're never staring at a blank composer.
+
+<Steps>
+  <Step title="Configure it">
+    Set a **cadence** (a new batch every N days), a **batch size** (how many drafts per batch), the **platforms** to write for, and a **topic** — e.g. "indie SaaS growth lessons".
+  </Step>
+  <Step title="Review the suggestions">
+    Each batch lands as drafts waiting for a decision. Approve the ones you like, dismiss the rest.
+  </Step>
+  <Step title="Schedule the keepers">
+    Approving a draft hands you its caption — you then schedule it like any other post, with a tracked link attached automatically.
+  </Step>
+</Steps>
+
+<Warning>
+  Autopilot **never publishes on its own.** It only ever produces drafts; approval and scheduling are always a deliberate step. Nothing goes out without a human — or an agent acting on your instruction — putting it on the calendar.
+</Warning>
+
+<Note>
+  Driving this from an agent? The tools are `configure_autopilot`, `get_autopilot_status`, `generate_suggestions`, `list_suggestions`, `approve_suggestion`, and `dismiss_suggestion`. See the [tools reference](/agents/tools-reference#automation).
+</Note>
+
+## Experiments — A/B testing by revenue
+
+Most "A/B testing" for social measures likes. seenpaid measures **money**. You give one idea and a platform; seenpaid writes a few caption variants; each goes out as a real post with its **own tracked link**, so revenue can be attributed to each variant independently. The winner is the one that earned — not the one that got the most engagement.
+
+<Steps>
+  <Step title="Create the test">
+    Give an idea and a platform, and choose how many variants (2–4). seenpaid drafts the variants. Nothing is live yet.
+  </Step>
+  <Step title="Launch it">
+    Publish every variant. Each carries a distinct tracked link, so clicks and sales land on the right variant.
+  </Step>
+  <Step title="Read the winner">
+    As sales come in, seenpaid ranks the variants by revenue. Reuse or scale up the winning caption.
+  </Step>
+</Steps>
+
+<Tip>
+  Pair experiments with [Recycle](/guides/recycle): once an experiment names a revenue winner, recycle keeps that proven caption earning instead of letting it scroll out of the feed.
+</Tip>
+
+<Note>
+  Agent tools: `create_experiment`, `launch_experiment`, `list_experiments`, `get_experiment`, and `get_experiment_winner`.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Recycle top earners" icon="repeat" href="/guides/recycle">
+    Turn a proven winner into a repeating stream.
+  </Card>
+  <Card title="Revenue & top earners" icon="trophy" href="/guides/revenue-and-top-earners">
+    Where the winner of every test and recycle shows up.
+  </Card>
+</CardGroup>

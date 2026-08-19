@@ -1,40 +1,54 @@
 ---
 title: "API keys"
-description: "Create and manage the keys that authenticate your agent."
+description: "Create, use, and revoke the keys that authenticate your agent."
 ---
 
-An API key authenticates MCP requests and maps them to your organization. Treat it like a password — anyone with the key can publish and read revenue for your account.
+An API key authenticates every MCP request and maps it to one organization (workspace). Treat it like a password — anyone holding it can publish and read revenue for that account.
 
 ## Create a key
 
 <Steps>
-  <Step title="Open the dashboard">
-    Go to **API** (or **Settings → API**) in seenpaid.
+  <Step title="Open the dashboard" icon="gauge">
+    Go to **Settings → AI agents & API** in [seenpaid](https://seenpaid.com/login).
   </Step>
-  <Step title="Generate a key">
-    Click **Create API key** and give it a name (e.g. `claude-agent`). The full key is shown **once** — copy it now and store it somewhere safe.
+  <Step title="Generate a key" icon="key">
+    Click **Create API key** and give it a name (e.g. `claude-agent`). The full secret is shown **once**, at creation — copy it now and store it somewhere safe.
   </Step>
-  <Step title="Use it as a Bearer token">
+  <Step title="Use it as a Bearer token" icon="lock">
     Pass it on every MCP request:
 
     ```
-    Authorization: Bearer <YOUR_API_KEY>
+    Authorization: Bearer sp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     ```
   </Step>
 </Steps>
 
+<Info>
+  Keys are prefixed **`sp_`** followed by a long random string. Only that `sp_...` prefix and a masked hint are ever stored in a readable form — the secret itself is hashed (SHA-256) before it touches the database, which is why it can be shown to you exactly once.
+</Info>
+
 <Warning>
-  The full key is only revealed at creation time. If you lose it, revoke it and create a new one — seenpaid can't show it to you again.
+  The full key is only revealed at creation. If you lose it, **revoke it and create a new one** — seenpaid genuinely can't show it to you again, because it never stored the plaintext.
 </Warning>
 
 ## What a key can do
 
-Each key is scoped to a single organization. Through it, an agent can call every seenpaid MCP tool — list accounts and posts, publish, and read analytics and top earners — but only for that org's data.
+Each key is scoped to a **single workspace**. Through it, an agent can call every seenpaid MCP tool — list accounts and posts, publish and schedule, read analytics and top earners, run autopilot, experiments and recycle — but only for that workspace's data. There is no cross-account access.
+
+Run more than one brand or client? Create a separate key per workspace. Use [`list_workspaces`](/agents/tools-reference#list_workspaces) to confirm which one a key points at.
+
+<Note>
+  Actions that publish (`schedule_post`, `bulk_schedule`, `repost`, `launch_experiment`) are attributed to the user who created the key. Keep the key owned by an active member of the workspace.
+</Note>
 
 ## Revoke a key
 
-Revoke a key anytime from the dashboard. Revoked keys stop working immediately; any request using one returns `401 Unauthorized`.
+Revoke a key anytime from **Settings → AI agents & API**. Revoked keys stop working immediately — any request using one returns `401 Unauthorized`. `lastUsedAt` updates on each successful call, so you can tell at a glance which keys are live.
 
 <Tip>
-  Use a separate key per agent or integration. That way you can revoke one without breaking the others, and you can tell which integration is doing what.
+  Use a **separate key per agent or integration**. That way you can revoke one without breaking the others, and the last-used timestamp tells you which integration is doing what.
 </Tip>
+
+<Card title="Next: connect the MCP server" icon="plug" href="/agents/mcp">
+  Point Claude, ChatGPT or Cursor at the endpoint with your key.
+</Card>

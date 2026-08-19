@@ -1,0 +1,96 @@
+---
+title: "Supported platforms"
+description: "Every channel seenpaid can publish to, with caption limits, media rules, and how tracked links work per platform."
+---
+
+seenpaid publishes to **25 channels**. This page is the reference an agent (or you) should check before writing one caption for several platforms — the limits and rules below are the real values the publisher enforces, not estimates.
+
+<Info>
+  Your agent can read all of this at runtime with [`get_platform_requirements`](/agents/tools-reference#get_platform_requirements), and dry-run an actual caption against specific platforms with [`validate_post`](/agents/tools-reference#validate_post) — before a single publish attempt is spent.
+</Info>
+
+## Connecting a channel
+
+How you connect a platform depends on what that platform requires of a scheduler:
+
+<CardGroup cols={3}>
+  <Card title="Directly connectable" icon="circle-check">
+    Click **Connect**, authorize, done. LinkedIn, Bluesky, Mastodon, Pinterest, and the API-based publishing targets.
+  </Card>
+  <Card title="Bring your own keys" icon="key">
+    You register a developer app on the platform and paste the credentials once. Notably **X**, and the other networks that gate API access behind their own app registration.
+  </Card>
+  <Card title="Pending review" icon="clock">
+    **Facebook, Instagram, and Threads** publish through Meta's Graph API, which requires app review. They're wired and will light up once that review clears.
+  </Card>
+</CardGroup>
+
+<Note>
+  The dashboard tells you which path a given platform needs when you open **Connections** — if it wants your own API keys, it links the steps for that platform. See [Connect your channels](/guides/connect-channels) for the walkthrough.
+</Note>
+
+## Caption limits & media rules
+
+| Platform | Caption limit | Media required | Tracked link in post |
+| --- | ---: | :---: | :---: |
+| X | 280 | — | Yes |
+| Bluesky | 300 | — | Yes |
+| LinkedIn | 3,000 | — | Yes |
+| Instagram | 2,200 | Required | Bio link |
+| Facebook | 63,206 | — | Yes |
+| TikTok | 2,200 | Required | Bio link |
+| Discord | 2,000 | — | Yes |
+| Telegram | 4,096 | — | Yes |
+| Mastodon | 500 | — | Yes |
+| Nostr | 10,000 | — | Yes |
+| Dev.to | 250,000 | — | Yes |
+| Hashnode | 250,000 | — | Yes |
+| Medium | 250,000 | — | Yes |
+| Reddit | 40,000 | — | Yes |
+| Threads | 500 | — | Yes |
+| Tumblr | 4,096 | — | Yes |
+| Pinterest | 800 | Required | Yes |
+| VK | 16,000 | — | Yes |
+| Slack | 3,000 | — | Yes |
+| WordPress | 250,000 | — | Yes |
+| Ghost | 250,000 | — | Yes |
+| Lemmy | 40,000 | — | Yes |
+| Webhook | 250,000 | — | Yes |
+| Micro.blog | 10,000 | — | Yes |
+| Matrix | 30,000 | — | Yes |
+
+<Info>
+  **"Tracked link in post" vs "Bio link."** On most platforms seenpaid rewrites a URL in your caption to a tracked short link automatically. **Instagram and TikTok don't linkify caption URLs**, so a tracked URL there would just be dead text — seenpaid puts the tracked link on your bio/link page instead. Your agent can mint one explicitly with [`create_tracked_link`](/agents/tools-reference#create_tracked_link).
+</Info>
+
+## Platform-specific catches
+
+A few platforms behave in a way worth knowing **before** you publish, not after:
+
+<AccordionGroup>
+  <Accordion title="X — API posting is paid (X's pricing, not ours)">
+    X charges for API posting on your own developer account. Without credits there, a publish attempt fails — this is X's side, not seenpaid's.
+  </Accordion>
+  <Accordion title="TikTok — lands as a draft you finish by hand">
+    TikTok's API forbids direct publishing. seenpaid delivers your post to your TikTok inbox as a **draft**; you open TikTok and tap **Post** yourself. It requires a **video** (not an image), 64MB or under.
+  </Accordion>
+  <Accordion title="Instagram — needs at least one image or video">
+    Instagram's API doesn't support text-only posts. Attach media or the publish is rejected.
+  </Accordion>
+  <Accordion title="Pinterest — needs an image to create a Pin">
+    A Pin can't exist without an image. Attach one before publishing.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Publishing the same caption everywhere? X's 280 characters is almost always the binding limit. Use `per_account_captions` on [`schedule_post`](/agents/tools-reference#schedule_post) to send a shorter version to X and the full text elsewhere.
+</Tip>
+
+<CardGroup cols={2}>
+  <Card title="Connect your channels" icon="share-nodes" href="/guides/connect-channels">
+    Link the accounts you want to publish to.
+  </Card>
+  <Card title="Publish & schedule" icon="paper-plane" href="/guides/publish-and-schedule">
+    Compose, tailor per platform, and queue it.
+  </Card>
+</CardGroup>
