@@ -1,90 +1,118 @@
 ---
 title: "2. Connect your first channel"
-description: "Link a social account — LinkedIn, Bluesky, Mastodon or Pinterest — click by click, so seenpaid has somewhere to publish."
+description: "Link your first social account — the two ways connecting works, which platform to start with, and exactly what to click."
 ---
 
-A **channel** is a social account seenpaid can publish to. You only need one to get going. This step walks you through connecting the platforms that connect most easily, and tells you honestly which ones need extra setup or aren't quite ready.
+A **channel** is a social account seenpaid can publish to. You only need **one** to get going. This page shows you the two ways platforms connect, tells you honestly which are ready today, and gets your first account to **active** in a couple of minutes.
 
 <Info>
-  Not sure which platform to start with? Pick **LinkedIn** or **Bluesky** — they connect in a couple of clicks and both let a tracked link live right in the post, so you'll see attribution working fastest.
+  **In a hurry?** Start with **LinkedIn**. One click, no keys to copy, captions up to 3,000 characters, and a link right in the post gets tracked — so you'll see attribution working fastest. Then come back for the rest.
 </Info>
 
-## The basic flow
+## The two ways a platform connects
 
-Every platform follows the same three clicks. The differences (below) are only in what each platform asks of you along the way.
+You never register seenpaid anywhere. What changes per network is **where the permission comes from** — and that's decided by the platform, not by us. Every channel is one of these:
+
+<CardGroup cols={2}>
+  <Card title="Click &amp; authorize" icon="arrow-up-right-from-square">
+    Click **Connect**, sign in on the platform's own site, approve, and you're bounced back. Nothing to copy or paste.
+
+    **LinkedIn · Mastodon · Pinterest · Tumblr**
+  </Card>
+  <Card title="Paste your own key" icon="key">
+    The network gives *you* a credential — an app password, API key, bot token, or webhook URL — which you paste in once. Nothing for us to register on our side.
+
+    **Bluesky · Discord · Telegram · Slack · WordPress · Ghost · Dev.to · Hashnode · Medium · Lemmy · Nostr · Webhook**
+  </Card>
+</CardGroup>
+
+<Note>
+  **Coming a little later:** Facebook, Instagram, Threads and TikTok publish through APIs that require platform review (in progress). **X** connects with your own keys but needs your own paid X API credits. **Reddit and VK** are coming soon. The dashboard shows each platform's real state — a channel you can't finish yet is never a live button that quietly fails.
+</Note>
+
+## Method A — click &amp; authorize
+
+The fastest path. Use it for **LinkedIn, Mastodon, Pinterest, or Tumblr**.
 
 <Steps>
   <Step title="Open Channels">
-    In the left rail, click **Channels** (this is where connected accounts live).
+    In the left rail, click **Channels** — this is where connected accounts live.
   </Step>
   <Step title="Pick a platform and click Connect">
-    Choose the network and click **Connect**. seenpaid sends you to that platform's own login to authorize — you're approving seenpaid on the platform's site, not typing a password into seenpaid.
+    Choose the network and click **Connect**. seenpaid sends you to that platform's own login to authorize. You're approving seenpaid on the platform's site — never typing a platform password into seenpaid.
   </Step>
   <Step title="Approve and come back">
-    Approve access. The platform sends you back to seenpaid, and the account appears in your channel list with an **active** status. It's now available in the composer and to your AI agent.
+    Approve access. The platform returns you to seenpaid and the account appears under Channels with an **active** status — ready in the composer and for your AI agent.
   </Step>
 </Steps>
 
 <Check>
-  "Done" for this step is one account showing **active** under Channels. That's all you need to publish your first post.
+  "Done" for this step is **one account showing active** under Channels. That's all you need to publish your first post.
 </Check>
 
-## Platform by platform
+## Method B — paste your own key
 
-### LinkedIn — connect directly
-
-Click **Connect** on LinkedIn, sign in to LinkedIn if prompted, and approve. You can publish to a personal profile. Captions can be long (up to 3,000 characters) and a link in the post body is tracked automatically — a great first channel.
-
-### Bluesky — connect directly
-
-Click **Connect** on Bluesky and authorize with an app password. Captions are short (300 characters), and links in the post are tracked. Fast to set up and friendly to attribution.
-
-### Mastodon — connect directly
-
-Click **Connect** on Mastodon. Because Mastodon is federated, you'll confirm your home server (instance) as part of authorizing. Captions are 500 characters and in-post links are tracked.
-
-### Pinterest — connect directly
-
-Click **Connect** on Pinterest and approve. Pinterest **requires an image** to create a Pin — you'll add media when you compose. In-post links are tracked.
-
-<Warning>
-  **X (Twitter):** X charges for API posting on your own developer account (their pricing, not ours). To publish to X you register your own X developer app and paste those keys into seenpaid — see [Bring your own keys](#bring-your-own-keys). Without credits on your X account, a publish attempt will fail on X's side.
-</Warning>
-
-<Note>
-  **Facebook, Instagram and Threads** publish through Meta's Graph API, which requires Meta app review. They're wired into seenpaid and will light up once that review clears. Until then, start with the directly-connectable platforms above. We'd rather tell you this plainly than have a connect button that quietly fails.
-</Note>
-
-## Bring your own keys (BYOK)
-
-Some networks — notably **X** — gate API access behind a developer app you register on their side. For those, seenpaid supports **bring-your-own-keys**:
+For **Bluesky, Discord, Telegram, Slack, WordPress, Ghost, Dev.to, Hashnode, Medium, Lemmy, Nostr, and Webhook**, the network gives you a credential to paste. It sounds technical; in practice it's copy-one-value-and-paste.
 
 <Steps>
-  <Step title="Register a developer app on the platform">
-    Create an app in that platform's developer portal and copy the API credentials it gives you.
+  <Step title="Get the credential from the platform">
+    Each network keeps this in its own settings — see the per-platform notes just below for exactly where. You copy one value.
   </Step>
-  <Step title="Paste them into seenpaid">
-    In **Channels**, choose the platform, and paste the keys when prompted. seenpaid stores them and publishes on your behalf.
+  <Step title="Open the platform's card in Channels and paste">
+    Click the platform in **Channels**, paste the value into the field it shows, and confirm. seenpaid stores it encrypted and publishes on your behalf.
+  </Step>
+  <Step title="Confirm active">
+    The account turns **active** and joins your channel list, exactly like an authorized one.
   </Step>
 </Steps>
 
-The dashboard tells you exactly when a platform needs this — if it asks for API keys, that's the BYOK path.
+<AccordionGroup>
+  <Accordion title="Bluesky — app password" icon="cloud">
+    In Bluesky: **Settings → App Passwords → Add App Password**. Copy it and paste it with your handle. Use an app password, **not** your main password — it's revocable on its own.
+  </Accordion>
+  <Accordion title="Discord — webhook URL" icon="discord">
+    In your Discord server: **Channel settings → Integrations → Webhooks → New Webhook → Copy Webhook URL**. Posts arrive as messages in that channel.
+  </Accordion>
+  <Accordion title="Telegram — bot token" icon="telegram">
+    Message **@BotFather**, create a bot, copy the token it gives you, and add the bot to your channel/group as an admin so it can post.
+  </Accordion>
+  <Accordion title="Slack, WordPress, Ghost, Dev.to, Hashnode, Medium, Lemmy" icon="key">
+    Each hands you a credential in its own developer/settings area — an incoming webhook (Slack), an application password (WordPress), an Admin API key (Ghost), or a personal API token (Dev.to, Hashnode, Medium, Lemmy). The card in Channels names the exact field. Paste and confirm.
+  </Accordion>
+  <Accordion title="Nostr — private key, or Webhook — a URL" icon="bolt">
+    Nostr publishes with your signing key (nsec). Webhook is the escape hatch: give any HTTPS endpoint and seenpaid POSTs your post's content to it — wire it into anything you run yourself.
+  </Accordion>
+</AccordionGroup>
 
-## The full list
+## Which should I connect first?
 
-seenpaid publishes to **25 channels** in total. For every one — with its caption limit, whether media is required, and how tracked links behave — see the complete [Supported platforms](/guides/platforms) reference.
+<CardGroup cols={2}>
+  <Card title="Fastest to attribution" icon="bolt">
+    **LinkedIn** or **Bluesky** — both let a tracked link live right in the post, so a click is attributable the moment you publish. Best for seeing the money loop close today.
+  </Card>
+  <Card title="You already live there" icon="heart">
+    Connect wherever your audience actually is. seenpaid attributes the same way on every Live channel — the "best" first channel is the one you'll really post to.
+  </Card>
+</CardGroup>
+
+<Tip>
+  You can connect **as many accounts as your plan allows**, across as many platforms as you like — a personal LinkedIn and three client LinkedIns all count as separate channels. Start with one; add the rest whenever.
+</Tip>
 
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="A platform won't let me connect">
-    A few networks require you to register a developer app first (the BYOK path). If the dashboard prompts for API keys, follow the platform's steps, paste the keys, and connect. For Facebook/Instagram/Threads, the connection is pending Meta's app review — use a directly-connectable platform for now.
+  <Accordion title="A platform I want isn't showing a Connect button">
+    It's one of the not-yet-available ones: Facebook, Instagram, Threads and TikTok are pending platform review; Reddit and VK are coming soon; X needs your own paid API credits. Start with any Live channel — the rest light up automatically as they clear.
   </Accordion>
-  <Accordion title="My account connected but shows as 'needs reconnecting'">
+  <Accordion title="My account connected but shows 'needs reconnecting'">
     Access tokens can expire or be revoked by the platform. Open **Channels**, find the account, and click **Reconnect** to re-authorize. An account in this state won't publish until it's reconnected.
   </Accordion>
   <Accordion title="I approved on the platform but nothing came back">
-    Pop-up blockers and third-party-cookie settings can interrupt the return trip. Try again in a normal (non-incognito) window, and allow pop-ups for seenpaid.com.
+    Pop-up blockers and strict third-party-cookie settings can interrupt the return trip. Try again in a normal (non-incognito) window and allow pop-ups for seenpaid.com.
+  </Accordion>
+  <Accordion title="It's asking for a key and I don't have one">
+    That's the paste-your-own-key path — the platform issues the key, not seenpaid. Follow the per-platform note above to grab it (it's one value), then paste it back in Channels.
   </Accordion>
 </AccordionGroup>
 
