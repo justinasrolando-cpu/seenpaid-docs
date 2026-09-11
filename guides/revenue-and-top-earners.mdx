@@ -1,65 +1,41 @@
 ---
 title: "Revenue & top earners"
-description: "Read your dashboard: earnings per post, top earners, dead posts, revenue by platform, and the attribution health that tells you whether to trust it."
+description: "With attribution on, Results ranks your posts by the money they made and tells you whether to trust the number."
 ---
 
-Once posts are published and Stripe is connected, **Revenue** is where the payoff shows up — your content, ranked by the money it actually made. This is the number no other scheduler shows you.
+With [revenue attribution](/guides/turn-on-revenue-attribution) on and a revenue source connected, **Results** adds the money side to every post.
 
-## Earnings per post
+## What Results shows
 
-Every published post carries its attributed revenue: how many tracked clicks it drove, how many turned into sales, and the total dollars matched to it. Click into a post to see its full attribution.
+- **Totals** for the window (7, 30 or 90 days): revenue, sales, conversion (share of clicks that became sales) and revenue per click, each with the change vs the previous period.
+- **By post**: every post that went out, ranked by what it earned, with clicks and sales beside it. Filter by channel with the tabs.
+- **Live activity**: the newest-first stream of clicks, sales and refunds. See [Money feed & alerts](/guides/money-feed).
+- **More breakdowns**: campaigns, devices, referrers, the clicks → leads → sales funnel and named goals. See [Analytics](/guides/analytics).
+- **Sales traced to a post**: of every payment seenpaid has seen, how many it could match to a post. This is the honesty check. A low share means the tracking install has a gap (usually the [pixel](/guides/track-your-sales) is missing from the checkout page), not that your posts failed.
+- **Export CSV** and a one-click **email digest** of the current view.
 
-## Top earners
+## Top earners and dead posts
 
-seenpaid ranks your posts by revenue so your best-performing content rises to the top on its own. Use it to answer the only question that matters: **what should I post more of?** When you find a winner, don't let it die in the feed — [Recycle](/guides/recycle) it so it keeps earning.
-
-## Dead posts
-
-The counterpart to top earners, and often the more useful list: posts that **got clicks but earned nothing**. This is content that looked like it worked — it pulled reach and taps — but produced no tracked sales. It tells you what to *stop* making. You can filter by a minimum click count so you're only looking at posts that got a real audience.
-
-<Info>
-  Dead posts are the fastest way to cut wasted effort. A post with lots of clicks and zero revenue is a signal about the offer or the landing page, not just the caption — worth investigating before you make more like it.
-</Info>
-
-## Revenue by platform, and channel ROI
-
-See which network drives **sales**, not just engagement. A post can rack up likes on one platform and revenue on another — this view makes the difference obvious. Channel ROI goes further and ranks platforms by **revenue per post** and **revenue per click**, the honest measures of whether a channel is worth your time, instead of follower counts.
-
-## Attribution health — trust the number first
-
-Before reading a low revenue figure as bad news, check **Attribution health**. It shows what share of your real Stripe revenue seenpaid could trace back to a post. A low match rate means your tracking install has a gap — usually the [pixel](/guides/track-your-sales) isn't on your checkout page — **not** that your posts failed. Fix the gap and revenue you'd already earned starts showing against the right posts.
+The by-post table ranked by revenue is your top-earners list. The counterpart, posts that got clicks but earned nothing, is available to your agent as [`get_dead_posts`](/agents/tools-reference#get_dead_posts); it's the list that tells you what to stop making. Channel ROI (revenue per post and per click, per platform) is [`get_channel_roi`](/agents/tools-reference#get_channel_roi).
 
 ## Before you have data
 
-Attribution needs a published tracked post and a connected Stripe account. Until your first sale matches, the revenue views show clearly-marked **sample/preview states** so you can see what's coming. As soon as real sales match, they populate with your own numbers.
-
-<Note>
-  seenpaid only ever shows real, matched revenue. Preview states are labelled as samples and are never mixed into your actual totals — no fabricated credit, no inflated dashboard.
-</Note>
+Until your first sale matches, the money views show a setup checklist rather than numbers. seenpaid only ever shows real, matched revenue; nothing is estimated.
 
 ## A weekly loop
 
 <Steps>
-  <Step title="Read top earners and dead posts">
+  <Step title="Read the ranking">
     Double down on what earned; stop making what didn't.
   </Step>
-  <Step title="Check channel ROI">
-    Spend your effort on the platform with the best revenue per post.
+  <Step title="Check the traced share">
+    If it's low, fix the pixel before reading a low revenue figure as bad news.
   </Step>
   <Step title="Recycle a winner, test a new hook">
-    Keep a proven post in rotation while you [experiment](/guides/experiments) on the next idea.
+    [Recycle](/guides/recycle) a proven post while you [experiment](/guides/experiments) on the next idea.
   </Step>
 </Steps>
 
 <Tip>
-  An agent can read this whole picture in one call with [`summarize_performance`](/agents/tools-reference#summarize_performance) — *"Give me a briefing on the last 7 days and tell me what to do next."*
+  An agent reads the whole picture with [`summarize_performance`](/agents/tools-reference#summarize_performance): *"Give me a briefing on the last 7 days and tell me what to do next."*
 </Tip>
-
-<CardGroup cols={2}>
-  <Card title="Where the traffic came from" icon="chart-simple" href="/guides/analytics">
-    Break revenue down by country, device, referrer and UTM.
-  </Card>
-  <Card title="Keep winners earning" icon="repeat" href="/guides/recycle">
-    Recycle your top earners on a schedule.
-  </Card>
-</CardGroup>

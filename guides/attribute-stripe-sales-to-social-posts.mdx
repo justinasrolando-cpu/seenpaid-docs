@@ -1,15 +1,13 @@
 ---
 title: "How to attribute Stripe sales to social posts"
-description: "Match every Stripe payment back to the exact social post that drove it — the tracked-link + pixel method, explained."
+description: "Match a Stripe payment back to the social post that drove it: the tracked-link plus pixel method, explained, and how seenpaid does it for you."
 ---
 
-**Short answer:** put a tracked link on each post, drop a lightweight pixel on your checkout page, and pass the click's tracking id into Stripe as `client_reference_id`. When the payment lands, you match `client_reference_id → click → post`. seenpaid does all of this automatically.
+**Short answer:** put a tracked link on each post, drop a small pixel on your site, and pass the click's tracking id into Stripe as `client_reference_id`. When the payment lands, match `client_reference_id → click → post`. seenpaid does this for you once [revenue attribution](/guides/turn-on-revenue-attribution) is on.
 
 ## Why it's hard by default
 
-Every social platform and scheduler shows you **likes, reach, and clicks**. None of them can tell you **which post produced a paying customer**, because the sale happens on a different surface (Stripe) than the post (X, TikTok, Instagram…). The two systems never talk to each other, so the link between "this post" and "this dollar" is lost.
-
-To recover it, you need one identifier to survive the whole journey:
+Every platform and scheduler shows likes, reach and clicks. None can tell you which post produced a paying customer, because the sale happens on a different surface (Stripe) than the post. To recover the link, one identifier has to survive the whole journey:
 
 ```
 post → link click → your site → Stripe checkout → payment
@@ -19,13 +17,13 @@ post → link click → your site → Stripe checkout → payment
 
 <Steps>
   <Step title="Give each post a tracked link">
-    Instead of your bare URL, publish a unique short link per post (e.g. `go.seenpaid.com/r/abc123`). The id in that link is what ties a future sale back to this specific post.
+    A unique short link per post (for example `go.seenpaid.com/r/abc123`). The id in that link ties a future sale back to this post.
   </Step>
-  <Step title="Record the click and carry the id forward">
-    When someone taps the link, log the click against the post and stash the tracking id — as a first-party cookie and/or a URL parameter — so it's still around when they reach checkout. No third-party cookies needed.
+  <Step title="Record the click and keep the id">
+    Log the click against the post and store the id first-party (a cookie plus localStorage) so it's still there when the visitor reaches checkout, even a few pages later.
   </Step>
   <Step title="Pass the id into Stripe">
-    Attach the tracking id to the Stripe payment as **`client_reference_id`**. For Payment Links and Buy Buttons this can be automatic; for a server-side Checkout Session you set one field:
+    Attach it to the payment as **`client_reference_id`**. For Payment Links and Buy Buttons this can be automatic; for a server-side Checkout Session you set one field:
 
     ```js
     const session = await stripe.checkout.sessions.create({
@@ -35,25 +33,21 @@ post → link click → your site → Stripe checkout → payment
     ```
   </Step>
   <Step title="Match the payment to the post">
-    On the completed payment (via a Stripe webhook), read `client_reference_id`, find the click it belongs to, and find the post that click came from. The revenue now belongs to that post.
+    On the completed-payment webhook, read `client_reference_id`, find the click, find the post.
   </Step>
 </Steps>
 
 ## The honest-attribution rule
 
-If a payment arrives with no tracking id — or one that doesn't resolve to a click — **don't guess.** Leave it unattributed rather than crediting a random post. Attribution is only useful if you can trust it, and a fabricated match is worse than an honest "we don't know."
-
-The same applies to **refunds and chargebacks**: when Stripe reverses a payment, subtract it back out of the post's earnings, so a post's revenue always reflects money you actually kept.
+If a payment arrives with no tracking id, or one that doesn't resolve to a click, **don't guess.** Leave it unattributed. Referrer matching, time-window last-touch and fingerprinting all produce a modelled number that makes the real number doubtful. Subtract refunds and chargebacks so a post's revenue reflects money you kept.
 
 ## How seenpaid does it for you
 
-You don't wire any of this by hand:
+- **Tracked links** are minted when you publish (or your own URL gets a `cp_tid` parameter, your choice).
+- **The pixel** (one script tag) keeps the id and attaches it to Stripe Payment Links, Buy Buttons and Checkout. See [Track your sales](/guides/track-your-sales).
+- **Matching** runs off your connected revenue source via webhooks, including subscription invoices and refund reversals, and works the same way for Gumroad, Lemon Squeezy, Whop, Shopify, Paddle, Polar and Dodo Payments. See [Connect a revenue source](/guides/connect-stripe).
+- **Sales traced to a post** on Results shows what share of your sales matched, so gaps never hide.
 
-- **Tracked links** are minted automatically when you publish a post.
-- **The pixel** (one `<script>` tag) auto-attaches the tracking id to Stripe Payment Links, Buy Buttons, and Checkout — see [Track your sales](/guides/track-your-sales).
-- **Matching** runs off your connected Stripe via [Stripe Connect](/guides/connect-stripe), including recurring subscriptions and refund reversals.
-- **[Attribution health](/how-attribution-works)** shows what share of your sales were traced to a post, so gaps never hide.
-
-<Card title="Set it up" icon="rocket" href="/quickstart">
-  Connect a channel, connect Stripe, and publish your first tracked post in a few minutes.
+<Card title="Turn it on" icon="toggle-on" href="/guides/turn-on-revenue-attribution">
+  Attribution is optional and off by default. Here's the switch.
 </Card>

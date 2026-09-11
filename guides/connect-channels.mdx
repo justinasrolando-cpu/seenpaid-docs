@@ -1,62 +1,81 @@
 ---
 title: "Connect your channels"
-description: "The two ways channels connect — click-and-authorize or paste-your-own-key — plus which platforms are ready today."
+description: "How channels connect (sign in, paste a credential, or your own X keys), which platforms are ready today, and how reconnecting works."
 ---
 
-A **channel** is a social account seenpaid can publish to. Connect one to start; connect several to cross-post and compare which network actually drives revenue. This is the reference version — for the guided first-time walkthrough, see [Connect your first channel](/start/connect-your-first-channel).
+A **channel** is a social account seenpaid can publish to. Connect one to start; connect several to cross-post. For the guided first-time walkthrough see [Connect your first channel](/start/connect-your-first-channel).
 
-## Two connect methods
+## Three connect methods
 
-You never register seenpaid anywhere. What differs per network is where the permission comes from:
+<CardGroup cols={3}>
+  <Card title="Sign in and authorize" icon="arrow-up-right-from-square">
+    Click **Connect**, sign in on the platform's own site, approve.
 
-<CardGroup cols={2}>
-  <Card title="Click &amp; authorize (OAuth)" icon="arrow-up-right-from-square">
-    Click **Connect**, sign in on the platform's own site, approve. Nothing to paste.
-
-    **LinkedIn · Mastodon · Pinterest · Tumblr**
+    **LinkedIn · Mastodon · Tumblr · Pinterest · Facebook · Instagram · Threads · TikTok**
   </Card>
-  <Card title="Paste your own key (BYOK)" icon="key">
-    The platform gives *you* a credential — app password, API key, bot token, or webhook URL — that you paste once.
+  <Card title="Paste a credential" icon="key">
+    App password, API key, bot token or webhook URL, pasted once.
 
     **Bluesky · Discord · Telegram · Slack · WordPress · Ghost · Dev.to · Hashnode · Medium · Lemmy · Nostr · Webhook**
+  </Card>
+  <Card title="Your own X keys" icon="x-twitter">
+    **X** connects with the four keys from your own X developer app. X bills API posting to that account.
   </Card>
 </CardGroup>
 
 <Steps>
   <Step title="Open Channels">
-    In the dashboard's left rail, click **Channels**.
+    In the left rail, click **Channels**.
   </Step>
   <Step title="Pick a platform">
-    Click **Connect** (authorize on the platform) or paste the key it shows a field for. seenpaid stores any credential encrypted.
+    Click **Connect** (authorize on the platform) or paste the credential it asks for. Credentials are stored encrypted.
   </Step>
   <Step title="Confirm it's active">
-    The account appears in your channel list as **active** — available in the composer and to your AI agent. Connect as many accounts as your plan allows.
+    The account appears as **active**, available in the composer and to your AI agent. Connect as many as your plan allows (5, 15 or unlimited).
   </Step>
 </Steps>
 
 ## What's ready today
 
-<Note>
-  **Live now:** LinkedIn, Mastodon, Pinterest, Tumblr, Bluesky, Discord, Telegram, Slack, WordPress, Ghost, Dev.to, Hashnode, Medium, Lemmy, Nostr, Webhook.
-  **Not yet:** Facebook, Instagram, Threads and TikTok are pending platform review; **X** connects with your own keys but needs your own paid X API credits; **Reddit** and **VK** are coming soon. The dashboard always shows each platform's real state.
-</Note>
+All 21 platforms can be connected. A few carry conditions:
 
-For every channel with its caption limit, media rules, connect method, and per-platform catches, see [Supported platforms](/guides/platforms).
+- **Instagram and Facebook** work only for accounts added to seenpaid's Meta app, because the app has not passed Meta App Review.
+- **Pinterest** connects, but publishing currently fails: the Pinterest app is on Trial access, which cannot create Pins in production.
+- **TikTok** delivers to your TikTok drafts (inbox), not directly to your profile, and the caption is written in the TikTok app.
+- **X** needs your own developer keys and X's own API pricing applies.
+- **Reddit and VK** are not available yet.
+
+The per-platform table, limits and caveats are in [Supported platforms](/guides/platforms).
+
+## Account groups
+
+If you post to the same set of accounts often, group them. Groups appear in the composer's channel picker so one click selects the whole set.
+
+## Reconnecting
+
+You should rarely have to. Per platform:
+
+- **Facebook and Instagram**: the Page token seenpaid stores doesn't expire. No reconnecting.
+- **Threads and Bluesky** renew themselves in the background. If a Bluesky session lapses, seenpaid signs in again with your app password.
+- **LinkedIn** is the exception. LinkedIn's standard grant lasts 60 days and offers no refresh, so LinkedIn needs a reconnect every 60 days. seenpaid emails you about a week before expiry with a reconnect link, and the channel keeps working until it has actually expired.
+- **Everything else** rotates its own tokens on a background sweep.
+
+A publish that hits an expired token refreshes it once and retries. Only when the platform actually refuses the refresh (a revoked or expired grant) does the account flip to **needs reconnecting**, with an email and a **Reconnect** button under Channels; a platform outage, rate limit or timeout never does. Reconnecting re-runs the normal connect flow and updates the existing account in place (same account, same history, same scheduled posts). Nothing is duplicated.
 
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="My account shows as 'needs reconnecting'">
-    Access tokens can expire or be revoked by the platform. Open **Channels**, find the account, and click **Reconnect** to re-authorize. It won't publish until reconnected.
-  </Accordion>
   <Accordion title="A platform isn't showing a Connect button">
-    It's one of the not-yet-available ones above. Start with any Live channel — the rest light up automatically as review clears or credentials are added.
+    It's Reddit or VK, which aren't available yet. Every other platform is connectable.
   </Accordion>
   <Accordion title="It's asking for a key I don't have">
-    That's the paste-your-own-key path — the platform issues the key, not seenpaid. Grab it from that platform's settings (it's one value) and paste it back in Channels. [Connect your first channel](/start/connect-your-first-channel#method-b-paste-your-own-key) lists where each one lives.
+    That's the paste-a-credential path: the platform issues the key, not seenpaid. [Connect your first channel](/start/connect-your-first-channel#method-b-paste-a-credential) lists where each one lives.
+  </Accordion>
+  <Accordion title="I hit my account limit">
+    New connections are blocked at your plan's cap (Solo 5, Multi-Brand 15). Accounts already connected keep working if you downgrade. Upgrade under **Settings → Billing**.
   </Accordion>
 </AccordionGroup>
 
-<Card title="Next: connect Stripe" icon="stripe" href="/guides/connect-stripe">
-  Channels handle publishing. Stripe is what turns clicks into attributed revenue.
+<Card title="Next: publish & schedule" icon="paper-plane" href="/guides/publish-and-schedule">
+  Compose, tailor per platform, and queue it.
 </Card>

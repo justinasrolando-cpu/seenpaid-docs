@@ -1,50 +1,59 @@
 ---
-title: "Connect Stripe"
-description: "Wire up Stripe so seenpaid can match sales to the posts that drove them."
+title: "Connect a revenue source"
+description: "Connect Stripe, Gumroad, Lemon Squeezy, Whop, Shopify, Paddle, Polar or Dodo Payments so seenpaid can match sales to the posts that drove them."
 ---
 
-Connecting Stripe is the step that turns seenpaid from a scheduler into an attribution engine. It's a standard Stripe Connect authorization — read-only where it matters, and revocable anytime.
+A **revenue source** is where seenpaid reads your sales from. Connect at least one after [turning on revenue attribution](/guides/turn-on-revenue-attribution). Revenue-source connections are not capped on any plan.
 
-## Connect your account
+## Stripe
 
 <Steps>
-  <Step title="Open Channels → Stripe">
-    In the dashboard, go to **Channels** and find the **Stripe** card.
+  <Step title="Open Settings → Attribution">
+    With attribution on, the revenue sources appear below the switch.
   </Step>
   <Step title="Click Connect Stripe">
-    You'll be sent to Stripe to authorize seenpaid via Stripe Connect. Approve, and you're returned to the dashboard.
+    You're sent to Stripe to authorize seenpaid via Stripe Connect, then returned to the dashboard.
   </Step>
-  <Step title="Confirm it's live">
-    Stripe shows as connected. From now on, completed payments are checked against your tracked clicks and attributed to the source post.
+  <Step title="Confirm it's connected">
+    From now on completed payments are checked against your tracked clicks.
   </Step>
 </Steps>
 
 <Check>
-  seenpaid reads payment events to attribute revenue. It does not move money, create charges, or change your Stripe settings.
+  seenpaid only reads payment events. It never creates charges, moves money or changes your Stripe settings. (Stripe requires its standard Connect scope for this; a narrower read-only grant is something Stripe approves per platform, not a setting on our side.)
 </Check>
 
-## What gets attributed
+You can connect more than one Stripe account. Revoke access at any time from Stripe under **Settings → Connected apps**, or from seenpaid.
 
-Once connected, seenpaid listens for the Stripe events that represent real revenue:
+## Gumroad, Lemon Squeezy, Whop, Shopify, Paddle, Polar, Dodo Payments
 
-- Completed Checkout Sessions and Payment Links
-- Direct charges and payments created via the Stripe API
-- Recurring subscription invoices
-- Refunds and chargebacks — reversed back out of a post's earnings
+These connect by webhook: seenpaid gives you a URL, you paste it into the provider.
 
-See [How attribution works](/how-attribution-works) for the full matching chain.
+<Steps>
+  <Step title="Click Connect on the provider's card">
+    seenpaid creates a unique webhook URL for your workspace.
+  </Step>
+  <Step title="Paste it into the provider">
+    In that provider's dashboard, add a webhook pointing at the URL for sale events. Whop, Shopify, Paddle, Polar and Dodo also give you a signing secret to paste back into seenpaid; Lemon Squeezy uses a secret seenpaid mints for you; Gumroad needs none.
+  </Step>
+  <Step title="Confirm">
+    The card shows the source as connected. Reconnecting rotates the URL.
+  </Step>
+</Steps>
 
-## Multiple Stripe accounts
-
-Running more than one business? seenpaid supports connecting multiple Stripe accounts and keeps each one's revenue scoped to its own workspace, so numbers never bleed across brands.
+Refunds and reversals from every source are subtracted from the post they were matched to.
 
 ## Troubleshooting
 
 <AccordionGroup>
   <Accordion title="Sales aren't showing up against posts">
-    Two things must be true: Stripe is connected, and the buyer clicked a **seenpaid tracked link** on a published post. A sale from a visitor who never touched a tracked link can't be attributed to a post.
+    Two things must both be true: a revenue source is connected, and the buyer clicked a tracked link on a published post before paying. A sale from a visitor who never touched a tracked link can't be attributed. If clicks are landing but sales aren't matching, the pixel is probably not on the page where people pay; see [Track your sales](/guides/track-your-sales).
   </Accordion>
-  <Accordion title="I want to disconnect">
-    You can revoke seenpaid's access from your Stripe dashboard under **Settings → Connected apps** at any time, or from Channels in seenpaid.
+  <Accordion title="The traced share looks low">
+    On Results, **Sales traced to a post** shows how many of the payments seenpaid saw it could match. A low share means the tracking install has a gap, not that your posts failed.
   </Accordion>
 </AccordionGroup>
+
+<Card title="Next: track your sales" icon="arrow-right" href="/guides/track-your-sales">
+  Install the pixel if buyers land on your own site before paying.
+</Card>

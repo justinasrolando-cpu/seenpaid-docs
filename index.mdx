@@ -1,70 +1,59 @@
 ---
 title: "What is seenpaid?"
-description: "Revenue attribution for your social posts — see which posts actually made money."
+description: "A social media scheduler with a built-in AI agent. Schedule to 21 platforms, read engagement back, and optionally see which posts made money."
 ---
 
-Every scheduler tells you likes, reach, and clicks. **None of them tell you which post made you money.** seenpaid does.
+seenpaid is a **social media scheduler**. You connect your accounts, write once, and publish or schedule to 21 platforms from one composer, one calendar, or your AI agent.
 
-You connect your social accounts and your Stripe, publish posts through seenpaid, and every sale gets matched back to the exact post that drove it. Not guesses, not last-touch hand-waving — the actual post, the actual dollars.
+Two things set it apart:
+
+- **It is agent-native.** A built-in MCP server with 50 tools lets Claude, ChatGPT, Cursor or any MCP client schedule, check and analyse your posts by asking.
+- **Revenue attribution is available as an optional add-on.** Turn it on and seenpaid matches sales from Stripe (and seven other payment tools) back to the exact post that drove them. It is off by default; the scheduler is complete without it.
 
 <Info>
-  **New here?** The [Quickstart](/quickstart) gets you from zero to your first attributed sale in about five minutes.
+  **New here?** The [Quickstart](/quickstart) gets you from signup to your first scheduled post in a few minutes.
 </Info>
 
 <Note>
-  **Building with an AI agent?** seenpaid is MCP-native — your agent can publish and read revenue directly. Jump to [For AI agents](/agents/overview).
+  **Building with an AI agent?** Jump to [For AI agents](/agents/overview) for the endpoint, API keys and the full tool list.
 </Note>
 
-<Tip>
-  **The one line:** Dub does it for links, DataFast does it for pages — seenpaid does it for **posts**.
-</Tip>
+## What you get
 
-## The money loop
-
-seenpaid closes the loop between what you post and what you earn:
-
-<Steps>
-  <Step title="Post">
-    Publish to X, TikTok, Instagram, LinkedIn, Bluesky and more — from the dashboard, or straight from your AI agent.
-  </Step>
-  <Step title="Track">
-    Every post gets a tracked link. Clicks are attributed to the source post automatically.
-  </Step>
-  <Step title="Match">
-    When a click turns into a Stripe sale, seenpaid matches the revenue back to the post.
-  </Step>
-  <Step title="Know">
-    Your dashboard shows earnings per post, top earners, and revenue by platform — in real dollars.
-  </Step>
-</Steps>
+<CardGroup cols={2}>
+  <Card title="One composer, 21 platforms" icon="share-nodes" href="/guides/platforms">
+    X, LinkedIn, Instagram, Facebook, TikTok, Threads, Bluesky, Pinterest, Mastodon, Discord, Telegram, Tumblr, Slack, WordPress, Ghost, Dev.to, Hashnode, Medium, Lemmy, Nostr and a webhook.
+  </Card>
+  <Card title="A real calendar" icon="calendar" href="/guides/publish-and-schedule">
+    Schedule, drag to reschedule, edit until it publishes, bulk-upload a whole plan.
+  </Card>
+  <Card title="Engagement, read back honestly" icon="chart-simple" href="/guides/engagement">
+    Likes, comments, shares and views per post from the 13 platforms that report them. A number you don't see is one the platform didn't give us.
+  </Card>
+  <Card title="Your AI agent at the controls" icon="robot" href="/agents/overview">
+    50 MCP tools: schedule, validate, bulk-plan, generate images and carousels, check account health, read results.
+  </Card>
+  <Card title="Autopilot, experiments, recycle" icon="wand-magic-sparkles" href="/guides/autopilot">
+    Drafts on a cadence you approve, caption A/B tests, and re-posting of proven content.
+  </Card>
+  <Card title="Optional: revenue per post" icon="dollar-sign" href="/guides/turn-on-revenue-attribution">
+    Switch it on to see clicks, sales and revenue per post, matched from your own payment provider.
+  </Card>
+</CardGroup>
 
 ## Start here
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Connect a channel, connect Stripe, and publish your first tracked post in a few minutes.
+    Sign up, connect a channel, schedule a post.
   </Card>
-  <Card title="How attribution works" icon="link" href="/how-attribution-works">
-    The mechanics behind matching a Stripe sale to the post that caused it.
+  <Card title="Supported platforms" icon="list-check" href="/guides/platforms">
+    How each network connects, its limits, and its current status.
   </Card>
   <Card title="For AI agents" icon="robot" href="/agents/overview">
-    Let Claude, ChatGPT, or Cursor post and read revenue over MCP.
+    Connect Claude, ChatGPT or Cursor over MCP.
   </Card>
-  <Card title="Connect your channels" icon="share-nodes" href="/guides/connect-channels">
-    Link the social accounts you want to publish and attribute.
-  </Card>
-</CardGroup>
-
-## Who it's for
-
-<CardGroup cols={3}>
-  <Card title="Indie hackers" icon="code">
-    Selling a product and posting in public? Find out which threads actually convert.
-  </Card>
-  <Card title="Creators" icon="pen-nib">
-    Stop optimizing for vanity metrics. Optimize for the ones that pay.
-  </Card>
-  <Card title="AI agents" icon="robot">
-    seenpaid is MCP-native — your agent posts, seenpaid proves what paid.
+  <Card title="Turn on revenue attribution" icon="toggle-on" href="/guides/turn-on-revenue-attribution">
+    What changes when you switch it on, and how to set it up.
   </Card>
 </CardGroup>

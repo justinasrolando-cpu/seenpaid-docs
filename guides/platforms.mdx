@@ -1,99 +1,83 @@
 ---
 title: "Supported platforms"
-description: "Every channel seenpaid publishes to — how you connect it, its caption limit, media rules, tracked-link behavior, and current status."
+description: "Every channel seenpaid publishes to: how you connect it, its caption limit, media rules, and its current status."
 ---
 
-seenpaid publishes to a wide set of networks — mainstream social, the fediverse, developer blogs, and raw webhooks. This is the reference to check **before** you write one caption for several platforms: the limits below are the exact values the publisher enforces, not estimates.
+seenpaid publishes to 21 platforms: mainstream social, the fediverse, developer blogs and a raw webhook. Check this page before writing one caption for several networks; the limits are the values the publisher enforces, not estimates.
 
 <Info>
-  Building with an AI agent? It can read all of this at runtime with [`get_platform_requirements`](/agents/tools-reference#get_platform_requirements), and dry-run a real caption against specific platforms with [`validate_post`](/agents/tools-reference#validate_post) — before a single publish attempt is spent.
+  An AI agent can read all of this at runtime with [`get_platform_requirements`](/agents/tools-reference#get_platform_requirements) and dry-run a caption with [`validate_post`](/agents/tools-reference#validate_post).
 </Info>
-
-## The three ways a platform connects
-
-You never register seenpaid anywhere. What differs per network is **where the permission comes from** — and that's set by the platform, not by us.
-
-<CardGroup cols={3}>
-  <Card title="Click &amp; authorize (OAuth)" icon="arrow-up-right-from-square">
-    Click **Connect**, sign in on the platform's own site, approve. Nothing to copy or paste. **LinkedIn, Mastodon, Pinterest, Tumblr.**
-  </Card>
-  <Card title="Paste your own key (BYOK)" icon="key">
-    The network hands *you* a credential — an app password, API key, bot token, or webhook URL — and you paste it in once. Nothing for us to register. **Bluesky, Discord, Telegram, Slack, WordPress, Ghost, Dev.to, Hashnode, Medium, Lemmy, Nostr, Webhook.**
-  </Card>
-  <Card title="Not yet available" icon="clock">
-    **Facebook, Instagram, Threads, TikTok** publish through APIs that require platform review (in progress). **X** connects via your own keys but needs your own paid API credits. **Reddit, VK** are coming soon.
-  </Card>
-</CardGroup>
-
-<Note>
-  The dashboard always shows the truth for your account: open **Channels** and each platform shows exactly how it connects (or that it's coming soon). We'd rather grey a button out than hand you one that quietly fails. See [Connect your channels](/guides/connect-channels) for the click-by-click walkthrough.
-</Note>
 
 ## Full channel matrix
 
-Every channel, how it connects, and what it enforces. **Status** is what a stranger can do today.
+**Images** is how many images seenpaid attaches to one post on that platform. Video publishes to **X, Bluesky, Mastodon, Instagram (as a Reel) and TikTok**; LinkedIn, Facebook and Threads refuse a video with a clear message; the remaining platforms attach images only.
 
-| Platform | Connects via | Status | Caption limit | Media | Link in post |
-| --- | --- | --- | ---: | :---: | :---: |
-| LinkedIn | Click &amp; authorize | Live | 3,000 | — | Yes |
-| Bluesky | App password | Live | 300 | — | Yes |
-| Mastodon | Click &amp; authorize | Live | 500 | — | Yes |
-| Pinterest | Click &amp; authorize | Live | 800 | Required | Yes |
-| Tumblr | Click &amp; authorize | Live | 4,096 | — | Yes |
-| Discord | Webhook URL | Live | 2,000 | — | Yes |
-| Telegram | Bot token | Live | 4,096 | — | Yes |
-| Slack | Webhook / token | Live | 3,000 | — | Yes |
-| WordPress | Application password | Live | 250,000 | — | Yes |
-| Ghost | Admin API key | Live | 250,000 | — | Yes |
-| Dev.to | API key | Live | 250,000 | — | Yes |
-| Hashnode | Access token | Live | 250,000 | — | Yes |
-| Medium | Integration token | Live | 250,000 | — | Yes |
-| Lemmy | Username / password | Live | 40,000 | — | Yes |
-| Nostr | Private key (nsec) | Live | 10,000 | — | Yes |
-| Webhook | Endpoint URL | Live | 250,000 | — | Yes |
-| X | Your own API keys | Needs your X API credits | 280 | — | Yes |
-| Facebook | Meta Graph API | Pending review | 63,206 | — | Yes |
-| Instagram | Meta Graph API | Pending review | 2,200 | Required | Bio link |
-| Threads | Meta Graph API | Pending review | 500 | — | Yes |
-| TikTok | TikTok API | Pending review | 2,200 | Required | Bio link |
-| Reddit | Click &amp; authorize | Coming soon | 40,000 | — | Yes |
-| VK | Click &amp; authorize | Coming soon | 16,000 | — | Yes |
+| Platform | Connects via | Caption limit | Media | Images | Status |
+| --- | --- | ---: | :---: | ---: | --- |
+| LinkedIn | Sign in | 3,000 | optional | 9 | Live |
+| X | Your own API keys | 280 | optional | 4 | Live (X bills you for API posting) |
+| Instagram | Sign in (Meta) | 2,200 | required | 10 (carousel) | Accounts added to the Meta app only, until App Review passes |
+| Facebook | Sign in (Meta) | 63,206 | optional | 10 | Accounts added to the Meta app only, until App Review passes |
+| Threads | Sign in (Meta) | 500 | optional | 1 | Live |
+| TikTok | Sign in | 2,200 | video required | 0 | Delivers to your TikTok drafts; caption written in the app |
+| Bluesky | App password | 300 | optional | 4 | Live |
+| Pinterest | Sign in | 800 | image required | 1 | Connects, publishing currently fails (Trial access) |
+| Mastodon | Sign in | 500 | optional | 4 | Live |
+| Discord | Webhook URL | 2,000 | optional | 4 | Live |
+| Telegram | Bot token | 4,096 | optional | 1 | Live |
+| Tumblr | Sign in | 4,096 | optional | 1 | Live |
+| Slack | Incoming webhook | 3,000 | optional | 1 | Live |
+| WordPress | Application password | 250,000 | optional | 1 | Live |
+| Ghost | Admin API key | 250,000 | optional | 1 | Live |
+| Dev.to | API key | 250,000 | optional | 1 | Live |
+| Hashnode | Access token | 250,000 | optional | 1 | Live |
+| Medium | Integration token | 250,000 | optional | 1 | Live |
+| Lemmy | Username / password | 40,000 | optional | 1 | Live |
+| Nostr | Private key (nsec) | 10,000 | optional | all | Live |
+| Webhook | Endpoint URL | 250,000 | optional | all | Live |
 
-<Info>
-  **"Link in post" vs "Bio link."** On most platforms seenpaid rewrites a URL in your caption to a tracked short link automatically. **Instagram and TikTok don't make caption links clickable**, so a tracked URL there would just be dead text — seenpaid routes those through your [bio page](/guides/bio-page) instead. An agent can mint one explicitly with [`create_tracked_link`](/agents/tools-reference#create_tracked_link).
-</Info>
+Reddit and VK have adapters but no registered developer app, so they can't be connected yet.
+
+<Note>
+  The dashboard shows each platform's real state for your account. If a network can't publish something (a video to LinkedIn, say), the post fails for that network with a plain message and the other networks still go out.
+</Note>
 
 ## Platform-specific catches
 
-A few behave in a way worth knowing **before** you publish, not after.
-
 <AccordionGroup>
-  <Accordion title="X — API posting is paid (X's pricing, not ours)" icon="x-twitter">
-    X charges for API posting on your own developer account. You connect X by pasting your own API keys, and you need credits (or the free-tier voucher) on your X developer account or a publish attempt fails on X's side. Every free platform — Bluesky, LinkedIn, Mastodon, and the rest — posts at no cost.
+  <Accordion title="X: API posting is paid, by X" icon="x-twitter">
+    You connect X by pasting the four keys from your own X developer app. X charges for API posting on that account under its own pricing; without credits there, a publish fails on X's side. Every other platform posts at no extra cost.
   </Accordion>
-  <Accordion title="TikTok — lands as a draft you finish by hand" icon="tiktok">
-    TikTok's API forbids apps from publishing directly. seenpaid delivers your post to your TikTok inbox as a **draft**; you open TikTok and tap **Post** yourself. It requires a **video** (not an image), 64MB or under. (Connecting TikTok is pending platform review.)
+  <Accordion title="TikTok: lands in your drafts, caption not included" icon="tiktok">
+    seenpaid uploads the video to your TikTok inbox as a draft. TikTok's draft endpoint accepts only the video, so the caption you wrote in seenpaid is not sent; you write it in the TikTok app when you post the draft. Video only, 64MB or under. This is the least-exercised flow in seenpaid; if it fails for you, tell us from the dashboard.
   </Accordion>
-  <Accordion title="Instagram &amp; Pinterest — media is mandatory" icon="image">
-    Instagram's API rejects text-only posts — attach at least one image or video. Pinterest can't create a Pin without an image. seenpaid warns you in the composer before you publish, not after.
+  <Accordion title="Instagram and Facebook: Meta App Review" icon="clock">
+    Every permission seenpaid uses is at Meta's Standard access, which means only accounts added to seenpaid's Meta app can connect. The app has not passed Meta App Review. If you'd like your account added in the meantime, contact support from the dashboard.
   </Accordion>
-  <Accordion title="Meta (Facebook, Instagram, Threads) — pending app review" icon="clock">
-    These publish through Meta's Graph API, which gates publishing behind Meta's app review. They're fully wired and light up the moment review clears. Until then, start with any Live channel above.
+  <Accordion title="Instagram: media required, carousels and Reels" icon="instagram">
+    Text-only posts are rejected by Instagram's API. One image is a single post; 2 to 10 images become a carousel. A video publishes as a Reel, and you can pick its cover frame in the composer.
   </Accordion>
-  <Accordion title="Bluesky — connect with an app password, not your login" icon="cloud">
-    Create an **app password** in Bluesky (Settings → App Passwords) and paste that — never your main password. It's revocable independently, so you stay in control.
+  <Accordion title="Pinterest: media required, publishing blocked" icon="pinterest">
+    Pinterest needs an image to create a Pin. Right now seenpaid's Pinterest app is on Trial access, and Pinterest refuses to create Pins in production from Trial apps, so publishing fails for everyone. You can connect, but don't rely on it until this note goes away.
+  </Accordion>
+  <Accordion title="LinkedIn, Facebook, Threads: no video yet" icon="video-slash">
+    Attach a video and these networks fail with a clear message rather than posting a broken item. Post the video from the platform directly, or drop that network from the selection.
+  </Accordion>
+  <Accordion title="Bluesky: use an app password" icon="cloud">
+    Create one in Bluesky under **Settings → App Passwords** and paste that, never your main password. It can be revoked on its own.
   </Accordion>
 </AccordionGroup>
 
 <Tip>
-  Publishing the same caption everywhere? **X's 280 characters** is almost always the binding limit. Use `per_account_captions` on [`schedule_post`](/agents/tools-reference#schedule_post) (or the per-platform editor in the composer) to send a short version to X and the full text everywhere else.
+  Publishing the same caption everywhere? **X's 280 characters** is almost always the binding limit. Edit the caption per channel in the composer, or use `per_account_captions` on [`schedule_post`](/agents/tools-reference#schedule_post).
 </Tip>
 
 <CardGroup cols={2}>
   <Card title="Connect your channels" icon="share-nodes" href="/guides/connect-channels">
-    The click-by-click walkthrough for each connect method.
+    The walkthrough for each connect method.
   </Card>
-  <Card title="Publish &amp; schedule" icon="paper-plane" href="/guides/publish-and-schedule">
-    Compose, tailor per platform, and queue it.
+  <Card title="Engagement metrics" icon="chart-simple" href="/guides/engagement">
+    Which of these platforms report likes, comments, shares and views.
   </Card>
 </CardGroup>

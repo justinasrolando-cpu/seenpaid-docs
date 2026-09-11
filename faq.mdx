@@ -1,39 +1,39 @@
 ---
 title: "FAQ"
-description: "Straight answers to the questions people ask most about seenpaid — attribution, platforms, billing, privacy, and agents."
+description: "Straight answers to the questions people ask about seenpaid: scheduling, platforms, links, engagement, billing, reconnecting, attribution and agents."
 ---
 
 ## The basics
 
 <AccordionGroup>
   <Accordion title="What is seenpaid, in one line?">
-    A social scheduler that tells you which posts actually made money. Dub does it for links, DataFast does it for pages — seenpaid does it for posts.
+    A social media scheduler with a built-in AI agent: write once, publish or schedule to 21 platforms, read engagement back, and optionally see which posts made money.
   </Accordion>
-  <Accordion title="How is it different from a normal scheduler?">
-    Every scheduler shows likes, reach, and clicks. seenpaid connects your Stripe and matches real sales back to the exact post that drove them, so you rank content by revenue instead of vanity metrics.
+  <Accordion title="Do I have to use revenue attribution?">
+    No. It is an optional add-on and it is **off** for new workspaces. With it off, seenpaid is a complete scheduler: composer, calendar, bulk upload, autopilot, engagement and the agent all work. Turn it on any time under **Settings → Attribution**. See [Turn on revenue attribution](/guides/turn-on-revenue-attribution).
   </Accordion>
   <Accordion title="Do I have to be technical to use it?">
-    No. The [getting-started journey](/start/create-your-account) is click-by-click. The only "code" is pasting one script tag on your site, and only if you sell on your own site rather than a Stripe Payment Link.
+    No. The [getting-started journey](/start/create-your-account) is click-by-click. The only "code" anywhere is one optional script tag on your own site, and only if you turn on attribution and sell there.
+  </Accordion>
+  <Accordion title="Is there a demo?">
+    Not a public one. The 7-day trial is the full product; see [Create your account](/start/create-your-account).
   </Accordion>
 </AccordionGroup>
 
-## Attribution
+## Posting and links
 
 <AccordionGroup>
-  <Accordion title="How does seenpaid know which post made a sale?">
-    A tracked link carries a tracking id (`cp_tid`) from the click, through your site, into Stripe as `client_reference_id`. When the payment fires, seenpaid matches that id back to the click and the post. Full walkthrough: [How attribution works](/how-attribution-works).
+  <Accordion title="What happens to the links in my posts?">
+    With attribution **off** (the default), links go out exactly as you wrote them. Nothing is rewritten, shortened or tagged. With attribution **on**, each link is replaced by a `go.seenpaid.com/r/<id>` tracked link, or, if you choose own-URL mode, your link stays yours with a `cp_tid` parameter appended. You can flip the switch in **Settings → Attribution**; the change applies from your next publish.
   </Accordion>
-  <Accordion title="What if a sale can't be traced to a post?">
-    It's recorded as revenue but left **unattributed** — never credited to a random post. seenpaid would rather show an honest "we don't know" than a fabricated match. The attribution-health figure shows what share of revenue was traceable.
+  <Accordion title="Can I tailor the caption per network?">
+    Yes. Every channel inherits the main caption until you edit it, and each has its own counter against that platform's real limit. You can also translate the caption per account. See [Publish & schedule](/guides/publish-and-schedule).
   </Accordion>
-  <Accordion title="What's the attribution window?">
-    Revenue views summarize a rolling window of 7, 30, or 90 days (30 by default). A figure counts only matched payments and clicks inside the window you're viewing.
+  <Accordion title="Can I edit a post after scheduling it?">
+    Yes, until it publishes: caption, time, or both. Once it's out the platforms already have it, so repost a new version instead.
   </Accordion>
-  <Accordion title="Does it handle subscriptions and refunds?">
-    Yes. Recurring subscription invoices are attributed, and refunds and chargebacks are subtracted back out — so a post's earnings always reflect money you actually kept.
-  </Accordion>
-  <Accordion title="Why do some rows say Direct or Unknown?">
-    They're grouping buckets for clicks missing a detail — **Direct** = no referrer, **Unknown** = no geo/device, **None** = no UTM. They're still real, attributed clicks. A large Direct share is normal for social traffic.
+  <Accordion title="Why didn't my TikTok post go out automatically?">
+    seenpaid delivers the video to your TikTok **drafts (inbox)**. Open TikTok, find the draft, write the caption there and tap Post. The caption you wrote in seenpaid is not sent, because TikTok's draft endpoint accepts only the video. Video only, 64MB or under.
   </Accordion>
 </AccordionGroup>
 
@@ -41,16 +41,30 @@ description: "Straight answers to the questions people ask most about seenpaid �
 
 <AccordionGroup>
   <Accordion title="Which platforms can I connect?">
-    Live today: LinkedIn, Mastodon, Pinterest and Tumblr (one-click), plus Bluesky, Discord, Telegram, Slack, WordPress, Ghost, Dev.to, Hashnode, Medium, Lemmy, Nostr and Webhook (paste a key the platform gives you). X connects with your own API keys but needs your own paid X API credits; Facebook, Instagram, Threads and TikTok are pending platform review; Reddit and VK are coming soon. Full matrix with status: [Supported platforms](/guides/platforms).
+    21: X, LinkedIn, Instagram, Facebook, TikTok, Threads, Bluesky, Pinterest, Mastodon, Discord, Telegram, Tumblr, Slack, WordPress, Ghost, Dev.to, Hashnode, Medium, Lemmy, Nostr and a webhook. Three carry conditions today: Instagram and Facebook connect only for accounts added to seenpaid's Meta app (Meta App Review has not passed), Pinterest connects but publishing currently fails on Pinterest's side (Trial access), and X needs your own developer keys. Full table: [Supported platforms](/guides/platforms).
   </Accordion>
   <Accordion title="Why can't I post to X for free?">
-    X charges for API posting on your own developer account — that's their pricing, not seenpaid's. You bring your own X keys, and posting depends on credits on your X account.
+    X charges for API posting on your own developer account; that's X's pricing, not seenpaid's. You paste your own X app keys and posting depends on credits on that X account. Every other platform posts at no extra cost.
   </Accordion>
-  <Accordion title="Why didn't my TikTok post go out automatically?">
-    TikTok's API forbids direct publishing. seenpaid delivers the post to your TikTok inbox as a draft; you open TikTok and tap Post. It needs a video, 64MB or under.
+  <Accordion title="Which networks report likes, comments and views back?">
+    13 of the 21: Bluesky, Mastodon, X, Facebook, Instagram, Pinterest, Tumblr, Discord, Dev.to, Hashnode, WordPress, Lemmy and Nostr, each with whatever its API exposes (Discord is likes only, WordPress comments only, and so on). Threads, LinkedIn and TikTok need permissions seenpaid doesn't currently hold; Slack, Telegram, Medium, Ghost and Webhook expose nothing to read. A missing number means "not reported", never zero. Table: [Engagement metrics](/guides/engagement).
   </Accordion>
-  <Accordion title="How do Instagram and TikTok get attributed if links aren't clickable there?">
-    Through your [bio page](/guides/bio-page) — a hosted link-in-bio page where each link is a tracked seenpaid short link.
+  <Accordion title="How often is engagement refreshed?">
+    Every 4 hours for a post's first 48 hours, then daily until day 30. X is read once a day (X bills per read).
+  </Accordion>
+</AccordionGroup>
+
+## Reconnecting
+
+<AccordionGroup>
+  <Accordion title="How often do I have to reconnect my accounts?">
+    Rarely. Facebook and Instagram Page tokens don't expire, so those stay connected. Threads and Bluesky renew themselves (Bluesky falls back to your app password if its session lapses). **LinkedIn** is the exception: LinkedIn's standard grant lasts 60 days with no refresh, so it needs a reconnect every 60 days; seenpaid emails you about a week before with a reconnect link. Other networks refresh their own tokens in the background.
+  </Accordion>
+  <Accordion title="What happens if a token expires right when a post goes out?">
+    The publish job refreshes the token once and retries. Only if the platform refuses the refresh does the account flip to **needs reconnecting**, with an email and a Reconnect button under Channels. A platform outage, rate limit or timeout never logs you out.
+  </Accordion>
+  <Accordion title="Does reconnecting duplicate my account?">
+    No. Reconnecting updates the existing account in place; your history and scheduled posts stay attached.
   </Accordion>
 </AccordionGroup>
 
@@ -58,16 +72,39 @@ description: "Straight answers to the questions people ask most about seenpaid �
 
 <AccordionGroup>
   <Accordion title="Is there a free trial?">
-    Yes — a 7-day free trial. You pick a plan and save a card to start it, but there's no charge for 7 days, and you can cancel before then without being billed.
+    Yes, 7 days. You pick a plan and save a card to start it; you're charged $0 today and the first charge is on day 8, only if you haven't cancelled. One free trial per customer.
   </Accordion>
   <Accordion title="Is there a permanent free plan?">
-    No. The trial unlocks the full product for 7 days; after that a plan keeps it running. Connecting accounts and publishing require an active trial or subscription.
+    No. After the trial, a plan keeps the account running. Connecting accounts and publishing need an active trial or subscription.
   </Accordion>
   <Accordion title="What do the plans include?">
-    They differ by scale, not features: Starter (15 social accounts, 1 Stripe account), Growth (50 / 3), Pro and Lifetime (unlimited / unlimited). A Stripe account is a revenue source.
+    Every plan has every feature. They differ only in connected social accounts: **Solo** 5 ($19.99/mo), **Multi-Brand** 15 ($39.99/mo), **Omni** unlimited ($69.99/mo). Yearly is ten months' price. Revenue-source connections aren't capped on any plan.
   </Accordion>
-  <Accordion title="Can I connect more than one Stripe account?">
-    Yes, on Growth and above — each account's revenue is scoped to its own workspace so numbers never bleed across brands.
+  <Accordion title="How do I cancel?">
+    **Settings → Billing → Cancel**, any time. No call, no email. You keep access until the end of the period you're in. Cancelling during the trial means you're never charged.
+  </Accordion>
+  <Accordion title="Is there a lifetime deal?">
+    Not for sale. The only way to a lifetime account is the [referral ladder](/guides/referrals) at 25 converted referrals.
+  </Accordion>
+</AccordionGroup>
+
+## Revenue attribution (optional)
+
+<AccordionGroup>
+  <Accordion title="How does seenpaid know which post made a sale?">
+    A tracked link carries an id (`cp_tid`) from the click, through your site, into your payment provider (as `client_reference_id` on Stripe). When the payment webhook fires, seenpaid matches that id back to the click and the post. Full walkthrough: [How attribution works](/how-attribution-works).
+  </Accordion>
+  <Accordion title="Which payment providers work?">
+    Stripe (via Stripe Connect), plus Gumroad, Lemon Squeezy, Whop, Shopify, Paddle, Polar and Dodo Payments by webhook. See [Connect a revenue source](/guides/connect-stripe).
+  </Accordion>
+  <Accordion title="What if a sale can't be traced to a post?">
+    It's recorded as revenue but left **unattributed**, never credited to a random post. **Sales traced to a post** on Results shows what share was traceable.
+  </Accordion>
+  <Accordion title="Does it handle subscriptions and refunds?">
+    Yes. Recurring subscription invoices are attributed, and refunds and chargebacks are subtracted back out.
+  </Accordion>
+  <Accordion title="What if I turn attribution off later?">
+    Posts go back to publishing with untouched links, Results shows engagement only, and the MCP money tools reply that attribution is off. Nothing is deleted; your clicks and sales come back when you turn it on again.
   </Accordion>
 </AccordionGroup>
 
@@ -75,16 +112,16 @@ description: "Straight answers to the questions people ask most about seenpaid �
 
 <AccordionGroup>
   <Accordion title="Does seenpaid use third-party cookies or track people across sites?">
-    No. The `cp_tid` cookie is first-party on your own destination; there's no third-party cookie and no cross-site tracking network. The pixel does nothing on a page a visitor reached without a tracked link.
+    No. With attribution off, nothing is tracked at all. With it on, the `cp_tid` cookie is first-party on your own site; there's no third-party cookie and no cross-site tracking network, and the pixel does nothing on a visit that didn't come from a tracked link.
   </Accordion>
   <Accordion title="Can an AI agent run my account?">
-    Yes — seenpaid is MCP-native. An agent (Claude, ChatGPT, Hermes, Cursor, or your own) can publish and read revenue through 47 tools with an API key. Start with [your first agent action in 5 minutes](/agents/quickstart).
+    Yes. seenpaid ships an MCP server with 50 tools: an agent (Claude, ChatGPT, Cursor, Hermes, or your own) can schedule, validate, bulk-plan, generate media and read results with an API key. Start with [your first agent action](/agents/quickstart). The revenue tools work once attribution is on; the rest work regardless.
   </Accordion>
   <Accordion title="Can an agent see other people's data?">
-    Never. Every API key is scoped to one workspace, and the server is built fresh per request bound to that org. There is no cross-account access.
+    Never. Every API key is scoped to one workspace, and the server is built fresh per request bound to that workspace. There is no cross-account access.
   </Accordion>
 </AccordionGroup>
 
 <Card title="Still stuck? Try troubleshooting" icon="wrench" href="/troubleshooting">
-  Fixes for connect failures, failed posts, empty analytics, and unattributed sales.
+  Fixes for connect failures, failed posts, empty results and unattributed sales.
 </Card>

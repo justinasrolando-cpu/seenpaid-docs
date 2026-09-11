@@ -1,0 +1,65 @@
+---
+title: "Turn on revenue attribution"
+description: "Revenue attribution is optional and off by default. What changes when you switch it on, and the three steps to set it up."
+---
+
+seenpaid is a scheduler first. **Revenue attribution** is an optional add-on that shows which posts made money by matching sales from your payment provider back to the post that drove them. New workspaces start with it **off**.
+
+## The switch
+
+Two places set it:
+
+- During setup, the **How will you use seenpaid?** step: **Scheduling** (off) or **Scheduling + revenue** (on).
+- Any time later, **Settings → Attribution**, the first card on the page.
+
+Turning it off never deletes anything; your clicks and sales stay stored and come back when you turn it on again.
+
+## What changes when it's on
+
+| | Off (default) | On |
+| --- | --- | --- |
+| Links in your posts | Published exactly as you wrote them | Replaced by a tracked link, or given a `cp_tid` parameter on your own URL (your choice of link mode) |
+| Results | Engagement per post | Engagement plus clicks, sales and revenue per post, top earners, live activity, breakdowns, and the share of sales traced to a post |
+| Emails | Welcome, publish-failed, reconnect, digest | Plus a first-sale email, once per post, the first time a payment matches it |
+| MCP money tools | Reply "Revenue attribution is off for this workspace. Turn it on in Settings" | Work normally |
+| Experiments and auto-recycle | Can't rank (no tracked clicks or sales) | Rank by revenue |
+
+Everything else (composer, calendar, bulk upload, engagement, autopilot, the agent's scheduling tools) is identical either way.
+
+## Set it up
+
+<Steps>
+  <Step title="Turn it on">
+    **Settings → Attribution**, flip the switch. Links are tracked from your next publish.
+  </Step>
+  <Step title="Connect a revenue source">
+    On the same page, connect **Stripe** (sign in and authorize) or one of **Gumroad, Lemon Squeezy, Whop, Shopify, Paddle, Polar or Dodo Payments** (paste a webhook URL into that provider). See [Connect a revenue source](/guides/connect-stripe).
+  </Step>
+  <Step title="Install the pixel, if you sell on your own site">
+    One script tag on your site carries the tracking id into checkout. You can skip this if buyers pay straight from a Stripe Payment Link. See [Track your sales](/guides/track-your-sales).
+  </Step>
+</Steps>
+
+## Choose a link mode
+
+Also under **Settings → Attribution**:
+
+- **Redirect** (default): your link becomes `go.seenpaid.com/r/<id>`, which logs the click and forwards to your page.
+- **Your own URL**: your link stays yours with `?cp_tid=<id>` appended, and the pixel on your site reports the click. Requires the pixel to be installed. Destinations that can't run the pixel (Stripe Payment Links, Gumroad, Lemon Squeezy pages) stay on the redirect link regardless, or the sale could never be matched.
+
+<Info>
+  On Instagram and TikTok caption links aren't clickable, so tracked links go on your [bio page](/guides/bio-page) instead.
+</Info>
+
+## Honest by design
+
+seenpaid never guesses a match. A payment with no tracking id, or one that doesn't resolve to a click, is recorded as revenue but left unattributed. The **Sales traced to a post** figure on Results shows the share it could trace, so a gap in your setup is always visible. Full mechanics: [How attribution works](/how-attribution-works).
+
+<CardGroup cols={2}>
+  <Card title="Connect a revenue source" icon="plug" href="/guides/connect-stripe">
+    Stripe and seven other payment tools.
+  </Card>
+  <Card title="Track your sales" icon="code" href="/guides/track-your-sales">
+    The pixel, for sales on your own site.
+  </Card>
+</CardGroup>

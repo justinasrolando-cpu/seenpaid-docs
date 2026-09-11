@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "seenpaid",
-  "description": "Revenue attribution for your social posts. See which posts actually made money.",
+  "description": "Social media scheduler with a built-in AI agent. Schedule to 21 platforms, read engagement back, and optionally see which posts made money.",
   "colors": {
     "primary": "#E0A040",
     "light": "#FFBF65",
@@ -18,9 +18,7 @@
             "group": "Start here",
             "pages": [
               "index",
-              "quickstart",
-              "how-attribution-works",
-              "guides/attribute-stripe-sales-to-social-posts"
+              "quickstart"
             ]
           },
           {
@@ -29,38 +27,40 @@
               "start/create-your-account",
               "start/connect-your-first-channel",
               "start/write-your-first-post",
-              "start/install-the-pixel",
-              "start/connect-stripe",
-              "start/read-your-money-dashboard"
+              "start/read-your-results"
             ]
           },
           {
-            "group": "Channels & setup",
+            "group": "Channels & publishing",
             "pages": [
               "guides/connect-channels",
               "guides/platforms",
-              "guides/connect-stripe",
-              "guides/track-your-sales",
-              "guides/bio-page"
+              "guides/publish-and-schedule",
+              "guides/engagement"
             ]
           },
           {
-            "group": "Publishing",
+            "group": "Automation",
             "pages": [
-              "guides/publish-and-schedule",
               "guides/autopilot",
               "guides/experiments",
               "guides/recycle"
             ]
           },
           {
-            "group": "Revenue & analytics",
+            "group": "Optional: revenue attribution",
             "pages": [
+              "guides/turn-on-revenue-attribution",
+              "how-attribution-works",
+              "guides/connect-stripe",
+              "guides/track-your-sales",
+              "guides/bio-page",
               "guides/revenue-and-top-earners",
               "guides/analytics",
               "guides/money-feed",
               "guides/money-dna",
-              "guides/revenue-forecast"
+              "guides/revenue-forecast",
+              "guides/attribute-stripe-sales-to-social-posts"
             ]
           },
           {
@@ -115,6 +115,11 @@
       ]
     }
   },
+  "redirects": [
+    { "source": "/start/read-your-money-dashboard", "destination": "/start/read-your-results" },
+    { "source": "/start/install-the-pixel", "destination": "/guides/track-your-sales" },
+    { "source": "/start/connect-stripe", "destination": "/guides/connect-stripe" }
+  ],
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"

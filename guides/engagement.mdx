@@ -1,0 +1,48 @@
+---
+title: "Engagement metrics"
+description: "Which platforms report views, likes, comments and shares back to seenpaid, how often they're read, and why a missing number is never shown as zero."
+---
+
+Once a post is out, seenpaid reads its engagement back from each platform and shows it on **Results**, per post and per channel. This page is the honest table of what each network lets us read with the permissions users have already granted.
+
+**Rule:** a count is either read from the platform or shown as a dash. `null` means "not reported", never 0. seenpaid does not fill gaps.
+
+## Who reports what
+
+| Platform | Reported | Notes |
+| --- | --- | --- |
+| Bluesky | likes, comments, shares | No view count exists. |
+| Mastodon | likes, comments, shares | No views. |
+| X | impressions, likes, comments, shares, saves | Read on your own X keys; X bills about $0.005 per read, so seenpaid reads X once a day per post, at most 20 reads per day. |
+| Facebook | likes (all reactions), comments, shares | Impressions need a permission seenpaid doesn't request. |
+| Instagram | likes, comments | Views, reach and saves need `instagram_manage_insights`, not requested. |
+| Pinterest | impressions, saves, likes, comments | Counts stay small while the app is on Trial access. |
+| Tumblr | likes, shares | Replies have no total; comments stay blank. |
+| Discord | likes | Sum of emoji reactions on the message. |
+| Dev.to | likes, comments, views | Views when Dev.to includes them for the author. |
+| Hashnode | views, likes, comments | |
+| WordPress | comments | Core WordPress has no view counter. |
+| Lemmy | likes (upvotes), comments | |
+| Nostr | likes, shares, comments | Counted across the relays we publish to; relay-dependent. |
+| Threads | nothing yet | Needs `threads_manage_insights`, not requested. |
+| LinkedIn | nothing yet | Post statistics are partner-restricted by LinkedIn. |
+| TikTok | nothing yet | The draft flow returns no video id; reading counts needs TikTok's content audit. |
+| Slack, Telegram, Medium, Ghost, Webhook | nothing | These platforms expose nothing to read for what we publish. |
+
+13 of the 21 platforms report something. Adding a scope to unlock more (Instagram views, Threads, Facebook impressions) changes what users consent to and is a review-scoped decision that hasn't been taken.
+
+## How often it's read
+
+Each published post is read every 4 hours for its first 48 hours, then daily until day 30, then it stops. X is read daily from the start. Reads are capped at 300 per workspace per day (20 for X). A failed read is logged and never affects publishing or an account's status.
+
+## Where it shows
+
+**Results** shows the totals row and the per-post table with views, likes, comments and shares, with channel tabs to merge or filter by network, and a "Where these numbers come from" list per connected channel. An agent reads the same numbers by asking, for example *"How did last week's posts do?"*.
+
+## Not included
+
+No follower counts, and seenpaid is not a social inbox: it reads counts, not the comments themselves.
+
+<Card title="Optional: see which posts made money" icon="dollar-sign" href="/guides/turn-on-revenue-attribution">
+  Engagement tells you what got attention. Attribution tells you what got paid.
+</Card>

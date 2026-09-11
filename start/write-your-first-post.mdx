@@ -1,70 +1,52 @@
 ---
 title: "3. Write your first post"
-description: "Compose a post, add your product link and media, tailor it per platform, and publish now or schedule it."
+description: "Compose a post, add media, tailor it per platform, and publish now or schedule it."
 ---
-
-Now the fun part — putting something out. Composing in seenpaid works like any good scheduler, with one difference that matters: **every post carries a tracked link**, so it's attributable from the moment it goes live. You don't have to do anything special to get that; it happens automatically.
 
 ## Compose and publish
 
 <Steps>
   <Step title="Open the composer">
-    From **Posts**, click **New post** (the composer). Write your caption in plain language — this is the text that goes out.
-  </Step>
-  <Step title="Add your link">
-    Paste your product or landing-page URL directly in the caption, e.g. `Check out the new plan: yourstore.com/pro`. At publish time seenpaid swaps it for a tracked short link (`go.seenpaid.com/r/...`) on the platforms that support in-post links. You never paste a tracked link yourself.
+    Click **New post** in the left rail. Write your caption.
   </Step>
   <Step title="Add media (optional, sometimes required)">
-    Attach an image or video if you'd like. Some platforms **require** it — Instagram, TikTok and Pinterest reject text-only posts. You can upload a file, or generate an image from a prompt right in the composer.
+    Upload a file, pull one from a URL, or generate an image from a prompt. **Instagram, TikTok and Pinterest** reject text-only posts; TikTok needs a video.
   </Step>
   <Step title="Pick your channels">
-    Select one or more connected accounts. If a caption is too long for a platform or is missing required media, seenpaid tells you before you publish rather than after.
+    Select one or more connected accounts. Each channel shows its own character counter against that platform's real limit, and seenpaid tells you before you publish if a caption is too long or media is missing.
   </Step>
-  <Step title="Tailor per platform (optional)">
-    Where it matters, edit the caption per platform — for example a shorter version for X's 280-character limit, and the full text for LinkedIn. One idea, several native versions.
+  <Step title="Tailor per channel (optional)">
+    Every channel inherits the main caption until you edit it. Shorten it for X's 280 characters, keep the full text for LinkedIn, or translate it per account.
   </Step>
   <Step title="Publish now or schedule">
-    Hit **Publish** to send immediately, or pick a date and time to queue it. Scheduled posts go out on their own — no need to be online.
+    **Publish** sends immediately. Or pick a date and time; scheduled posts go out on their own.
   </Step>
 </Steps>
 
 <Check>
-  "Done" is a post that shows **published** (or **scheduled**) under Posts, with the channels it went to. If you published now, open the post to see the live URL on each platform.
+  "Done" is a post showing **published** or **scheduled** under **All posts**. Open a published post to see the live URL on each platform and the exact error for any platform that failed.
 </Check>
 
-## Publish now vs. schedule
+## Your links
 
-<CardGroup cols={2}>
-  <Card title="Publish now" icon="paper-plane">
-    Sends immediately to every selected channel. Good for reacting to the moment.
-  </Card>
-  <Card title="Schedule" icon="calendar">
-    Queues the post for a future time. Manage everything from the **Calendar** — drag a post to a new slot to reschedule it.
-  </Card>
-</CardGroup>
+With revenue attribution **off** (the default), links in your caption go out exactly as you wrote them. Nothing is rewritten.
 
-## A note on links per platform
-
-On most platforms seenpaid rewrites a URL in your caption to a tracked short link automatically. **Instagram and TikTok are the exception** — they don't make caption links clickable, so a tracked URL there would just be dead text. For those, seenpaid puts your tracked link on your [bio page](/guides/bio-page) instead. You'll set that up if and when you publish to them.
-
-<Tip>
-  Want to know a post's likely earnings *before* you schedule it? Once you have a few earning posts, the [Revenue Forecast](/guides/revenue-forecast) predicts a low–high range for a draft and tells you what's driving it — a good way to pick between two captions.
-</Tip>
+With it **on**, seenpaid replaces each link with a tracked one (or appends a `cp_tid` parameter to your own URL, depending on the link mode you choose) so clicks and sales can be matched to the post. See [Turn on revenue attribution](/guides/turn-on-revenue-attribution).
 
 ## Troubleshooting
 
 <AccordionGroup>
   <Accordion title="It won't let me publish to a platform">
-    Common reasons: the caption is over that platform's character limit, the platform requires media and none is attached, or the account needs reconnecting. seenpaid names the exact reason. Fix it, or drop that platform from the selection.
+    The caption is over that platform's limit, the platform requires media and none is attached, or the account needs reconnecting. seenpaid names the reason. Fix it, or drop that channel from the selection.
   </Accordion>
   <Accordion title="TikTok didn't post automatically">
-    TikTok's API doesn't allow direct publishing. seenpaid delivers your post to your TikTok inbox as a **draft** — open TikTok and tap **Post** yourself to finish. It needs a video (not an image), 64MB or under.
+    seenpaid sends the video to your TikTok **drafts (inbox)**. Open TikTok, find the draft, write the caption there and tap Post. The caption you wrote in seenpaid is not sent, because TikTok's draft endpoint doesn't accept one. Video only, 64MB or under.
   </Accordion>
   <Accordion title="My scheduled post didn't go out">
-    Open the post to see the per-platform result and any error. The usual cause is an account that went into "needs reconnecting" between scheduling and publishing — reconnect it under **Channels** and repost. See [Troubleshooting](/troubleshooting) for the full checklist.
+    Open the post to see the per-platform result. The usual cause is an account that went into "needs reconnecting"; reconnect it under **Channels** and retry that platform from the post. See [Troubleshooting](/troubleshooting).
   </Accordion>
 </AccordionGroup>
 
-<Card title="Next: install the tracking pixel" icon="arrow-right" href="/start/install-the-pixel">
-  One script tag so a sale on your own site gets matched to the right post.
+<Card title="Next: read your results" icon="arrow-right" href="/start/read-your-results">
+  Views, likes, comments and shares per post.
 </Card>

@@ -3,7 +3,7 @@ title: "Tools reference"
 description: "Every MCP tool your agent can call, grouped by what it does — with inputs, outputs, and an example prompt."
 ---
 
-The seenpaid MCP server exposes **47 tools**, every one scoped to the single organization behind your API key. An agent can never see or touch another account's data — the server is built fresh per request and bound to that org.
+The seenpaid MCP server exposes **50 tools**, every one scoped to the single organization behind your API key. An agent can never see or touch another account's data — the server is built fresh per request and bound to that org.
 
 The tools fall into six groups:
 
@@ -18,7 +18,7 @@ The tools fall into six groups:
     Draft, validate, schedule, edit, repost, and mint tracked links.
   </Card>
   <Card title="Media" icon="image" href="#media">
-    Generate images, pull media from a URL, reuse the library.
+    Generate images and carousel slides, pull media from a URL, upload your own files, reuse the library.
   </Card>
   <Card title="Automation" icon="robot" href="#automation">
     Autopilot, revenue-decided A/B experiments, and auto-recycle.
@@ -36,7 +36,11 @@ The tools fall into six groups:
 
 ## Money and attribution
 
-The half of seenpaid no other scheduler has. Every other tool here answers *what did I post* — these answer *what did it earn*.
+Every other tool here answers *what did I post*; these answer *what did it earn*.
+
+<Warning>
+  The nine tools in this group, plus `get_channel_roi` and `create_tracked_link`, need [revenue attribution](/guides/turn-on-revenue-attribution) switched on for the workspace. With it off (the default) they return one sentence, *"Revenue attribution is off for this workspace — turn it on in Settings (Settings → Attribution) to track clicks and sales per post. Scheduling tools are unaffected."*, rather than zeros that would read as "no sales".
+</Warning>
 
 ### `get_analytics`
 
@@ -439,6 +443,50 @@ The account's media library, newest first. Returns ids you can pass straight to 
 **Returns** `count` and `media` (each `id`, `url`, `type`, `width`, `height`, `createdAt`).
 
 > *"Show me what's already in my media library."*
+
+### `generate_carousel`
+
+Render 2–10 branded carousel slides (1080×1080 PNGs: a title slide plus numbered content slides, dark brand background, your handle in the footer) from text **you** write, and get back ordered media ids for `schedule_post`. It only renders; it doesn't write copy. Platforms cap attached images (LinkedIn 9; X, Bluesky and Mastodon 4), and Instagram isn't supported for these slides.
+
+<ParamField path="slides" type="array" required>
+  2–10 slides in order; the first becomes the title slide. Each has a `heading` (required, ≤120 chars), optional `kicker` (≤60), `body` (≤400) and `image_prompt` (≤300) for an AI-generated background drawn under a scrim.
+</ParamField>
+<ParamField path="handle" type="string" required>
+  Shown in the footer of every slide, e.g. `@yourbrand`.
+</ParamField>
+<ParamField path="accent_color" type="string">
+  Hex accent override, e.g. `#FFBF65` (the default).
+</ParamField>
+
+**Returns** the ordered media ids and URLs.
+
+> *"Turn these five tips into a LinkedIn carousel and schedule it for Monday."*
+
+### `create_media_upload`
+
+Step 1 of 2 for uploading a file you already have (for a file at a public URL use `add_media_from_url`). Returns a URL to HTTP `PUT` the bytes to; the bytes go straight to storage, so large videos are fine.
+
+<ParamField path="filename" type="string" required>
+  Original filename, e.g. `clip.mp4`; only the extension is kept.
+</ParamField>
+<ParamField path="mime_type" type="string" required>
+  One of `image/jpeg`, `image/png`, `image/webp`, `video/mp4`, `video/quicktime`.
+</ParamField>
+
+**Returns** `{ ok, uploadUrl, r2Key }`. `PUT` the file to `uploadUrl`, then call `finish_media_upload`.
+
+### `finish_media_upload`
+
+Step 2 of 2: confirms the bytes arrived (checked against storage, not against what you report) and returns a media id for `schedule_post`. Call it only after the `PUT` succeeded.
+
+<ParamField path="r2_key" type="string" required>
+  The `r2Key` returned by `create_media_upload`.
+</ParamField>
+<ParamField path="mime_type" type="string" required>
+  The same content type you uploaded with.
+</ParamField>
+
+**Returns** `{ ok, mediaId, url, type }`.
 
 ---
 

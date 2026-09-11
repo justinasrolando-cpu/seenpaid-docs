@@ -3,15 +3,51 @@ title: "Prompt library"
 description: "Ready-to-use prompts for an agent connected to seenpaid, grouped by what they do."
 ---
 
-Once seenpaid is connected over [MCP](/agents/mcp), you drive it in plain language — the agent picks the right tool. These are prompts that map cleanly onto the [47 tools](/agents/tools-reference), grouped by intent. Say them to Claude, ChatGPT, Hermes, Cursor, or any MCP client with your key configured.
+Once seenpaid is connected over [MCP](/agents/mcp), you drive it in plain language — the agent picks the right tool. These are prompts that map cleanly onto the [50 tools](/agents/tools-reference), grouped by intent. Say them to Claude, ChatGPT, Hermes, Cursor, or any MCP client with your key configured.
 
 <Info>
   You don't name tools. "Which post made the most money?" is enough — the agent calls `get_top_posts` on its own. The groupings below just show which tools each prompt tends to reach for.
 </Info>
 
+## Publish & schedule
+
+- "Which of my posts made the most money this month?"
+- "Which platform made me the most money this month?"
+- "Show me my top 5 posts by revenue."
+- "Which posts got clicks but earned nothing?"
+- "Which channel actually returns the most per post?"
+- "How's my revenue this week compared to last?"
+- "Is my revenue trending up — which day spiked?"
+- "How much has this specific post earned?"
+- "What just happened on my account — any sales in the last hour?"
+
+- "Post 'New drop is live: mystore.com' to X and LinkedIn right now."
+- "Schedule that for tomorrow at 9am on X and LinkedIn."
+- "Draft a post about my latest launch and schedule it for tomorrow at 9am."
+- "Plan me a week of posts and schedule them all."
+- "Will this caption post cleanly to X, LinkedIn and Instagram?"
+- "Move my Friday post to Saturday 10am."
+- "Cancel the post scheduled for tonight."
+- "Make an image of a laptop and coffee in warm light, then attach it to a post about my morning routine."
+- "Give me a tracked link for this post to drop in my YouTube description."
+
+- "Turn these five tips into a LinkedIn carousel and schedule it for Monday."
+
+_Reaches for `schedule_post`, `bulk_schedule`, `validate_post`, `update_post`, `cancel_post`, `generate_image`, `generate_carousel`, `create_tracked_link` (attribution on)._
+
+## Get a briefing
+
+When you want the whole picture in one answer instead of five.
+
+- "Give me a briefing on the last 7 days."
+- "How are we doing this month?"
+- "Anything broken, and anything worth reposting?"
+
+_Reaches for `summarize_performance`, which rolls up what went out, what's broken, and (with attribution on) what earned and what to do next._
+
 ## See what earned
 
-The questions no other scheduler can answer.
+These need [revenue attribution](/guides/turn-on-revenue-attribution) on; with it off, the agent is told so in one sentence.
 
 - "Which of my posts made the most money this month?"
 - "Which platform made me the most money this month?"
@@ -25,32 +61,9 @@ The questions no other scheduler can answer.
 
 _Reaches for `get_top_posts`, `get_channel_roi`, `get_dead_posts`, `get_analytics`, `get_analytics_timeseries`, `get_post_revenue`, `get_money_feed`._
 
-## Get a briefing
-
-When you want the whole picture in one answer instead of five.
-
-- "Give me a briefing on the last 7 days."
-- "How are we doing this month?"
-- "What should I do next, based on what's actually earning?"
-- "Anything broken, and anything worth reposting?"
-
-_Reaches for `summarize_performance`, which rolls up earnings, dead posts, broken channels, and recommended actions._
-
-## Publish & schedule
-
-- "Post 'New drop is live: mystore.com' to X and LinkedIn right now."
-- "Schedule that for tomorrow at 9am on X and LinkedIn."
-- "Draft a post about my latest launch and schedule it for tomorrow at 9am."
-- "Plan me a week of posts and schedule them all."
-- "Will this caption post cleanly to X, LinkedIn and Instagram?"
-- "Move my Friday post to Saturday 10am."
-- "Cancel the post scheduled for tonight."
-- "Make an image of a laptop and coffee in warm light, then attach it to a post about my morning routine."
-- "Give me a tracked link for this post to drop in my YouTube description."
-
-_Reaches for `schedule_post`, `bulk_schedule`, `validate_post`, `update_post`, `cancel_post`, `generate_image`, `create_tracked_link`._
-
 ## Forecast & time it
+
+Forecast and Money DNA need attribution on; `get_next_slot` works either way.
 
 - "Forecast this caption, then schedule it if it beats my average."
 - "Which of these two captions is likely to earn more?"
@@ -96,7 +109,7 @@ _Reaches for `create_experiment`, `launch_experiment`, `get_experiment_winner`._
 _Reaches for `list_accounts`, `get_account_health`, `get_plan_limits`, `get_connect_url`, `get_attribution_health`, `list_notifications`._
 
 <Tip>
-  A good opening move for any new account is simply: **"Give me a briefing on the last 7 days and tell me what to do next."** It surfaces top earners, dead posts, broken channels, and your attribution match rate in one shot.
+  A good opening move for any account is simply: **"Which accounts are connected, is anything broken, and what's scheduled this week?"** With attribution on, add *"and give me a briefing on the last 7 days"* for top earners, dead posts and the traced share in one shot.
 </Tip>
 
 <CardGroup cols={2}>

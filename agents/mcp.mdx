@@ -3,7 +3,7 @@ title: "MCP server"
 description: "Connect Claude, ChatGPT, Hermes, Cursor or any MCP client to seenpaid in one step."
 ---
 
-seenpaid exposes a **streamable-HTTP [MCP](https://modelcontextprotocol.io) server**. Point any MCP client at the endpoint, authenticate with your API key as a Bearer token, and your agent can publish posts and read revenue directly — the same 47 tools the dashboard is built on.
+seenpaid exposes a **streamable-HTTP [MCP](https://modelcontextprotocol.io) server**. Point any MCP client at the endpoint, authenticate with your API key as a Bearer token, and your agent can schedule posts, check your channels and read results directly — the same 50 tools the dashboard is built on.
 
 ## Endpoint
 
@@ -47,7 +47,7 @@ Authorization: Bearer <YOUR_API_KEY>
     ```
   </Tab>
   <Tab title="Hermes (YAML)">
-    [Hermes](https://github.com/NousResearch/hermes) speaks MCP natively. Add seenpaid to `~/.hermes/config.yaml` and it can post and read revenue from any chat (Telegram, Discord, Slack…):
+    [Hermes](https://github.com/NousResearch/hermes) speaks MCP natively. Add seenpaid to `~/.hermes/config.yaml` and it can post and read results from any chat (Telegram, Discord, Slack…):
 
     ```yaml
     mcp_servers:
@@ -57,7 +57,7 @@ Authorization: Bearer <YOUR_API_KEY>
           Authorization: "Bearer YOUR_API_KEY"
     ```
 
-    Restart Hermes, then message it — *"post my launch thread everywhere at 9am and tell me which one earns."* Prefer a browser consent flow? Use `auth: oauth` instead of the `headers` block.
+    Restart Hermes, then message it — *"post my launch thread everywhere at 9am."* Prefer a browser consent flow? Use `auth: oauth` instead of the `headers` block.
   </Tab>
   <Tab title="Raw JSON-RPC (curl)">
     List every available tool:
@@ -91,9 +91,9 @@ Authorization: Bearer <YOUR_API_KEY>
 
 Once connected, ask your agent something like:
 
-> "Post 'Launch is live — 20% off today: mystore.com' to X and LinkedIn, then tell me which of my posts made the most money this month."
+> "Post 'Launch is live — 20% off today: mystore.com' to X and LinkedIn, then tell me if anything is scheduled for this week."
 
-The agent calls `schedule_post` to publish, then `get_top_posts` to read your top earners — no dashboard required. See the [prompt library](/agents/prompts) for more, grouped by what they do.
+The agent calls `schedule_post` to publish, then `list_posts` — no dashboard required. With [revenue attribution](/guides/turn-on-revenue-attribution) on it can also answer *"which of my posts made the most money this month?"* through `get_top_posts`; with it off, the money tools reply that attribution is off. See the [prompt library](/agents/prompts) for more, grouped by what they do.
 
 ## Errors
 
@@ -104,6 +104,9 @@ The agent calls `schedule_post` to publish, then `get_top_posts` to read your to
   <Accordion title="A tool returns 'No active accounts' or 'No accounts connected'">
     The org has no connected, active social account to publish to. Call `list_accounts` / `get_account_health`, then use `get_connect_url` to hand the user a link. OAuth needs a human — the agent can't complete it.
   </Accordion>
+  <Accordion title="A money tool says 'Revenue attribution is off for this workspace'">
+    Expected with attribution off (the default). Turn it on under **Settings → Attribution**; scheduling tools are unaffected either way. See [Turn on revenue attribution](/guides/turn-on-revenue-attribution).
+  </Accordion>
   <Accordion title="A publishing tool says it has 'no user to attribute the post to'">
     The user who created the key was removed and the org has no owner. Create a fresh key from **Settings → AI agents & API** and use that.
   </Accordion>
@@ -111,9 +114,9 @@ The agent calls `schedule_post` to publish, then `get_top_posts` to read your to
 
 <CardGroup cols={2}>
   <Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
-    All 47 tools, grouped, with inputs and outputs.
+    All 50 tools, grouped, with inputs and outputs.
   </Card>
   <Card title="Prompt library" icon="message-lines" href="/agents/prompts">
-    Copy-paste prompts for money, publishing, and automation.
+    Copy-paste prompts for publishing, results, automation and money.
   </Card>
 </CardGroup>

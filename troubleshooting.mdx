@@ -1,94 +1,103 @@
 ---
 title: "Troubleshooting"
-description: "Fix the five things most likely to trip you up — a channel that won't connect, a post that failed, empty analytics, a pixel that isn't firing, and a sale that wasn't attributed."
+description: "Fix the things most likely to trip you up: a channel that won't connect, an account that needs reconnecting, a post that failed, empty Results, and (with attribution on) a sale that wasn't matched."
 ---
 
-Most problems in seenpaid come down to one of five things. Each section below is a diagnosis-then-fix, in the order worth checking.
+Most problems in seenpaid come down to one of these. Each section is a diagnosis-then-fix, in the order worth checking.
 
 ## A channel won't connect
 
 <Steps>
   <Step title="Check whether it needs your own keys">
-    Some networks (notably X) gate API access behind a developer app you register. If the dashboard asks for API keys, that's the [bring-your-own-keys](/start/connect-your-first-channel#bring-your-own-keys) path — create the app on the platform, paste the keys, connect.
+    **X** is the one network that connects with keys from your own developer app. If the card asks for an API key, secret, access token and access token secret, create the app at developer.x.com and paste all four. See [Connect your first channel](/start/connect-your-first-channel).
   </Step>
-  <Step title="Check whether it's pending review">
-    Facebook, Instagram, Threads and TikTok route through APIs that require platform review, which is in progress. They light up once it clears — for now, use any Live channel (LinkedIn, Mastodon, Pinterest and Tumblr connect in one click; Bluesky, Discord, Telegram, Slack and the blog platforms connect by pasting a key). Reddit and VK are coming soon.
+  <Step title="Check whether it's gated today">
+    **Instagram and Facebook** connect only for accounts added to seenpaid's Meta app, because Meta App Review has not passed; contact support from the dashboard if you'd like yours added. **Pinterest** connects but publishing currently fails on Pinterest's side (Trial access). **Reddit and VK** aren't available yet. Everything else connects today; see [Supported platforms](/guides/platforms).
   </Step>
   <Step title="Retry the authorization cleanly">
-    Pop-up blockers and third-party-cookie settings can interrupt the return trip from the platform. Try again in a normal (non-incognito) window and allow pop-ups for seenpaid.com.
+    Pop-up blockers and strict cookie settings can interrupt the return trip from the platform. Try again in a normal (non-incognito) window and allow pop-ups for seenpaid.com.
+  </Step>
+</Steps>
+
+## An account says "needs reconnecting"
+
+<Steps>
+  <Step title="Reconnect it">
+    Under **Channels**, click **Reconnect**. It re-runs the normal connect flow and updates the existing account in place, so history and scheduled posts stay attached. Nothing is duplicated.
+  </Step>
+  <Step title="Know when it's expected">
+    **LinkedIn** needs this every 60 days (LinkedIn's standard grant has no refresh); seenpaid emails you about a week before. Facebook and Instagram Page tokens don't expire, Threads and Bluesky renew themselves, and the rest refresh in the background. A platform outage or rate limit never flips an account to this state; only a grant the platform has actually revoked or let expire does.
+  </Step>
+  <Step title="Retry the posts that missed">
+    Open each affected post and retry the failed network; the other networks were unaffected.
   </Step>
 </Steps>
 
 ## A post failed to publish
 
 <Steps>
-  <Step title="Open the post and read the per-platform result">
-    Each post shows which platforms succeeded and the exact error for any that failed. Start there — the message names the cause.
+  <Step title="Open the post and read the per-network result">
+    Each post shows, per network, the live URL of the published copy or the exact error, with a **Retry** button. The message names the cause.
   </Step>
   <Step title="Look for an account that needs reconnecting">
-    The most common cause is an account whose token expired or was revoked between scheduling and publishing. Under **Channels**, an account in "needs reconnecting" won't publish. Reconnect it, then repost.
+    A publish that hits an expired token refreshes it once and retries on its own. If the platform refused the refresh, the account is flagged under **Channels**; reconnect it and retry the post.
   </Step>
   <Step title="Check the platform's own rules">
-    A caption over the limit, missing required media (Instagram/Pinterest need an image; TikTok needs a video), or TikTok's draft-only behavior can all block a publish. Run the caption through validation before sending to catch these up front.
+    A caption over the limit, missing required media (Instagram and Pinterest need an image, TikTok needs a video), or a video sent to LinkedIn, Facebook or Threads (no video support yet on those three) all fail that one network with a plain message. The composer flags these before you send.
   </Step>
 </Steps>
 
 <Info>
-  TikTok never publishes automatically — by design. It lands as a draft in your TikTok inbox; open TikTok and tap Post to finish. That's not a failure.
+  TikTok never publishes automatically, by design. It lands as a draft in your TikTok inbox; open TikTok, write the caption and tap Post. That's not a failure.
 </Info>
 
-## Analytics or Revenue is empty
+## Results looks empty or has dashes
 
 <Steps>
-  <Step title="Confirm the prerequisites">
-    Attribution needs two things live: at least one **published tracked post**, and a **connected Stripe account**. Before your first matched sale, the views show clearly-labelled sample states, not your data.
+  <Step title="Check whether the network reports anything">
+    13 of the 21 platforms report engagement; Threads, LinkedIn and TikTok need permissions seenpaid doesn't hold, and Slack, Telegram, Medium, Ghost and Webhook expose nothing to read. A dash means "not reported", never zero. Table: [Engagement metrics](/guides/engagement).
+  </Step>
+  <Step title="Give it time">
+    Counts are read every 4 hours for a post's first 48 hours, then daily until day 30. X is read once a day.
+  </Step>
+  <Step title="Looking for revenue?">
+    Clicks, sales and revenue per post only appear with [revenue attribution](/guides/turn-on-revenue-attribution) on and a revenue source connected. With it off, Results shows engagement only; that's expected.
+  </Step>
+</Steps>
+
+## The MCP money tools say attribution is off
+
+The reply *"Revenue attribution is off for this workspace"* is exactly that: the revenue tools (`get_top_posts`, `get_analytics`, `get_channel_roi`, `create_tracked_link` and the rest) need the switch on under **Settings → Attribution**. Scheduling tools work regardless.
+
+## A sale wasn't attributed (attribution on)
+
+<Steps>
+  <Step title="Check the traced share">
+    On **Results**, **Sales traced to a post** shows how many of the payments seenpaid saw it could match. A low share means the tracking install has a gap, not that your posts failed.
   </Step>
   <Step title="Confirm a tracked link was actually used">
-    Revenue only appears when a buyer clicked a seenpaid tracked link before paying. A sale from someone who never touched a tracked link can't be attributed to a post.
+    A sale only matches when the buyer clicked a tracked link on a published post before paying. On Instagram and TikTok that has to be the link on your [bio page](/guides/bio-page).
+  </Step>
+  <Step title="Confirm the pixel is on the checkout page">
+    If buyers land on your own site first, `<script src="https://api.seenpaid.com/pixel.js"></script>` must be in the `<head>` of the page where people actually pay, ideally site-wide. Test it: open your site via a tracked link and run `window.seenpaidTrackingId` in the console. It returns an id; on a direct visit it returns `null`, which is correct.
+  </Step>
+  <Step title="Custom-domain or server-side checkout">
+    A Payment Link on your own domain needs `data-seenpaid` on the button. A server-side Checkout Session needs `client_reference_id` set from `window.seenpaidTrackingId`; that's the only field the matcher reads. See [Track your sales](/guides/track-your-sales).
   </Step>
   <Step title="Widen the window">
-    Revenue views summarize 7, 30, or 90 days. If a sale is older than the window you're viewing, switch to a longer window.
-  </Step>
-</Steps>
-
-## The pixel isn't firing
-
-<Steps>
-  <Step title="Confirm the tag is on the checkout page">
-    The tag `<script src="https://api.seenpaid.com/pixel.js"></script>` must be in the `<head>` of the page where people actually pay — not only your homepage. Site-wide in the head is safest.
-  </Step>
-  <Step title="Test it in the console">
-    Open your site via a tracked link, then run `window.seenpaidTrackingId` in the browser console. It should return an id. On a normal direct visit it returns `null` — that's correct, because there's no id to carry unless the visitor came from a tracked link.
-  </Step>
-  <Step title="Handle custom-domain checkouts">
-    If your Payment Link runs on your own domain (not `buy.stripe.com`), the pixel can't recognize it by URL. Add `data-seenpaid` to the button or link so it's handled.
-  </Step>
-</Steps>
-
-## A sale wasn't attributed
-
-<Steps>
-  <Step title="Check attribution health">
-    Open **Revenue → Attribution health**. A low match rate means the tracking install has a gap, not that your posts failed — this is the single most useful diagnostic.
-  </Step>
-  <Step title="Trace the id through the funnel">
-    The id has to survive the whole journey: tracked link → your site (pixel reads `cp_tid`) → Stripe (`client_reference_id`). If the pixel isn't on the checkout page, or a custom-domain button isn't tagged with `data-seenpaid`, the id is dropped and the sale can't be matched.
-  </Step>
-  <Step title="For server-side Checkout Sessions, pass the field yourself">
-    If you build the Checkout Session in your own backend, read `window.seenpaidTrackingId` on the client and pass it as `client_reference_id` when creating the session. It's the only field the matching engine reads.
-  </Step>
-  <Step title="Remember the honest-attribution rule">
-    A payment with no resolvable id is recorded as revenue but deliberately left unattributed rather than credited to a guessed post. Fixing the tracking install is what moves it onto the right post going forward.
+    Revenue views summarise 7, 30 or 90 days. A sale older than the window you're viewing isn't in the totals.
   </Step>
 </Steps>
 
 ## Still stuck?
 
 <CardGroup cols={2}>
-  <Card title="How attribution works" icon="link" href="/how-attribution-works">
-    The full chain, in plain English — useful when a number looks off.
-  </Card>
   <Card title="FAQ" icon="circle-question" href="/faq">
     Quick answers to the most common questions.
   </Card>
+  <Card title="How attribution works" icon="link" href="/how-attribution-works">
+    The full chain, when a revenue number looks off.
+  </Card>
 </CardGroup>
+
+Or use **Send feedback** in the dashboard; it reaches Justinas, who built seenpaid.

@@ -1,12 +1,12 @@
 ---
 title: "Your first agent action in 5 minutes"
-description: "Create an API key, connect Claude or Cursor over MCP, and get a real answer to 'which of my posts made money' — end to end."
+description: "Create an API key, connect Claude or Cursor over MCP, and have your agent schedule a real post and read back how your posts did — end to end."
 ---
 
-seenpaid is built to be driven by an AI agent. In five minutes you'll go from nothing to asking your agent a real question about your account and getting a real answer back — no dashboard required. Here's the whole path.
+seenpaid is built to be driven by an AI agent. In five minutes you'll go from nothing to your agent scheduling a real post and answering a real question about your account — no dashboard required. Here's the whole path.
 
 <Info>
-  You'll need a seenpaid account with at least one connected channel (and, for revenue answers, a connected Stripe account). New here? Run the [getting-started journey](/start/create-your-account) first, then come back.
+  You'll need a seenpaid account with at least one connected channel. New here? Run the [getting-started journey](/start/create-your-account) first, then come back. Revenue questions additionally need [attribution](/guides/turn-on-revenue-attribution) switched on and a revenue source connected.
 </Info>
 
 ## Step 1 — Create an API key
@@ -52,35 +52,35 @@ Point your MCP client at seenpaid's endpoint with the key as a Bearer token.
 </Tabs>
 
 <Check>
-  "Connected" means your client lists seenpaid's tools. In Claude Code, run `/mcp` to confirm. You should see tools like `get_top_posts` and `schedule_post`.
+  "Connected" means your client lists seenpaid's tools. In Claude Code, run `/mcp` to confirm. You should see tools like `schedule_post`, `validate_post` and `list_accounts`.
 </Check>
 
-## Step 3 — Ask a real question
+## Step 3 — Schedule something real
 
 Now just talk to your agent in plain language. Try:
 
-> "Which of my posts made the most money this month?"
+> "Which accounts do I have connected? Then schedule 'Testing my new setup — hello from seenpaid' to the first one for tomorrow at 9am."
 
-The agent calls `get_top_posts` on its own and answers with your real top earners — captions, sales, and dollars. No tool names, no dashboard.
+The agent calls `list_accounts`, then `schedule_post`, and tells you what it queued. No tool names, no dashboard. Check **Calendar** in the dashboard if you like; the post is there.
 
 Then push it further:
 
-> "Repost my top earner for next Tuesday at 9am, and give me a briefing on the last 7 days."
+> "Will this caption post cleanly to X, LinkedIn and Instagram? And how did last week's posts do?"
 
-That's two tools — `repost` and `summarize_performance` — driven from one sentence.
+That's `validate_post` and a read of your engagement, driven from one sentence. With [revenue attribution](/guides/turn-on-revenue-attribution) on, *"Which of my posts made the most money this month?"* works the same way through `get_top_posts`.
 
 ## What just happened
 
-You gave an agent a scoped key, connected it to seenpaid's 47 tools over MCP, and it read your revenue and acted on it — the same org-scoped services the dashboard uses. From here the agent can run the whole loop: publish, measure what paid, and double down.
+You gave an agent a scoped key, connected it to seenpaid's 50 tools over MCP, and it read your account and scheduled a post — the same org-scoped services the dashboard uses. From here the agent can run the whole loop: plan, validate, publish, read the results, and double down.
 
 ## Where to go next
 
 <CardGroup cols={2}>
   <Card title="Prompt library" icon="message-lines" href="/agents/prompts">
-    Ready-to-use prompts for money, publishing, and automation.
+    Ready-to-use prompts for publishing, results, automation and money.
   </Card>
   <Card title="Tools reference" icon="wrench" href="/agents/tools-reference">
-    All 47 tools, grouped, with inputs and outputs.
+    All 50 tools, grouped, with inputs and outputs.
   </Card>
 </CardGroup>
 
